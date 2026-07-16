@@ -1,0 +1,1436 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Spliteezy 0.9.0\n"
+"Report-Msgid-Bugs-To: https://spliteezy.com\n"
+"Last-Translator: Spliteezy <hello@spliteezy.com>\n"
+"Language-Team: Spanish (Spain) <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-12T20:51:55+00:00\n"
+"PO-Revision-Date: 2026-06-22 10:32+0000\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: spliteezy\n"
+
+#: src/Admin/AdminMenu.php:20
+#: src/Admin/AdminMenu.php:21
+#: src/Admin/views/test-list.php:10
+msgid "Spliteezy"
+msgstr "Spliteezy"
+
+#. Plugin URI of the plugin
+#: spliteezy.php
+msgid "https://spliteezy.com"
+msgstr "https://spliteezy.com"
+
+#. Description of the plugin
+#: spliteezy.php
+msgid "Backend A/B testing for WordPress. Server-side variant assignment — no redirect, no flash of wrong content."
+msgstr "Pruebas A/B para WordPress con asignación de variantes en el servidor: sin redirecciones, sin parpadeo de contenido incorrecto."
+
+#: src/Admin/AdminMenu.php:31
+#: src/Admin/AdminMenu.php:32
+#: assets/js/dashboard.js:1
+msgid "A/B Tests"
+msgstr "Pruebas A/B"
+
+#: src/Admin/AdminMenu.php:41
+#: src/Admin/AdminMenu.php:42
+#: src/Admin/views/variants.php:27
+msgid "Variant Posts"
+msgstr "Publicaciones de variantes"
+
+#: src/Admin/AdminMenu.php:51
+#: src/Admin/AdminMenu.php:52
+#: src/Admin/views/settings.php:33
+#: assets/js/dashboard.js:1
+msgid "Settings"
+msgstr "Ajustes"
+
+#: src/Admin/ConnectHandler.php:40
+#: src/Admin/ConnectHandler.php:60
+#: src/Admin/ConnectHandler.php:98
+#: src/Admin/SettingsPage.php:228
+#: src/Admin/SettingsPage.php:286
+#: src/Admin/TestListPage.php:34
+#: src/Admin/VariantsPage.php:19
+msgid "Insufficient permissions."
+msgstr "Permisos insuficientes."
+
+#: src/Admin/TestDetailPage.php:39
+msgid "Unable to reach Spliteezy API. Check your connection in Settings."
+msgstr "No se puede conectar con la API de Spliteezy. Comprueba tu conexión en Ajustes."
+
+#: src/Admin/TestListPage.php:53
+msgid "Unable to reach Spliteezy API. Check your API key in Settings."
+msgstr "No se puede conectar con la API de Spliteezy. Comprueba tu clave API en Ajustes."
+
+#: src/Admin/SettingsPage.php:36
+#: src/Admin/views/settings.php:30
+#: assets/js/dashboard.js:1
+msgid "Connected"
+msgstr "Conectado"
+
+#: src/Admin/views/settings.php:30
+msgid "Not connected"
+msgstr "No conectado"
+
+#: src/Admin/views/settings.php:39
+msgid "Settings saved."
+msgstr "Ajustes guardados."
+
+#: src/Admin/views/settings.php:74
+msgid "Connect Spliteezy"
+msgstr "Conectar Spliteezy"
+
+#: src/Admin/views/settings.php:144
+msgid "Connection"
+msgstr "Conexión"
+
+#: src/Admin/views/settings.php:150
+msgid "Not tested yet"
+msgstr "Sin probar aún"
+
+#: src/Admin/views/settings.php:192
+#: src/Admin/views/settings.php:197
+msgid "API Endpoint"
+msgstr "Endpoint de la API"
+
+#: src/Admin/views/settings.php:207
+msgid "Only change this if you are self-hosting Spliteezy."
+msgstr "Cámbialo solo si estás alojando Spliteezy tú mismo."
+
+#: src/Admin/views/settings.php:258
+msgid "Post Types"
+msgstr "Tipos de publicaciones"
+
+#: src/Admin/views/settings.php:260
+msgid "Select which post types can be used in A/B tests."
+msgstr "Selecciona qué tipos de publicaciones se pueden usar en las pruebas A/B."
+
+#: src/Admin/views/settings.php:283
+msgid "Permissions"
+msgstr "Permisos"
+
+#: src/Admin/views/settings.php:285
+msgid "Control which roles can access Spliteezy features."
+msgstr "Controla qué roles pueden acceder a las funciones de Spliteezy."
+
+#: src/Admin/views/settings.php:293
+msgid "View"
+msgstr "Ver"
+
+#: src/Admin/views/settings.php:294
+msgid "Create"
+msgstr "Crear"
+
+#: src/Admin/views/settings.php:295
+msgid "Edit"
+msgstr "Editar"
+
+#: src/Admin/views/settings.php:342
+msgid "Developer"
+msgstr "Desarrollador"
+
+#: src/Admin/views/settings.php:349
+msgid "Enable Dev Mode"
+msgstr "Activar modo desarrollador"
+
+#: src/Admin/views/settings.php:352
+msgid "Shows variant posts in the admin and enables debug logging. Do not use on production."
+msgstr "Muestra las publicaciones de variantes en el administrador y activa el registro de depuración. No usar en producción."
+
+#: src/Admin/views/settings.php:358
+msgid "Clean Up Unused Variants"
+msgstr "Eliminar variantes sin usar"
+
+#: src/Admin/views/settings.php:360
+msgid "Permanently deletes variant posts that are no longer linked to any test. Run this after deleting tests outside of the plugin."
+msgstr "Elimina permanentemente las publicaciones de variantes que ya no están vinculadas a ninguna prueba. Ejecuta esto después de eliminar pruebas fuera del plugin."
+
+#: src/Admin/views/settings.php:363
+msgid "Delete unused variants"
+msgstr "Eliminar variantes sin usar"
+
+#: src/Admin/views/settings.php:374
+msgid "Save Settings"
+msgstr "Guardar ajustes"
+
+#: src/Admin/SettingsPage.php:35
+msgid "Testing…"
+msgstr "Probando…"
+
+#: src/Admin/SettingsPage.php:37
+msgid "Connection failed"
+msgstr "Error de conexión"
+
+#: src/Admin/SettingsPage.php:38
+msgid "Request failed — check browser console."
+msgstr "Error en la solicitud: comprueba la consola del navegador."
+
+#: src/Admin/SettingsPage.php:44
+msgid "This will permanently delete all variant posts not linked to a test. Continue?"
+msgstr "Esto eliminará permanentemente todas las publicaciones de variantes no vinculadas a ninguna prueba. ¿Continuar?"
+
+#: src/Admin/SettingsPage.php:39
+msgid "Cleaning up…"
+msgstr "Limpiando…"
+
+#: src/Admin/SettingsPage.php:40
+msgid "No unused variants found."
+msgstr "No se encontraron variantes sin usar."
+
+#: src/Admin/SettingsPage.php:41
+msgid "variant(s) deleted."
+msgstr "variante(s) eliminada(s)."
+
+#: src/Admin/SettingsPage.php:42
+msgid "Cleanup failed."
+msgstr "Error al limpiar."
+
+#: src/Admin/SettingsPage.php:43
+msgid "Request failed."
+msgstr "Error en la solicitud."
+
+#: src/Admin/views/test-list.php:19
+msgid "Connect your website to Spliteezy"
+msgstr "Conecta tu sitio a Spliteezy"
+
+#: src/Admin/views/test-list.php:21
+msgid "Add your API key to start running backend A/B tests — no flicker, no front-end redirects."
+msgstr "Añade tu clave API para empezar a ejecutar pruebas A/B en el servidor: sin parpadeo, sin redirecciones."
+
+#: src/Admin/views/test-list.php:24
+msgid "Go to Settings"
+msgstr "Ir a Ajustes"
+
+#: src/Admin/views/test-list.php:35
+msgid "Loading Spliteezy…"
+msgstr "Cargando Spliteezy…"
+
+#: src/Admin/views/variants.php:29
+msgid "Posts created by Spliteezy as variant copies"
+msgstr "Publicaciones creadas por Spliteezy como copias de variantes"
+
+#: src/Admin/views/variants.php:35
+msgid "No variant posts found. Variants are created when you clone a test."
+msgstr "No se encontraron publicaciones de variantes. Las variantes se crean al clonar una prueba."
+
+#: src/Admin/views/variants.php:60
+msgid "Variant Title"
+msgstr "Título de variante"
+
+#: src/Admin/views/variants.php:61
+msgid "Original Post"
+msgstr "Publicación original"
+
+#. translators: %s: name of the test being duplicated.
+#: src/Admin/TestDetailPage.php:216
+#: src/Admin/views/variants.php:62
+#: assets/js/dashboard.js:3
+msgid "Test"
+msgstr "Prueba"
+
+#: src/Admin/views/variants.php:63
+msgid "Status"
+msgstr "Estado"
+
+#: src/Admin/views/variants.php:64
+msgid "Created"
+msgstr "Creada"
+
+#: src/Admin/views/variants.php:78
+#: src/Admin/views/variants.php:84
+msgid "(no title)"
+msgstr "(sin título)"
+
+#. Plugin Name of the plugin
+#: spliteezy.php
+msgid "Spliteezy - A/B Split Tests Made Easy"
+msgstr "Spliteezy - A/B Split Tests Made Easy"
+
+#. Author of the plugin
+#: spliteezy.php
+msgid "Linebloc"
+msgstr "Linebloc"
+
+#. Author URI of the plugin
+#: spliteezy.php
+msgid "https://linebloc.com"
+msgstr "https://linebloc.com"
+
+#: src/Admin/CreateTestPage.php:31
+#: src/Admin/CreateTestPage.php:83
+#: src/Admin/TestDetailPage.php:86
+msgid "Unauthorized."
+msgstr "No autorizado."
+
+#: src/Admin/CreateTestPage.php:91
+msgid "Invalid request data."
+msgstr "Datos de la solicitud no válidos."
+
+#: src/Admin/CreateTestPage.php:110
+#: src/Admin/TestDetailPage.php:90
+msgid "Missing required fields."
+msgstr "Faltan campos obligatorios."
+
+#: src/Admin/CreateTestPage.php:161
+msgid "Could not register the test with Spliteezy. Check your connection in Settings."
+msgstr "No se pudo registrar el test en Spliteezy. Comprueba tu conexión en Ajustes."
+
+#: src/Admin/SettingsPage.php:169
+msgid "Could not reach the Spliteezy API. Restore the connection before cleaning up."
+msgstr "No se pudo acceder a la API de Spliteezy. Restaura la conexión antes de hacer la limpieza."
+
+#: src/Admin/TestDetailPage.php:31
+msgid "Missing test_id"
+msgstr "Falta test_id"
+
+#: src/Admin/TestDetailPage.php:104
+msgid "Failed to delete test."
+msgstr "Error al eliminar el test."
+
+#: src/Admin/TestDetailPage.php:126
+msgid "No fields to update."
+msgstr "No hay campos para actualizar."
+
+#: src/Admin/TestDetailPage.php:136
+msgid "Update failed."
+msgstr "Error al actualizar."
+
+#: src/Admin/TestDetailPage.php:152
+msgid "Unknown action."
+msgstr "Acción desconocida."
+
+#: src/Admin/TestDetailPage.php:166
+msgid "Action failed. The transition may not be allowed for this test's current status."
+msgstr "La acción falló. Puede que la transición no esté permitida para el estado actual de este test."
+
+#: src/Admin/TestDetailPage.php:178
+#: assets/js/dashboard.js:27
+msgid "Test not found."
+msgstr "Test no encontrado."
+
+#: src/Admin/TestDetailPage.php:184
+#: src/Admin/TestDetailPage.php:318
+msgid "Original post not found."
+msgstr "Entrada original no encontrada."
+
+#. translators: %s: name of the test being duplicated.
+#: src/Admin/TestDetailPage.php:216
+#, php-format
+msgid "Copy of %s"
+msgstr "Copia de %s"
+
+#: src/Admin/TestDetailPage.php:236
+msgid "Failed to create clone."
+msgstr "Error al crear el clon."
+
+#: src/Admin/TestDetailPage.php:302
+msgid "Missing variant post ID."
+msgstr "Falta el ID de la entrada de la variante."
+
+#: src/Admin/TestDetailPage.php:308
+msgid "Variant not found or does not belong to this test."
+msgstr "Variante no encontrada o no pertenece a este test."
+
+#: src/Admin/views/settings.php:45
+msgid "Connected to Spliteezy. Your website is now linked to your account."
+msgstr "Conectado a Spliteezy. Tu web ya está vinculada a tu cuenta."
+
+#: src/Admin/views/settings.php:51
+msgid "Website disconnected. Your tests and data are kept in your Spliteezy account — reconnect anytime."
+msgstr "Web desconectada. Tus tests y datos se conservan en tu cuenta de Spliteezy — vuelve a conectar cuando quieras."
+
+#: src/Admin/views/settings.php:58
+msgid "Connection cancelled — no changes were made."
+msgstr "Conexión cancelada — no se realizaron cambios."
+
+#: src/Admin/views/settings.php:59
+msgid "Your Spliteezy plan has no room for another website. Upgrade your plan, then try connecting again."
+msgstr "Tu plan de Spliteezy no admite otra web. Mejora tu plan e intenta conectar de nuevo."
+
+#: src/Admin/views/settings.php:60
+msgid "The connection attempt could not be verified. Please start the connection again from this page."
+msgstr "No se pudo verificar el intento de conexión. Inicia la conexión de nuevo desde esta página."
+
+#: src/Admin/views/settings.php:61
+msgid "The connection code expired. Please try connecting again."
+msgstr "El código de conexión caducó. Intenta conectar de nuevo."
+
+#: src/Admin/views/settings.php:62
+msgid "The connection was issued for a different domain. Please try connecting again from this website."
+msgstr "La conexión se emitió para un dominio diferente. Intenta conectar de nuevo desde esta web."
+
+#: src/Admin/views/settings.php:63
+msgid "Could not reach Spliteezy to complete the connection. Check your connectivity and try again."
+msgstr "No se pudo acceder a Spliteezy para completar la conexión. Comprueba tu conectividad e inténtalo de nuevo."
+
+#: src/Admin/views/settings.php:68
+msgid "The connection could not be completed. Please try again."
+msgstr "No se pudo completar la conexión. Inténtalo de nuevo."
+
+#: src/Admin/views/settings.php:75
+msgid "Link this website to your Spliteezy account with one click to start A/B testing."
+msgstr "Vincula esta web a tu cuenta de Spliteezy con un clic para empezar con los tests A/B."
+
+#: src/Admin/views/settings.php:81
+msgid "Connect"
+msgstr "Conectar"
+
+#: src/Admin/views/settings.php:83
+msgid "You will be sent to spliteezy.com to log in (or create a free account) and authorize this website. The API key is set up automatically."
+msgstr "Serás enviado a spliteezy.com para iniciar sesión (o crear una cuenta gratuita) y autorizar esta web. La clave de API se configura automáticamente."
+
+#: src/Admin/views/settings.php:91
+msgid "Connect to Spliteezy"
+msgstr "Conectar con Spliteezy"
+
+#: src/Admin/views/settings.php:101
+#: src/Admin/views/settings.php:108
+#: src/Admin/views/settings.php:121
+msgid "detected"
+msgstr "detectado"
+
+#: src/Admin/views/settings.php:103
+msgid "Cache-safe delivery is active: tested pages stay cacheable, but only changes inside the post content can vary between variants. Titles, custom fields, and anything rendered by your theme template (heroes, banners) will look the same in every variant. Switch to server-side delivery for full coverage."
+msgstr "La entrega segura para caché está activa: las páginas con test siguen siendo cacheables, pero solo los cambios dentro del contenido de la entrada pueden variar entre variantes. Los títulos, los campos personalizados y todo lo que renderiza la plantilla del tema (heros, banners) se verán igual en todas las variantes. Cambia a la entrega en el servidor para una cobertura completa."
+
+#: src/Admin/views/settings.php:110
+msgid "Cache-per-variant delivery is active: tested pages stay cached, with one cached copy per variant. Titles, custom fields, and template-rendered content all vary. Visitors assigned to a variant reach their copy through a cached variant address that never shows in the address bar."
+msgstr "La entrega de caché por variante está activa: las páginas con test permanecen en caché, con una copia en caché por variante. Los títulos, los campos personalizados y el contenido renderizado por la plantilla varían con normalidad. Los visitantes asignados a una variante llegan a su copia mediante una dirección de variante en caché que nunca aparece en la barra de direcciones."
+
+#: src/Admin/views/settings.php:114
+msgid "host cache detected"
+msgstr "caché del alojamiento detectada"
+
+#: src/Admin/views/settings.php:115
+msgid "the host cache keys on URLs only, so returning variant visitors are routed through a quick redirect instead of a direct cache hit. This is automatic and needs no configuration. Optional, to remove the hop on WP Engine with NitroPack: exclude tested URLs from the host cache, or add this line to wp-config.php:"
+msgstr "la caché del alojamiento solo usa las URL como clave, así que los visitantes de variante que vuelven se encaminan mediante una redirección rápida en lugar de un acceso directo a la caché. Es automático y no requiere configuración. Opcional, para eliminar el salto en WP Engine con NitroPack: excluye las URL con test de la caché del alojamiento o añade esta línea a wp-config.php:"
+
+#: src/Admin/views/settings.php:122
+msgid "Pages with a running test are automatically excluded from page caching, so every visitor gets their own variant. All other pages stay cached as usual."
+msgstr "Las páginas con un test en marcha se excluyen automáticamente de la caché de página, de modo que cada visitante recibe su propia variante. El resto de páginas permanecen en caché con normalidad."
+
+#: src/Admin/views/settings.php:124
+msgid "NitroPack serves pages from its own CDN and may ignore this — also add your tested page URLs to NitroPack's \"Excluded URLs\" setting."
+msgstr "NitroPack sirve las páginas desde su propio CDN y puede ignorar esto — añade también las URL de las páginas con test al ajuste \"Excluded URLs\" de NitroPack."
+
+#: src/Admin/views/settings.php:131
+msgid "NitroPack sync status"
+msgstr "Estado de sincronización de NitroPack"
+
+#: src/Admin/views/settings.php:132
+msgid "excluded URLs active on this site:"
+msgstr "URL excluidas activas en este sitio:"
+
+#: src/Admin/views/settings.php:133
+#: src/Admin/views/settings.php:135
+msgid "none"
+msgstr "ninguna"
+
+#: src/Admin/views/settings.php:134
+msgid "variation cookies:"
+msgstr "cookies de variación:"
+
+#: src/Admin/views/settings.php:136
+msgid "Changes made through the NitroPack dashboard or by Spliteezy reach this list within a few minutes. In \"Cache per variant\" mode, tested URLs must NOT appear as excluded and each active test needs its eezy_v_ cookie listed here."
+msgstr "Los cambios hechos desde el panel de NitroPack o por Spliteezy llegan a esta lista en pocos minutos. En el modo \"Caché por variante\", las URL con test NO deben aparecer como excluidas y cada test activo necesita su cookie eezy_v_ listada aquí."
+
+#: src/Admin/views/settings.php:153
+msgid "Check connection"
+msgstr "Comprobar conexión"
+
+#: src/Admin/views/settings.php:162
+msgid "Reconnect"
+msgstr "Reconectar"
+
+#: src/Admin/views/settings.php:168
+msgid "Disconnect this website from Spliteezy? Running tests will stop being served until you reconnect."
+msgstr "¿Desconectar esta web de Spliteezy? Los tests en marcha dejarán de servirse hasta que vuelvas a conectar."
+
+#: src/Admin/views/settings.php:173
+msgid "Disconnect"
+msgstr "Desconectar"
+
+#: src/Admin/views/settings.php:178
+msgid "Reconnect issues a fresh API key. Disconnect unlinks this website — tests and data are kept in your Spliteezy account."
+msgstr "Reconectar emite una clave de API nueva. Desconectar desvincula esta web — los tests y los datos se conservan en tu cuenta de Spliteezy."
+
+#: src/Admin/views/settings.php:217
+msgid "Delivery Mode"
+msgstr "Modo de entrega"
+
+#: src/Admin/views/settings.php:219
+msgid "How variants are delivered to visitors."
+msgstr "Cómo se entregan las variantes a los visitantes."
+
+#: src/Admin/views/settings.php:227
+msgid "Server-side (recommended)"
+msgstr "En el servidor (recomendado)"
+
+#: src/Admin/views/settings.php:229
+msgid "Variants swap in PHP before any output — no flicker, and titles, custom fields, and template-rendered content all vary. Pages with a running test are automatically excluded from page caching."
+msgstr "Las variantes se intercambian en PHP antes de cualquier salida — sin parpadeo, y los títulos, los campos personalizados y el contenido renderizado por la plantilla varían con normalidad. Las páginas con un test en marcha se excluyen automáticamente de la caché de página."
+
+#: src/Admin/views/settings.php:234
+msgid "Cache per variant"
+msgstr "Caché por variante"
+
+#: src/Admin/views/settings.php:236
+msgid "Full variant coverage like server-side, and tested pages stay cached: each variant gets its own cached copy, keyed by URL so it works with any page cache or host. Variant visitors are routed to their copy with a brief one-time redirect (served directly from cache on NitroPack and WP Rocket)."
+msgstr "Cobertura completa de variantes como en el modo servidor, y las páginas con test permanecen en caché: cada variante obtiene su propia copia en caché, con la URL como clave, por lo que funciona con cualquier caché de página o alojamiento. Los visitantes de variante llegan a su copia con una breve redirección única (servida directamente desde la caché en NitroPack y WP Rocket)."
+
+#: src/Admin/views/settings.php:241
+msgid "Cache-safe (client-side)"
+msgstr "Segura para caché (en el navegador)"
+
+#: src/Admin/views/settings.php:243
+msgid "Tested pages stay cacheable: they embed every variant and the browser assigns instantly. Only content inside the post content can vary between variants."
+msgstr "Las páginas con test siguen siendo cacheables: incrustan todas las variantes y el navegador asigna al instante. Solo el contenido dentro de la entrada puede variar entre variantes."
+
+#: src/Api/Client.php:53
+msgid "No API key configured."
+msgstr "No hay ninguna clave de API configurada."
+
+#: src/Api/Client.php:88
+msgid "Connected successfully."
+msgstr "Conectado correctamente."
+
+#: src/Api/Client.php:96
+msgid "Invalid API key."
+msgstr "Clave de API no válida."
+
+#: src/Api/Client.php:97
+msgid "Domain mismatch — this WordPress domain is not registered for this API key."
+msgstr "El dominio no coincide — este dominio de WordPress no está registrado para esta clave de API."
+
+#: src/Api/Client.php:98
+msgid "Rate limit reached."
+msgstr "Límite de peticiones alcanzado."
+
+#: src/Api/Client.php:99
+msgid "Could not reach the Spliteezy API server."
+msgstr "No se pudo acceder al servidor de la API de Spliteezy."
+
+#. translators: %d: HTTP status code returned by the API.
+#: src/Api/Client.php:106
+#, php-format
+msgid "Unexpected response (HTTP %d)."
+msgstr "Respuesta inesperada (HTTP %d)."
+
+#: src/Core/CacheCompat.php:94
+msgid "a page cache (advanced-cache.php)"
+msgstr "una caché de página (advanced-cache.php)"
+
+#: assets/js/variant-editor.js:19
+msgid "You're editing a variant"
+msgstr "Estás editando una variante"
+
+#: assets/js/variant-editor.js:21
+msgid "This post is a variant in a Spliteezy A/B test. Edit the content here and save when done — your changes will be compared against the original."
+msgstr "Esta entrada es una variante de un test A/B de Spliteezy. Edita el contenido aquí y guarda al terminar — tus cambios se compararán con el original."
+
+#: assets/js/variant-editor.js:24
+msgid "← Back to test"
+msgstr "← Volver al test"
+
+#: assets/js/variant-editor.js:25
+msgid "Start editing"
+msgstr "Empezar a editar"
+
+#: assets/js/variant-editor.js:36
+msgid "What's next?"
+msgstr "¿Y ahora qué?"
+
+#: assets/js/variant-editor.js:39
+msgid "See test →"
+msgstr "Ver test →"
+
+#: assets/js/variant-editor.js:41
+msgid "Spliteezy Dashboard"
+msgstr "Panel de Spliteezy"
+
+#: src/Admin/views/settings.php:248
+msgid "The same visitor always gets the same variant in every mode."
+msgstr "El mismo visitante siempre recibe la misma variante en todos los modos."
+
+#: assets/js/dashboard.js:1
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: assets/js/dashboard.js:1
+msgid "More options"
+msgstr "Más opciones"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:11
+msgid "Active"
+msgstr "Activo"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:11
+msgid "Paused"
+msgstr "Pausado"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:11
+msgid "Scheduled"
+msgstr "Programado"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:11
+msgid "Draft"
+msgstr "Borrador"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:11
+msgid "Ended"
+msgstr "Finalizado"
+
+#: assets/js/dashboard.js:1
+msgid "Flush cache and reload tests"
+msgstr "Vaciar la caché y recargar los tests"
+
+#: assets/js/dashboard.js:1
+msgid "Refreshing…"
+msgstr "Actualizando…"
+
+#: assets/js/dashboard.js:1
+msgid "↻ Refresh"
+msgstr "↻ Actualizar"
+
+#: assets/js/dashboard.js:1
+msgid "+ New Test"
+msgstr "+ Nuevo Test"
+
+#: assets/js/dashboard.js:1
+msgid "Loading tests…"
+msgstr "Cargando tests…"
+
+#: assets/js/dashboard.js:1
+msgid "Could not reach Spliteezy API."
+msgstr "No se pudo acceder a la API de Spliteezy."
+
+#: assets/js/dashboard.js:1
+msgid "Check your connection in Settings"
+msgstr "Comprueba tu conexión en Ajustes"
+
+#: assets/js/dashboard.js:1
+#: assets/js/dashboard.js:51
+msgid "Dismiss"
+msgstr "Descartar"
+
+#. translators: %s: test status tab name.
+#: assets/js/dashboard.js:3
+#, js-format
+msgid "No %s tests found."
+msgstr "No se encontraron tests %s."
+
+#: assets/js/dashboard.js:3
+msgid "Goal"
+msgstr "Objetivo"
+
+#: assets/js/dashboard.js:3
+#: assets/js/dashboard.js:37
+msgid "Split"
+msgstr "División"
+
+#: assets/js/dashboard.js:3
+#: assets/js/dashboard.js:39
+msgid "Visitors"
+msgstr "Visitantes"
+
+#: assets/js/dashboard.js:3
+#: assets/js/dashboard.js:29
+msgid "Started"
+msgstr "Iniciado"
+
+#: assets/js/dashboard.js:3
+#: assets/js/dashboard.js:39
+msgid "Confidence"
+msgstr "Confianza"
+
+#: assets/js/dashboard.js:3
+msgid "Assignment runs server-side before"
+msgstr "La asignación se ejecuta en el servidor antes de"
+
+#: assets/js/dashboard.js:3
+msgid "— zero flicker, no JS redirect."
+msgstr "— cero parpadeo, sin redirección JS."
+
+#. translators: %s: test name.
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:25
+#, js-format
+msgid "Delete \"%s\"? This cannot be undone."
+msgstr "¿Eliminar \"%s\"? Esto no se puede deshacer."
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:25
+msgid "Action failed."
+msgstr "La acción falló."
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:25
+#: assets/js/dashboard.js:27
+#: assets/js/dashboard.js:51
+msgid "Network error — please try again."
+msgstr "Error de red — inténtalo de nuevo."
+
+#: assets/js/dashboard.js:5
+msgid "Start"
+msgstr "Iniciar"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Start Now"
+msgstr "Iniciar Ahora"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Pause"
+msgstr "Pausar"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Finish"
+msgstr "Finalizar"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Stop"
+msgstr "Detener"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Resume"
+msgstr "Reanudar"
+
+#: assets/js/dashboard.js:5
+msgid "Clone"
+msgstr "Duplicar"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:27
+msgid "Delete"
+msgstr "Eliminar"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+msgid "Page view"
+msgstr "Vista de página"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+#: assets/js/dashboard.js:45
+msgid "Page reached"
+msgstr "Página alcanzada"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+#: assets/js/dashboard.js:45
+msgid "Click"
+msgstr "Clic"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+#: assets/js/dashboard.js:45
+msgid "Scroll depth"
+msgstr "Profundidad de scroll"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+#: assets/js/dashboard.js:45
+msgid "Time on page"
+msgstr "Tiempo en la página"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+#: assets/js/dashboard.js:45
+msgid "Element view"
+msgstr "Elemento visible"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:45
+msgid "Video play"
+msgstr "Reproducción de vídeo"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+msgid "External event"
+msgstr "Evento externo"
+
+#: assets/js/dashboard.js:5
+#: assets/js/dashboard.js:17
+msgid "Engagement"
+msgstr "Interacción"
+
+#. translators: %s: monthly visitor limit.
+#: assets/js/dashboard.js:7
+#, js-format
+msgid "of %s / mo"
+msgstr "de %s / mes"
+
+#: assets/js/dashboard.js:7
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+#. translators: 1: active test limit, 2: plan name.
+#: assets/js/dashboard.js:9
+#, js-format
+msgid "of %1$s on %2$s"
+msgstr "de %1$s en el plan %2$s"
+
+#. translators: %s: plan name.
+#: assets/js/dashboard.js:11
+#, js-format
+msgid "%s plan"
+msgstr "plan %s"
+
+#: assets/js/dashboard.js:11
+msgid "Visitors this month"
+msgstr "Visitantes este mes"
+
+#: assets/js/dashboard.js:11
+#: assets/js/dashboard.js:39
+msgid "Conversions"
+msgstr "Conversiones"
+
+#: assets/js/dashboard.js:11
+msgid "across all tests"
+msgstr "en todos los tests"
+
+#: assets/js/dashboard.js:11
+msgid "Active tests"
+msgstr "Tests activos"
+
+#: assets/js/dashboard.js:11
+msgid "Winner"
+msgstr "Ganador"
+
+#. translators: %d: confidence percentage.
+#: assets/js/dashboard.js:13
+#, js-format
+msgid "~%d%% confidence (need 30+ visitors per variant for reliable results)"
+msgstr "~%d%% de confianza (se necesitan más de 30 visitantes por variante para resultados fiables)"
+
+#. translators: %d: confidence percentage.
+#: assets/js/dashboard.js:15
+#, js-format
+msgid "%d%% confidence"
+msgstr "%d%% de confianza"
+
+#: assets/js/dashboard.js:15
+msgid "95% threshold"
+msgstr "Umbral del 95%"
+
+#: assets/js/dashboard.js:15
+msgid "low data"
+msgstr "pocos datos"
+
+#. translators: 1: series name, 2: value, 3: date.
+#: assets/js/dashboard.js:17
+#, js-format
+msgid "%1$s: %2$s on %3$s"
+msgstr "%1$s: %2$s el %3$s"
+
+#: assets/js/dashboard.js:17
+msgid "No data yet"
+msgstr "Aún sin datos"
+
+#: assets/js/dashboard.js:17
+msgid "Video playback"
+msgstr "Reproducción de vídeo"
+
+#. translators: %d: scroll percentage.
+#: assets/js/dashboard.js:21
+#, js-format
+msgid "%d%% scroll depth"
+msgstr "%d%% de scroll"
+
+#. translators: %d: seconds.
+#: assets/js/dashboard.js:23
+#, js-format
+msgid "%ds on page"
+msgstr "%ds en la página"
+
+#. translators: %s: variant name.
+#: assets/js/dashboard.js:27
+#, js-format
+msgid ""
+"Apply \"%s\" to the original post?\n"
+"\n"
+"This will permanently replace the original post's content and SEO settings. This cannot be undone."
+msgstr ""
+"¿Aplicar \"%s\" a la entrada original?\n"
+"\n"
+"Esto reemplazará permanentemente el contenido y los ajustes SEO de la entrada original. No se puede deshacer."
+
+#: assets/js/dashboard.js:27
+msgid "Apply failed."
+msgstr "Error al aplicar."
+
+#: assets/js/dashboard.js:27
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: assets/js/dashboard.js:27
+#: assets/js/dashboard.js:49
+#: assets/js/dashboard.js:51
+msgid "← Back"
+msgstr "← Volver"
+
+#: assets/js/dashboard.js:19
+#: assets/js/dashboard.js:39
+#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:47
+msgid "Control"
+msgstr "Control"
+
+#: assets/js/dashboard.js:19
+#: assets/js/dashboard.js:39
+msgid "Variant"
+msgstr "Variante"
+
+#: assets/js/dashboard.js:27
+#: assets/js/dashboard.js:45
+msgid "← Tests"
+msgstr "← Tests"
+
+#: assets/js/dashboard.js:27
+msgid "Click to rename"
+msgstr "Haz clic para renombrar"
+
+#: assets/js/dashboard.js:27
+msgid "Edit all variant content before starting"
+msgstr "Edita el contenido de todas las variantes antes de empezar"
+
+#: assets/js/dashboard.js:27
+msgid "Start Test"
+msgstr "Iniciar Test"
+
+#: assets/js/dashboard.js:27
+#: assets/js/dashboard.js:43
+msgid "Adjust split"
+msgstr "Ajustar división"
+
+#: assets/js/dashboard.js:27
+msgid "Duplicate test"
+msgstr "Duplicar test"
+
+#: assets/js/dashboard.js:27
+msgid "Variant content hasn't been edited yet — click"
+msgstr "El contenido de la variante aún no se ha editado — haz clic en"
+
+#: assets/js/dashboard.js:27
+msgid "Edit content"
+msgstr "Editar contenido"
+
+#: assets/js/dashboard.js:27
+msgid "on each variant below before starting the test."
+msgstr "en cada variante de abajo antes de iniciar el test."
+
+#. translators: 1: variant name, 2: conversion rate, 3: confidence percentage.
+#: assets/js/dashboard.js:29
+#, js-format
+msgid "%1$s is winning — %2$s%% conv. rate at %3$s%% confidence."
+msgstr "%1$s va ganando — tasa de conversión del %2$s%% con un %3$s%% de confianza."
+
+#: assets/js/dashboard.js:29
+#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:47
+msgid "Variant A"
+msgstr "Variante A"
+
+#: assets/js/dashboard.js:29
+#: assets/js/dashboard.js:39
+msgid "this variant"
+msgstr "esta variante"
+
+#: assets/js/dashboard.js:29
+msgid "Apply to website"
+msgstr "Aplicar a la web"
+
+#. translators: %d: number of days.
+#: assets/js/dashboard.js:31
+#, js-format
+msgid "%d days running"
+msgstr "%d días en marcha"
+
+#: assets/js/dashboard.js:31
+msgid "Started today"
+msgstr "Iniciado hoy"
+
+#: assets/js/dashboard.js:31
+msgid "Ends"
+msgstr "Termina"
+
+#. translators: %d: confidence percentage.
+#: assets/js/dashboard.js:33
+#, js-format
+msgid "At %d%% confidence"
+msgstr "Con un %d%% de confianza"
+
+#. translators: %s: number of page views.
+#: assets/js/dashboard.js:35
+#, js-format
+msgid "After %s views"
+msgstr "Tras %s vistas"
+
+#. translators: %s: date.
+#: assets/js/dashboard.js:37
+#, js-format
+msgid "On %s"
+msgstr "El %s"
+
+#: assets/js/dashboard.js:37
+msgid "No end date"
+msgstr "Sin fecha de fin"
+
+#: assets/js/dashboard.js:37
+msgid "Control / Variant A"
+msgstr "Control / Variante A"
+
+#: assets/js/dashboard.js:37
+msgid "Primary goal"
+msgstr "Objetivo principal"
+
+#: assets/js/dashboard.js:37
+msgid "Total visitors"
+msgstr "Total de visitantes"
+
+#. translators: %s: number of conversions.
+#: assets/js/dashboard.js:39
+#, js-format
+msgid "%s conversions"
+msgstr "%s conversiones"
+
+#: assets/js/dashboard.js:39
+msgid "Performance"
+msgstr "Rendimiento"
+
+#: assets/js/dashboard.js:39
+msgid "Conv. Rate"
+msgstr "Tasa de Conv."
+
+#: assets/js/dashboard.js:39
+msgid "Baseline"
+msgstr "Línea base"
+
+#: assets/js/dashboard.js:39
+msgid "View →"
+msgstr "Ver →"
+
+#: assets/js/dashboard.js:39
+msgid "Edit content →"
+msgstr "Editar contenido →"
+
+#: assets/js/dashboard.js:39
+msgid "Edit →"
+msgstr "Editar →"
+
+#: assets/js/dashboard.js:39
+msgid "Apply"
+msgstr "Aplicar"
+
+#: assets/js/dashboard.js:39
+msgid "History"
+msgstr "Historial"
+
+#: assets/js/dashboard.js:39
+msgid "Test created"
+msgstr "Test creado"
+
+#: assets/js/dashboard.js:39
+msgid "Test activated"
+msgstr "Test activado"
+
+#: assets/js/dashboard.js:39
+msgid "Test ended"
+msgstr "Test finalizado"
+
+#. translators: 1: previous test name, 2: new test name.
+#: assets/js/dashboard.js:41
+#, js-format
+msgid "Renamed from \"%1$s\" to \"%2$s\""
+msgstr "Renombrado de \"%1$s\" a \"%2$s\""
+
+#. translators: 1: previous split, 2: new split.
+#: assets/js/dashboard.js:43
+#, js-format
+msgid "Split changed from %1$s to %2$s"
+msgstr "División cambiada de %1$s a %2$s"
+
+#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:47
+msgid "Original page"
+msgstr "Página original"
+
+#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:47
+msgid "Variant page"
+msgstr "Página de la variante"
+
+#: assets/js/dashboard.js:43
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: assets/js/dashboard.js:43
+msgid "Save"
+msgstr "Guardar"
+
+#. translators: %s: field name.
+#: assets/js/dashboard.js:45
+#, js-format
+msgid "Edit %s"
+msgstr "Editar %s"
+
+#: assets/js/dashboard.js:45
+msgid "Lands on a URL"
+msgstr "Llega a una URL"
+
+#: assets/js/dashboard.js:45
+msgid "Element or link click"
+msgstr "Clic en elemento o enlace"
+
+#: assets/js/dashboard.js:45
+msgid "Scrolls past a %"
+msgstr "Hace scroll más allá de un %"
+
+#: assets/js/dashboard.js:45
+msgid "Spends N seconds"
+msgstr "Pasa N segundos"
+
+#: assets/js/dashboard.js:45
+msgid "Element scrolls into view"
+msgstr "El elemento entra en pantalla"
+
+#: assets/js/dashboard.js:45
+msgid "YouTube, Vimeo or WP video"
+msgstr "Vídeo de YouTube, Vimeo o WP"
+
+#: assets/js/dashboard.js:45
+msgid "Form submission"
+msgstr "Envío de formulario"
+
+#: assets/js/dashboard.js:45
+msgid "Any form or by selector"
+msgstr "Cualquier formulario o por selector"
+
+#: assets/js/dashboard.js:45
+msgid "Custom GA4/GTM event"
+msgstr "Evento GA4/GTM personalizado"
+
+#: assets/js/dashboard.js:45
+msgid "Via Spliteezy.trackEvent()"
+msgstr "Vía Spliteezy.trackEvent()"
+
+#: assets/js/dashboard.js:45
+msgid "Quarter page"
+msgstr "Un cuarto de página"
+
+#: assets/js/dashboard.js:45
+msgid "Halfway"
+msgstr "La mitad"
+
+#: assets/js/dashboard.js:45
+msgid "Most of page"
+msgstr "Mayor parte de la página"
+
+#: assets/js/dashboard.js:45
+msgid "Full page"
+msgstr "Página completa"
+
+#: assets/js/dashboard.js:45
+msgid "10s"
+msgstr "10s"
+
+#: assets/js/dashboard.js:45
+msgid "Quick glance"
+msgstr "Vistazo rápido"
+
+#: assets/js/dashboard.js:45
+msgid "30s"
+msgstr "30s"
+
+#: assets/js/dashboard.js:45
+msgid "Engaged"
+msgstr "Interesado"
+
+#: assets/js/dashboard.js:45
+msgid "1 min"
+msgstr "1 min"
+
+#: assets/js/dashboard.js:45
+msgid "Deep reader"
+msgstr "Lector atento"
+
+#: assets/js/dashboard.js:45
+msgid "Start immediately"
+msgstr "Iniciar inmediatamente"
+
+#: assets/js/dashboard.js:45
+msgid "Activate as soon as it's created"
+msgstr "Activar en cuanto se cree"
+
+#: assets/js/dashboard.js:45
+msgid "Schedule for later"
+msgstr "Programar para más tarde"
+
+#: assets/js/dashboard.js:45
+msgid "Pick a date and time to go live"
+msgstr "Elige fecha y hora de publicación"
+
+#: assets/js/dashboard.js:45
+msgid "Save as draft"
+msgstr "Guardar como borrador"
+
+#: assets/js/dashboard.js:45
+msgid "Set up now, start manually later"
+msgstr "Configura ahora, inicia manualmente después"
+
+#: assets/js/dashboard.js:45
+msgid "Page"
+msgstr "Página"
+
+#: assets/js/dashboard.js:45
+msgid "Configure"
+msgstr "Configurar"
+
+#: assets/js/dashboard.js:45
+msgid "Schedule"
+msgstr "Programar"
+
+#: assets/js/dashboard.js:45
+msgid "New A/B Test"
+msgstr "Nuevo Test A/B"
+
+#. translators: %s: post title.
+#: assets/js/dashboard.js:47
+#, js-format
+msgid "%s — A/B Test"
+msgstr "%s — Test A/B"
+
+#: assets/js/dashboard.js:47
+msgid "Which page or post would you like to test?"
+msgstr "¿Qué página o entrada quieres testear?"
+
+#: assets/js/dashboard.js:47
+msgid "All types"
+msgstr "Todos los tipos"
+
+#: assets/js/dashboard.js:47
+msgid "Search by title…"
+msgstr "Buscar por título…"
+
+#: assets/js/dashboard.js:47
+msgid "Searching…"
+msgstr "Buscando…"
+
+#: assets/js/dashboard.js:47
+msgid "No results found."
+msgstr "No se encontraron resultados."
+
+#: assets/js/dashboard.js:47
+msgid "No published posts found."
+msgstr "No se encontraron entradas publicadas."
+
+#: assets/js/dashboard.js:47
+msgid "Test setup"
+msgstr "Configuración del test"
+
+#: assets/js/dashboard.js:47
+msgid "Test name"
+msgstr "Nombre del test"
+
+#: assets/js/dashboard.js:47
+msgid "Traffic split"
+msgstr "División del tráfico"
+
+#: assets/js/dashboard.js:47
+msgid "Conversion goal"
+msgstr "Objetivo de conversión"
+
+#: assets/js/dashboard.js:47
+msgid "What action counts as a conversion for this test?"
+msgstr "¿Qué acción cuenta como conversión en este test?"
+
+#. translators: %s: plan name.
+#: assets/js/dashboard.js:49
+#, js-format
+msgid "Available from %s"
+msgstr "Disponible desde el plan %s"
+
+#: assets/js/dashboard.js:49
+msgid "Next →"
+msgstr "Siguiente →"
+
+#: assets/js/dashboard.js:49
+msgid "Goal URL"
+msgstr "URL del objetivo"
+
+#: assets/js/dashboard.js:49
+msgid "Use"
+msgstr "Usa"
+
+#: assets/js/dashboard.js:49
+msgid "as a wildcard, e.g."
+msgstr "como comodín, p. ej.:"
+
+#: assets/js/dashboard.js:49
+msgid "Click type"
+msgstr "Tipo de clic"
+
+#: assets/js/dashboard.js:49
+msgid "Element click"
+msgstr "Clic en elemento"
+
+#: assets/js/dashboard.js:49
+msgid "Match any element by CSS selector"
+msgstr "Coincide con cualquier elemento por selector CSS"
+
+#: assets/js/dashboard.js:49
+msgid "Link / URL click"
+msgstr "Clic en enlace / URL"
+
+#: assets/js/dashboard.js:49
+msgid "Tracks any link pointing to this URL — works with #anchors too"
+msgstr "Rastrea cualquier enlace que apunte a esta URL — también funciona con #anclas"
+
+#: assets/js/dashboard.js:49
+msgid "CSS selector"
+msgstr "Selector CSS"
+
+#: assets/js/dashboard.js:49
+msgid "Tracks clicks on any element matching this selector."
+msgstr "Rastrea los clics en cualquier elemento que coincida con este selector."
+
+#: assets/js/dashboard.js:49
+msgid "URL or anchor"
+msgstr "URL o ancla"
+
+#: assets/js/dashboard.js:49
+msgid "Enter a full URL or a hash anchor (e.g."
+msgstr "Introduce una URL completa o un ancla (p. ej.:"
+
+#: assets/js/dashboard.js:49
+msgid "#contact or https://example.com/checkout"
+msgstr "#contacto o https://ejemplo.com/checkout"
+
+#: assets/js/dashboard.js:49
+msgid "Scroll threshold"
+msgstr "Umbral de scroll"
+
+#: assets/js/dashboard.js:49
+msgid "custom"
+msgstr "personalizado"
+
+#: assets/js/dashboard.js:49
+msgid "Custom"
+msgstr "Personalizado"
+
+#: assets/js/dashboard.js:49
+msgid "Time threshold"
+msgstr "Umbral de tiempo"
+
+#: assets/js/dashboard.js:49
+msgid "Fires when this element scrolls into view (at least 50% visible)."
+msgstr "Se dispara cuando este elemento entra en pantalla (al menos un 50% visible)."
+
+#: assets/js/dashboard.js:49
+msgid "Automatically detects YouTube, Vimeo, and native WordPress <video> embeds on the page. No extra setup needed."
+msgstr "Detecta automáticamente vídeos de YouTube, Vimeo y <video> nativos de WordPress en la página. No se necesita configuración extra."
+
+#: assets/js/dashboard.js:49
+msgid "Form selector"
+msgstr "Selector del formulario"
+
+#: assets/js/dashboard.js:49
+msgid "(optional)"
+msgstr "(opcional)"
+
+#: assets/js/dashboard.js:49
+msgid "Leave blank to track any form on the page. Enter a CSS selector to target a specific form — works with WPForms, Contact Form 7, Gravity Forms, Elementor, or any HTML form."
+msgstr "Déjalo en blanco para rastrear cualquier formulario de la página. Introduce un selector CSS para un formulario concreto — funciona con WPForms, Contact Form 7, Gravity Forms, Elementor o cualquier formulario HTML."
+
+#: assets/js/dashboard.js:49
+msgid "Event name"
+msgstr "Nombre del evento"
+
+#: assets/js/dashboard.js:49
+msgid "Fire this from your theme, plugin, or Google Tag Manager."
+msgstr "Dispáralo desde tu tema, plugin o Google Tag Manager."
+
+#: assets/js/dashboard.js:49
+msgid "GA4 and GTM automatically receive this event if they are present on the page."
+msgstr "GA4 y GTM reciben este evento automáticamente si están presentes en la página."
+
+#: assets/js/dashboard.js:49
+msgid "Creating…"
+msgstr "Creando…"
+
+#: assets/js/dashboard.js:49
+msgid "Create & Start Test"
+msgstr "Crear e Iniciar Test"
+
+#: assets/js/dashboard.js:49
+msgid "Schedule Test"
+msgstr "Programar Test"
+
+#: assets/js/dashboard.js:49
+msgid "Save as Draft"
+msgstr "Guardar como Borrador"
+
+#: assets/js/dashboard.js:49
+msgid "When should the test start?"
+msgstr "¿Cuándo debe empezar el test?"
+
+#. translators: %d: number of test slots on the plan.
+#: assets/js/dashboard.js:51
+#, js-format
+msgid "All %d test slots on your plan are in use. Finish or pause a running test to free one, or upgrade — meanwhile you can save this test as a draft and start it later."
+msgstr "Los %d huecos de test de tu plan están en uso. Finaliza o pausa un test en marcha para liberar uno, o mejora tu plan — mientras tanto puedes guardar este test como borrador e iniciarlo más tarde."
+
+#: assets/js/dashboard.js:51
+msgid "Available on"
+msgstr "Disponible en el plan"
+
+#: assets/js/dashboard.js:51
+msgid "plan and above"
+msgstr "y superiores"
+
+#: assets/js/dashboard.js:51
+msgid "Start date & time"
+msgstr "Fecha y hora de inicio"
+
+#: assets/js/dashboard.js:51
+msgid "Something went wrong. Please try again."
+msgstr "Algo salió mal. Inténtalo de nuevo."
+
+#: assets/js/dashboard.js:51
+msgid "Connection error:"
+msgstr "Error de conexión:"
+
+#: assets/js/dashboard.js:51
+msgid "Check settings →"
+msgstr "Comprobar ajustes →"
+
+#. translators: %s: variant letter.
+#: assets/js/dashboard.js:19
+#, js-format
+msgid "Variant %s"
+msgstr "Variante %s"
+
+#: assets/js/dashboard.js:39
+msgid "Unique visitors"
+msgstr "Visitantes únicos"
+
+#: assets/js/dashboard.js:39
+msgid "Unique conversions"
+msgstr "Conversiones únicas"
+
+#: assets/js/dashboard.js:39
+msgid "Conversion rate"
+msgstr "Tasa de conversión"
