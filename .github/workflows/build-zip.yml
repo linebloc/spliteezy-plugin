@@ -1,0 +1,55 @@
+name: Latest Build ZIP
+
+# Keeps a WordPress-ready ZIP attached to a rolling "latest" pre-release on
+# every push to main — so there is always an installable ZIP (correct
+# spliteezy/ root folder) without cutting a versioned release.
+# GitHub's own "Download ZIP" produces a spliteezy-plugin-main/ folder,
+# which WordPress would install under the wrong slug.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build and publish latest ZIP
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ZIP
+        run: |
+          # ZIP names are always spliteezy-{version}; the dev build adds a
+          # -dev suffix so it can't be confused with a stable release asset.
+          VERSION=$(sed -n 's/^ \* Version:[[:space:]]*//p' spliteezy.php | tr -d '[:space:]')
+
+          # Wrap plugin files in a spliteezy/ folder — WP requires this structure.
+          mkdir -p /tmp/spliteezy
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='README.md' \
+            --exclude='dashboard/node_modules/' \
+            ./ /tmp/spliteezy/
+
+          cd /tmp
+          zip -rq "spliteezy-${VERSION}-dev.zip" spliteezy/
+          echo "ZIP=/tmp/spliteezy-${VERSION}-dev.zip" >> "$GITHUB_ENV"
+
+      - name: Update rolling "latest" pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build (main)
+          prerelease: true
+          body: |
+            WordPress-ready ZIP built automatically from the latest `main`.
+            Download the `spliteezy-{version}-dev.zip` asset and install it via
+            *Plugins → Add New → Upload Plugin*.
+            For stable versions, use a versioned release instead.
+          files: ${{ env.ZIP }}

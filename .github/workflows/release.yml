@@ -1,0 +1,37 @@
+name: Release ZIP
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build WordPress plugin ZIP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ZIP
+        run: |
+          VERSION="${{ github.ref_name }}"
+
+          # Wrap plugin files in a spliteezy/ folder — WP requires this structure.
+          mkdir -p /tmp/spliteezy
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='README.md' \
+            ./ /tmp/spliteezy/
+
+          cd /tmp
+          zip -r "spliteezy-${VERSION}.zip" spliteezy/
+          echo "ZIP=/tmp/spliteezy-${VERSION}.zip" >> "$GITHUB_ENV"
+
+      - name: Upload ZIP to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ${{ env.ZIP }}
