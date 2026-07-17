@@ -228,7 +228,7 @@ class Tracker
             return null;
         }
 
-        $allowed_types = ['page_view', 'goal_page', 'click', 'scroll', 'time_on_page', 'element_view', 'video_play', 'external_event'];
+        $allowed_types = ['page_view', 'goal_page', 'click', 'scroll', 'time_on_page', 'element_view', 'video_play', 'external_event', 'form_submission'];
 
         $type = sanitize_key($event['type'] ?? '');
 

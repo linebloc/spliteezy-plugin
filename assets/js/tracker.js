@@ -131,7 +131,8 @@
     body.append('nonce', cfg.nonce);
     body.append('events', JSON.stringify(events));
 
-    fetch(cfg.ajax_url, { method: 'POST', body, credentials: 'same-origin' }).catch(function () {
+    // keepalive keeps this request alive past page unload (pagehide/visibilitychange flush).
+    fetch(cfg.ajax_url, { method: 'POST', body, credentials: 'same-origin', keepalive: true }).catch(function () {
       // Re-queue on network failure (best-effort, no infinite retry).
       queue = events.concat(queue);
     });
