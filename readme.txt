@@ -4,7 +4,7 @@ Tags: a/b testing, split testing, conversion optimization, cro, experiments
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.9.7
+Stable tag: 0.10.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ Spliteezy works differently:
 * **No flicker** — visitors always see exactly one version of the page.
 * **Any page builder** — variants are real WordPress posts, editable with Gutenberg, Elementor, Divi, Bricks, or the Classic Editor.
 * **Built for caching** — choose how tests and your page cache work together: exclude tested pages from cache, keep one cached copy per variant, or embed variants in a single cacheable page. Affected pages are purged automatically when tests change.
-* **Lightweight tracker** — a small vanilla JS file (no framework, no jQuery) tracks page views, clicks, scroll depth, time on page, form submissions, and video plays. Events are proxied through WordPress admin-ajax so the API key never touches the browser.
+* **Lightweight tracker** — a small vanilla JS file (no framework, no jQuery) tracks page views, clicks, scroll depth, time on page, form submissions, and video plays. Events are proxied through WordPress admin-ajax so the API key never touches the browser, and it's stored encrypted in your WordPress database.
 
 = Goal types =
 
@@ -167,5 +167,5 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 
 == Changelog ==
 
-= 0.9.7 =
+= 0.10.0 =
 * Initial release.

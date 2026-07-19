@@ -63,7 +63,19 @@ class Options
 
     public static function api_key(): string
     {
-        return (string) self::all()['api_key'];
+        $stored = (string) self::all()['api_key'];
+
+        if ($stored === '') {
+            return '';
+        }
+
+        $plain = Crypto::decrypt($stored);
+
+        if ($plain !== '' && Crypto::needs_migration($stored)) {
+            self::update(['api_key' => $plain]);
+        }
+
+        return $plain;
     }
 
     public static function api_endpoint(): string
@@ -185,6 +197,10 @@ class Options
      */
     public static function update(array $values): bool
     {
+        if (array_key_exists('api_key', $values) && is_string($values['api_key'])) {
+            $values['api_key'] = Crypto::encrypt($values['api_key']);
+        }
+
         $current = self::all();
         $merged = array_merge($current, $values);
 

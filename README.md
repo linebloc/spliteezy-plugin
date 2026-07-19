@@ -23,7 +23,7 @@ Spliteezy picks the variant on the server, before the first byte of HTML goes ou
 - **Any page builder** — if it edits WordPress posts, it works with Spliteezy.
 - **Built for caching** — three delivery modes let you decide how tests and your page cache work together: exclude tested pages from cache (default), keep one cached copy per variant, or embed variants in a single cacheable page. Affected pages are purged automatically when tests change.
 - **Eight goal types** — page reached, click, scroll depth, time on page, element view, form submission, video play (YouTube / Vimeo / HTML5), and external events from GA4, GTM, or Meta Pixel.
-- **Private by design** — visitors are identified only by an anonymous random token in a first-party cookie. No IP addresses, no names, no personal data. The API key is HMAC-signed on every request and never reaches the browser.
+- **Private by design** — visitors are identified only by an anonymous random token in a first-party cookie. No IP addresses, no names, no personal data. The API key is HMAC-signed on every request, never reaches the browser, and is encrypted at rest in your WordPress database.
 
 ---
 

@@ -1570,14 +1570,13 @@ a.eezy-goal-option--locked:hover { border-color: var(--eezy-primary) !important;
 /* Remove overflow:hidden from old bar since we now use bar-wrap */
 .eezy-conf .eezy-conf__bar { overflow: visible; }
 
-/* ── Performance metric tabs (clickable chart metric switch) ─────────────── */
+/* ── Performance metric cards (clickable chart metric switch) ────────────── */
 
 .eezy-metric-tiles {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin: 10px 0 16px;
-  border-bottom: 1px solid #f3f4f6;
 }
 
 .eezy-metric-tile {
@@ -1587,23 +1586,23 @@ a.eezy-goal-option--locked:hover { border-color: var(--eezy-primary) !important;
   align-items: flex-start;
   flex: 1;
   min-width: 150px;
-  padding: 10px 14px 12px;
+  padding: 10px 14px;
   background: none;
-  border: none;
-  /* Overlaps the row's 1px rule so the active underline sits on it. */
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  border-radius: 6px 6px 0 0;
+  border: 1px solid var(--eezy-border);
+  border-radius: var(--eezy-radius);
   font-family: inherit;
   cursor: pointer;
   text-align: left;
   transition: background 0.15s, border-color 0.15s;
 }
 
-.eezy-metric-tile:hover { background: var(--eezy-bg); }
+.eezy-metric-tile:not(.eezy-metric-tile--active):hover { background: var(--eezy-bg); }
 .eezy-metric-tile:focus-visible { outline: 2px solid var(--eezy-primary); outline-offset: -2px; }
 
-.eezy-metric-tile--active { border-bottom-color: var(--eezy-primary); }
+.eezy-metric-tile--active {
+  border-color: var(--eezy-primary);
+  background: color-mix(in srgb, var(--eezy-primary) 6%, transparent);
+}
 
 .eezy-metric-tile__label {
   font-size: 11px;

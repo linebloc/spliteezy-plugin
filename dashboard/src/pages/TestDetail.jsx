@@ -507,10 +507,10 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
           <h2 className="eezy-card__title">{__('Performance', 'spliteezy')}</h2>
           <div className="eezy-metric-tiles">
             <MetricTile
-              label={__('Unique visitors', 'spliteezy')}
-              value={totalVisitors.toLocaleString()}
-              active={chartMetric === 'visitors'}
-              onClick={() => setChartMetric('visitors')}
+              label={__('Conversion rate', 'spliteezy')}
+              value={`${conversionRate(totalConversions, totalVisitors)}%`}
+              active={chartMetric === 'rate'}
+              onClick={() => setChartMetric('rate')}
             />
             <MetricTile
               label={__('Unique conversions', 'spliteezy')}
@@ -519,10 +519,10 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
               onClick={() => setChartMetric('conversions')}
             />
             <MetricTile
-              label={__('Conversion rate', 'spliteezy')}
-              value={`${conversionRate(totalConversions, totalVisitors)}%`}
-              active={chartMetric === 'rate'}
-              onClick={() => setChartMetric('rate')}
+              label={__('Unique visitors', 'spliteezy')}
+              value={totalVisitors.toLocaleString()}
+              active={chartMetric === 'visitors'}
+              onClick={() => setChartMetric('visitors')}
             />
           </div>
           <TimeSeriesChart series={chartSeries} unit={chartMetric === 'rate' ? '%' : ''} />
