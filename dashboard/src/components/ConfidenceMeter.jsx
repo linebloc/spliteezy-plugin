@@ -6,13 +6,15 @@ import { __, sprintf } from '@wordpress/i18n';
  * (even odds). Pass lowData to grey the value out with a "low data" note.
  */
 export default function ConfidenceMeter({ value, lowData = false }) {
-  // Below the minimum sample the Beta prior dominates and produces absurd
-  // numbers (an arm with fewer visitors "wins"), so show no percentage at all.
+  // Below the server's learned sample threshold the Beta prior dominates and
+  // produces absurd numbers (an arm with fewer visitors "wins"), so show no
+  // percentage at all. The exact threshold is per-website and computed
+  // server-side (StatisticsService), so this can't state a fixed number.
   if (lowData) {
     return (
       <div
         className="eezy-conf eezy-conf--muted"
-        title={__('Not enough data yet — the chance to win needs 30+ visitors per variant', 'spliteezy')}
+        title={__('Not enough data yet to calculate a reliable chance to win', 'spliteezy')}
       >
         <div className="eezy-conf__bar eezy-conf__bar-wrap">
           <span className="eezy-conf__threshold" title={__('Even odds with the control', 'spliteezy')} />
