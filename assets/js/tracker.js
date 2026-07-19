@@ -99,6 +99,9 @@
   let queue = [];
   let flushTimer = null;
 
+  // Forces an early flush so a burst of events can't grow into one oversized request.
+  const MAX_QUEUE_LENGTH = 20;
+
   function push(type, meta = {}) {
     queue.push({
       type,
@@ -110,7 +113,15 @@
       occurred_at: Math.floor(Date.now() / 1000),
     });
 
-    scheduleFlush();
+    if (queue.length >= MAX_QUEUE_LENGTH) {
+      if (flushTimer) {
+        clearTimeout(flushTimer);
+        flushTimer = null;
+      }
+      flush();
+    } else {
+      scheduleFlush();
+    }
   }
 
   function scheduleFlush() {
@@ -132,10 +143,15 @@
     body.append('events', JSON.stringify(events));
 
     // keepalive keeps this request alive past page unload (pagehide/visibilitychange flush).
-    fetch(cfg.ajax_url, { method: 'POST', body, credentials: 'same-origin', keepalive: true }).catch(function () {
-      // Re-queue on network failure (best-effort, no infinite retry).
-      queue = events.concat(queue);
-    });
+    fetch(cfg.ajax_url, { method: 'POST', body, credentials: 'same-origin', keepalive: true })
+      .then(function (response) {
+        // fetch() doesn't reject on HTTP error responses, only network failures.
+        if (!response.ok) queue = events.concat(queue);
+      })
+      .catch(function () {
+        // Re-queue on network failure (best-effort, no infinite retry).
+        queue = events.concat(queue);
+      });
   }
 
   // Flush before the user navigates away.
