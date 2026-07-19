@@ -266,6 +266,11 @@ class Tracker
             'goal_id' => $goal_id ?: null,
             'meta' => array_map(
                 static function ($val) {
+                    // is_scalar(null) is false, so this must be checked first.
+                    if ($val === null) {
+                        return null;
+                    }
+
                     return is_scalar($val) ? sanitize_text_field((string) $val) : wp_json_encode($val);
                 },
                 $meta_raw
