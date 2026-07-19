@@ -12,6 +12,7 @@ class AdminMenu
     {
         add_action('admin_menu', [$this, 'add_menu']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
+        add_action('admin_notices', [$this, 'render_update_notice']);
     }
 
     public function add_menu(): void
@@ -84,6 +85,36 @@ class AdminMenu
                 SPLITEEZY_VERSION
             );
         }
+    }
+
+    /**
+     * Shown on every Spliteezy admin page (never elsewhere in wp-admin) when
+     * the connected API reports this plugin version as due for an update.
+     * Recorded by Client::record_version_notice() on the plugin's last API
+     * response — this never makes a request of its own.
+     */
+    public function render_update_notice(): void
+    {
+        $screen = get_current_screen();
+
+        if (! $screen || strpos($screen->id, 'spliteezy') === false) {
+            return;
+        }
+
+        $notice = Options::update_notice();
+
+        if (empty($notice['recommended'])) {
+            return;
+        }
+
+        echo '<div class="notice notice-warning"><p>'
+            .esc_html(sprintf(
+                /* translators: %s: latest available Spliteezy plugin version. */
+                __('A newer version of Spliteezy is available (v%s). Updating is recommended for the best tracking accuracy and performance.', 'spliteezy'),
+                $notice['latest_version']
+            ))
+            .' <a href="'.esc_url(admin_url('plugins.php')).'">'.esc_html__('Update now', 'spliteezy').'</a>'
+            .'</p></div>';
     }
 
     /**

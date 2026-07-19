@@ -50,6 +50,10 @@ class Options
                 'create_roles' => ['administrator'],
                 'edit_roles' => ['administrator'],
             ],
+            'update_notice' => [
+                'recommended' => false,
+                'latest_version' => '',
+            ],
         ];
 
         $stored = get_option(self::OPTION_KEY, []);
@@ -118,6 +122,20 @@ class Options
             'create_roles' => ['administrator'],
             'edit_roles' => ['administrator'],
         ];
+
+        return wp_parse_args(is_array($stored) ? $stored : [], $defaults);
+    }
+
+    /**
+     * The API's version-compatibility signal, recorded by Client on every
+     * response — see Client::record_version_notice().
+     *
+     * @return array{recommended: bool, latest_version: string}
+     */
+    public static function update_notice(): array
+    {
+        $stored = self::all()['update_notice'] ?? [];
+        $defaults = ['recommended' => false, 'latest_version' => ''];
 
         return wp_parse_args(is_array($stored) ? $stored : [], $defaults);
     }

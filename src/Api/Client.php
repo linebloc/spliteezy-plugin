@@ -69,6 +69,8 @@ class Client
             ]
         );
 
+        $this->record_version_notice($response);
+
         if (is_wp_error($response)) {
             return [
                 'ok' => false,
@@ -324,6 +326,8 @@ class Client
             ]
         );
 
+        $this->record_version_notice($response);
+
         if (is_wp_error($response)) {
             return false;
         }
@@ -343,6 +347,7 @@ class Client
             'X-Spliteezy-Timestamp' => (string) $timestamp,
             'X-Spliteezy-Signature' => $signature,
             'X-Spliteezy-Domain' => wp_parse_url(home_url(), PHP_URL_HOST),
+            'X-Spliteezy-Plugin-Version' => SPLITEEZY_VERSION,
             'Accept' => 'application/json',
         ];
     }
@@ -384,6 +389,8 @@ class Client
     {
         $this->last_error = null;
 
+        $this->record_version_notice($response);
+
         if (is_wp_error($response)) {
             $this->last_error = [
                 'message' => $response->get_error_message(),
@@ -411,6 +418,32 @@ class Client
         }
 
         return is_array($data) ? $data : null;
+    }
+
+    /**
+     * Persists the API's version-compatibility signal so AdminMenu can show
+     * an update notice without making its own request.
+     *
+     * @param  array<string, mixed>|\WP_Error  $response
+     */
+    private function record_version_notice($response): void
+    {
+        if (is_wp_error($response)) {
+            return;
+        }
+
+        $latest = wp_remote_retrieve_header($response, 'x-spliteezy-latest-version');
+
+        if (! $latest) {
+            return;
+        }
+
+        Options::update([
+            'update_notice' => [
+                'recommended' => (bool) wp_remote_retrieve_header($response, 'x-spliteezy-update-recommended'),
+                'latest_version' => (string) $latest,
+            ],
+        ]);
     }
 
     /**
