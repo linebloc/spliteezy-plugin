@@ -46,42 +46,6 @@ return { confidence: 0, zScore: 0, isSignificant: false, insufficientData };
   };
 }
 
-/**
- * Bayesian P(variant beats control) via normal approximation of Beta posteriors.
- * Mirrors StatisticsService::bayesianProbabilityToWin() on the server.
- * Returns a percentage (0–100), or null when either arm has no visitors.
- */
-export function probabilityToBeatControl(
-  controlConversions,
-  controlVisitors,
-  variantConversions,
-  variantVisitors
-) {
-  if (controlVisitors < 1 || variantVisitors < 1) {
-    return null;
-  }
-
-  const aA = controlConversions + 1;
-  const bA = controlVisitors - controlConversions + 1;
-  const aB = variantConversions + 1;
-  const bB = variantVisitors - variantConversions + 1;
-  const tA = aA + bA;
-  const tB = aB + bB;
-
-  const muA = aA / tA;
-  const varA = (aA * bA) / (tA * tA * (tA + 1));
-  const muB = aB / tB;
-  const varB = (aB * bB) / (tB * tB * (tB + 1));
-
-  const sigma = Math.sqrt(varA + varB);
-
-  if (sigma < 1e-12) {
-    return muB > muA ? 100 : muB < muA ? 0 : 50;
-  }
-
-  return Math.round(normalCDF((muB - muA) / sigma) * 1000) / 10;
-}
-
 /** Cumulative normal distribution approximation (Abramowitz and Stegun; valid for z >= 0). */
 function normalCDF(z) {
   if (z < 0) {

@@ -5,7 +5,8 @@ import StatusBadge from '../components/StatusBadge.jsx';
 import ConfidenceMeter from '../components/ConfidenceMeter.jsx';
 import DropdownMenu from '../components/DropdownMenu.jsx';
 import TimeSeriesChart from '../components/TimeSeriesChart.jsx';
-import { computeSignificance, probabilityToBeatControl, conversionRate, relativeUplift, formatDate, daysRunning } from '../utils/stats.js';
+import InfoTip from '../components/InfoTip.jsx';
+import { conversionRate, relativeUplift, formatDate, daysRunning } from '../utils/stats.js';
 
 const VARIANT_COLORS = ['#6B7280', '#5B4CF5', '#B8862F', '#C2554A', '#5E6AD2'];
 
@@ -92,7 +93,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const [sortDir, setSortDir]         = useState('desc');
   const [actioning, setActioning]     = useState(false);
   const [actionError, setActionError] = useState(null);
-  const [chartMetric, setChartMetric] = useState('conversions');
+  const [chartMetric, setChartMetric] = useState('rate');
 
   // Inline rename
   const [editingName, setEditingName] = useState(false);
@@ -116,25 +117,17 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
     [variants]
   );
 
-  // Pre-compute significance + chance-to-win for all challengers so sorting works.
-  const sigMap = useMemo(() => {
+  // Statistics come from the server (StatisticsService) — the same engine the
+  // app dashboard uses. Never recompute significance/confidence client-side;
+  // it has to stay a single source of truth (learning-mode gating, Bayesian
+  // chance-to-win, learned sample sizes — none of that is safe to mirror in JS).
+  const statsByVariantId = useMemo(() => {
     const map = {};
-    variants.forEach((v) => {
-      if (!v.is_control) {
-        map[v.id] = {
-          ...computeSignificance(
-            control.conversions ?? 0, control.visitors ?? 0,
-            v.conversions ?? 0,       v.visitors ?? 0
-          ),
-          chanceToWin: probabilityToBeatControl(
-            control.conversions ?? 0, control.visitors ?? 0,
-            v.conversions ?? 0,       v.visitors ?? 0
-          ),
-        };
-      }
+    (test?.statistics?.variants ?? []).forEach((s) => {
+      map[s.variant_id] = s;
     });
     return map;
-  }, [variants, control]);
+  }, [test]);
 
   const sortedVariants = useMemo(() => {
     if (!sortKey) return variants;
@@ -149,14 +142,14 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
         vb = conversionRate(b.conversions ?? 0, b.visitors ?? 0);
       } else if (sortKey === 'confidence') {
         // Control has no chance-to-win value; push it to the bottom when sorting.
-        va = a.is_control ? -1 : (sigMap[a.id]?.chanceToWin ?? 0);
-        vb = b.is_control ? -1 : (sigMap[b.id]?.chanceToWin ?? 0);
+        va = a.is_control ? -1 : (statsByVariantId[a.id]?.probability_to_beat_control ?? 0);
+        vb = b.is_control ? -1 : (statsByVariantId[b.id]?.probability_to_beat_control ?? 0);
       } else {
         return 0;
       }
       return sortDir === 'desc' ? vb - va : va - vb;
     });
-  }, [variants, sortKey, sortDir, sigMap]);
+  }, [variants, sortKey, sortDir, statsByVariantId]);
 
   useEffect(() => { onError?.(error ?? null); }, [error]);
 
@@ -325,23 +318,18 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
     return { label: variantName(v), color: colorMap[v.id], points };
   });
 
+  // Winner and test-level confidence come straight from the server's verdict —
+  // it already accounts for learning mode, direction (z > 0), and the
+  // confidence threshold. Don't re-derive any of this client-side.
+  const statistics = test.statistics ?? null;
+  const verdict = statistics?.verdict ?? null;
+  const winnerVariant = verdict?.winner_id ? variants.find((v) => v.id === verdict.winner_id) : null;
+  const winnerStats = winnerVariant ? statsByVariantId[winnerVariant.id] : null;
+  const hasWinner = verdict?.type === 'significant' && !!winnerVariant && !!winnerStats;
+
+  const testConfidence = statistics?.confidence ?? null;
+  const confidenceLowData = !(statistics?.has_enough_data ?? false);
   const controlRate = conversionRate(control.conversions ?? 0, control.visitors ?? 0);
-
-  // Winner candidates must actually beat the control — two-sided significance
-  // alone would also flag a variant that is significantly worse.
-  const bestChallenger = variants
-    .filter((v) => !v.is_control && conversionRate(v.conversions ?? 0, v.visitors ?? 0) > controlRate)
-    .reduce((best, v) => {
-      const conf = sigMap[v.id]?.confidence ?? 0;
-      return conf > (best._conf ?? -1) ? { ...v, _conf: conf } : best;
-    }, {});
-
-  const hasWinner = (bestChallenger._conf ?? 0) >= (test.confidence_threshold ?? 95);
-
-  // Test-level confidence: the strongest challenger signal against the control.
-  const challengerSigs = variants.filter((v) => !v.is_control).map((v) => sigMap[v.id]).filter(Boolean);
-  const testConfidence = challengerSigs.length ? Math.max(...challengerSigs.map((s) => s.confidence ?? 0)) : null;
-  const confidenceLowData = !challengerSigs.length || challengerSigs.every((s) => s.insufficientData);
 
   const hasUneditedVariants = variants.some((v) => !v.is_control && v.needs_edit);
 
@@ -459,16 +447,16 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
             {sprintf(
               /* translators: 1: variant name, 2: conversion rate, 3: confidence percentage. */
               __('%1$s is winning — %2$s%% conv. rate at %3$s%% confidence.', 'spliteezy'),
-              variantName(bestChallenger) || __('Variant A', 'spliteezy'),
-              conversionRate(bestChallenger.conversions ?? 0, bestChallenger.visitors ?? 0),
-              Math.round(bestChallenger._conf)
+              variantName(winnerVariant) || __('Variant A', 'spliteezy'),
+              Number(winnerStats.conversion_rate).toFixed(2),
+              Math.round(winnerStats.confidence)
             )}
           </span>
-          {['ended', 'winner'].includes(test.status) && bestChallenger.post_id && (
+          {['ended', 'winner'].includes(test.status) && winnerVariant.post_id && (
             <button
               className="eezy-btn eezy-btn--primary eezy-btn--sm"
               disabled={actioning}
-              onClick={() => applyVariant(bestChallenger.post_id, variantName(bestChallenger) || __('this variant', 'spliteezy'))}
+              onClick={() => applyVariant(winnerVariant.post_id, variantName(winnerVariant) || __('this variant', 'spliteezy'))}
             >
               {__('Apply to website', 'spliteezy')}
             </button>
@@ -505,6 +493,11 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
           label={__('Confidence', 'spliteezy')}
           value={testConfidence !== null && !confidenceLowData ? `~${Math.round(testConfidence)}%` : '—'}
           sub={sprintf(/* translators: %d: confidence threshold percentage. */ __('Target: %d%%', 'spliteezy'), test.confidence_threshold ?? 95)}
+          info={sprintf(
+            /* translators: %d: confidence threshold percentage. */
+            __('How certain we are that the difference between variants is real and not random chance. When it crosses your %d%% threshold, a winner can be declared.', 'spliteezy'),
+            test.confidence_threshold ?? 95
+          )}
         />
       </div>
 
@@ -551,7 +544,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
           {/* Variant rows */}
           {sortedVariants.map((v) => {
             const isControl = !!v.is_control;
-            const sig = isControl ? null : sigMap[v.id];
+            const sig = isControl ? null : statsByVariantId[v.id];
             const rate = conversionRate(v.conversions ?? 0, v.visitors ?? 0);
             const uplift = isControl ? null : relativeUplift(rate, controlRate);
             const viewUrl = isControl ? test.target_url : null;
@@ -598,7 +591,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
                   {isControl ? (
                     <span className="eezy-conv-rate__baseline">{__('Baseline', 'spliteezy')}</span>
                   ) : (
-                    <ConfidenceMeter value={sig?.chanceToWin ?? 0} lowData={sig?.insufficientData ?? true} />
+                    <ConfidenceMeter value={sig?.probability_to_beat_control ?? 0} lowData={(sig?.confidence ?? null) === null} />
                   )}
                 </div>
 
@@ -718,11 +711,14 @@ function MetricTile({ label, value, active, onClick }) {
   );
 }
 
-function InfoCard({ label, value, sub, onEdit }) {
+function InfoCard({ label, value, sub, onEdit, info }) {
   return (
     <div className="eezy-info-card">
       <div className="eezy-info-card__top">
-        <span className="eezy-info-card__label">{label}</span>
+        <span className="eezy-info-card__label-group">
+          <span className="eezy-info-card__label">{label}</span>
+          {info && <InfoTip text={info} />}
+        </span>
         {onEdit && (
           <button className="eezy-info-card__edit" onClick={onEdit} title={sprintf(/* translators: %s: field name. */ __('Edit %s', 'spliteezy'), label.toLowerCase())}>
             <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor">

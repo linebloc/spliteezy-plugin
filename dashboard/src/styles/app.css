@@ -1054,11 +1054,39 @@ a.eezy-goal-option--locked:hover { border-color: var(--eezy-primary) !important;
 .eezy-info-cards { display: flex !important; flex-wrap: wrap !important; gap: 12px !important; margin-bottom: 20px !important; }
 .eezy-info-card { display: flex !important; flex-direction: column !important; gap: 4px !important; flex: 1 !important; min-width: 130px !important; background: #fff !important; border: 1px solid #e5e7eb !important; border-radius: 8px !important; padding: 14px 16px !important; box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1) !important; }
 .eezy-info-card__top { display: flex !important; align-items: center !important; justify-content: space-between !important; }
+.eezy-info-card__label-group { display: flex !important; align-items: center !important; gap: 4px !important; }
 .eezy-info-card__label { font-size: 12px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; color: #9ca3af !important; }
 .eezy-info-card__edit { display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 2px !important; border: none !important; background: transparent !important; color: color-mix(in srgb, var(--eezy-primary) 40%, #fff) !important; cursor: pointer !important; line-height: 1 !important; transition: color 0.15s !important; }
 .eezy-info-card__edit:hover { color: var(--eezy-primary) !important; }
 .eezy-info-card__value { font-family: var(--eezy-font-heading) !important; font-size: 26px !important; font-weight: 700 !important; color: #1f2937 !important; line-height: 1.1 !important; letter-spacing: -0.02em !important; }
 .eezy-info-card__sub { font-size: 12px !important; color: #9ca3af !important; margin-top: 2px !important; }
+
+/* ── Info tip (hoverable "i" icon with an explanatory bubble) ──────────── */
+
+.eezy-info-tip { position: relative !important; display: inline-flex !important; }
+.eezy-info-tip__trigger { display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; border: none !important; background: transparent !important; color: #c7cad1 !important; cursor: help !important; line-height: 1 !important; transition: color 0.15s !important; }
+.eezy-info-tip__trigger:hover, .eezy-info-tip__trigger:focus-visible { color: #9ca3af !important; }
+.eezy-info-tip__bubble {
+  display: none !important;
+  position: absolute !important;
+  bottom: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 220px !important;
+  background: #1f2937 !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 1.4 !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  z-index: 20 !important;
+  pointer-events: none !important;
+}
+.eezy-info-tip__trigger:hover + .eezy-info-tip__bubble,
+.eezy-info-tip__trigger:focus-visible + .eezy-info-tip__bubble { display: block !important; }
 
 /* ── Chart section ──────────────────────────────────────────────────────── */
 
