@@ -6,7 +6,7 @@ use Spliteezy\Core\Autoloader;
  * Plugin Name:       Spliteezy - A/B Split Tests Made Easy
  * Plugin URI:        https://spliteezy.com
  * Description:       Backend A/B testing for WordPress. Server-side variant assignment — no redirect, no flash of wrong content.
- * Version:           0.9.7
+ * Version:           0.10.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Linebloc
@@ -18,7 +18,7 @@ use Spliteezy\Core\Autoloader;
  */
 defined('ABSPATH') || exit;
 
-define('SPLITEEZY_VERSION', '0.9.7');
+define('SPLITEEZY_VERSION', '0.10.0');
 define('SPLITEEZY_FILE', __FILE__);
 define('SPLITEEZY_DIR', plugin_dir_path(__FILE__));
 define('SPLITEEZY_URL', plugin_dir_url(__FILE__));
