@@ -159,6 +159,12 @@ No IP addresses, names, email addresses, or other personally identifying informa
 If your visitors are located in the EU or other regions governed by privacy regulations (GDPR, ePrivacy, CCPA, LGPD, etc.) you are responsible for disclosing this data collection in your website's Privacy Policy and, where applicable, obtaining visitor consent before Spliteezy runs.
 Spliteezy does not provide a built-in consent mechanism — use a consent management tool to conditionally load the plugin based on visitor consent if required.
 
+== Screenshots ==
+
+1. The A/B Tests dashboard — running tests, visitor/conversion totals against your plan limit, and confidence at a glance.
+2. A test's detail view — daily visitor/conversion trend, per-variant conversion rate, and chance-to-win, updating live as data comes in.
+3. Settings — connection status and delivery mode (server-side, cache-per-variant, or cache-safe) so tests work with whatever caching setup the site already has.
+
 == Changelog ==
 
 = 0.9.7 =
