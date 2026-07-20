@@ -1515,30 +1515,6 @@ a.eezy-goal-option--locked:hover { border-color: var(--eezy-primary) !important;
   font-family: var(--eezy-font-heading) !important;
 }
 
-/* ── Section footer note ─────────────────────────────────────────────────── */
-
-.eezy-footer-note {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 16px;
-  padding: 10px 14px;
-  background: var(--eezy-brand-soft);
-  border: 1px solid color-mix(in srgb, var(--eezy-primary) 20%, transparent);
-  border-radius: 6px;
-  font-size: 12px;
-  color: var(--eezy-brand-ink);
-  line-height: 1.4;
-}
-
-.eezy-footer-note__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--eezy-primary);
-  flex-shrink: 0;
-}
-
 /* ── ConfidenceMeter with threshold ─────────────────────────────────────── */
 
 .eezy-conf__bar-wrap {
