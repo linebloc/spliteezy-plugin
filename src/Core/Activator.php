@@ -42,6 +42,7 @@ class Activator
     public static function uninstall(): void
     {
         delete_option('spliteezy_settings');
+        delete_option('spliteezy_rocket_config_pending');
         delete_transient('spliteezy_manifest');
 
         // Revoke all Spliteezy capabilities from all roles.
