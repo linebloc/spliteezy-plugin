@@ -112,6 +112,40 @@
 .eezy-conn-badge--disconnected { background: #fee2e2; color: #991b1b; }
 .eezy-conn-badge--disconnected .eezy-conn-badge__dot { background: #ef4444; }
 
+/* ── Update notice ───────────────────────────────────────────────────────── */
+
+.eezy-update-notice {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 16px 20px 0 2px;
+  padding: 10px 14px;
+  background: var(--eezy-brand-soft);
+  border: 1px solid color-mix(in srgb, var(--eezy-primary) 20%, transparent);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--eezy-brand-ink);
+  line-height: 1.4;
+}
+
+.eezy-update-notice p {
+  margin: 0;
+}
+
+.eezy-update-notice a {
+  color: var(--eezy-brand-ink);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.eezy-update-notice__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eezy-primary);
+  flex-shrink: 0;
+}
+
 /* ── Card ────────────────────────────────────────────────────────────────── */
 
 .eezy-card {

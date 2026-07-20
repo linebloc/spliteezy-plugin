@@ -187,11 +187,6 @@ export default function TestList({ config, onOpenTest, onNewTest, onError, onPla
           </table>
         </div>
       )}
-
-      <div className="eezy-footer-note">
-        <span className="eezy-footer-note__dot" />
-        {__('Assignment runs server-side before', 'spliteezy')} <code style={{ fontFamily: 'var(--eezy-font-mono)', fontSize: 11, background: 'rgba(91,76,245,.12)', padding: '1px 5px', borderRadius: 3 }}>wp_head</code> {__('— zero flicker, no JS redirect.', 'spliteezy')}
-      </div>
     </div>
   );
 }

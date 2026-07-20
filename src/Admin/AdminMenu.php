@@ -107,7 +107,7 @@ class AdminMenu
             return;
         }
 
-        echo '<div class="notice notice-warning"><p>'
+        echo '<div class="eezy-update-notice"><span class="eezy-update-notice__dot"></span><p>'
             .esc_html(sprintf(
                 /* translators: %s: latest available Spliteezy plugin version. */
                 __('A newer version of Spliteezy is available (v%s). Updating is recommended for the best tracking accuracy and performance.', 'spliteezy'),
