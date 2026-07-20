@@ -120,11 +120,11 @@
   gap: 7px;
   margin: 16px 20px 0 2px;
   padding: 10px 14px;
-  background: var(--eezy-brand-soft);
-  border: 1px solid color-mix(in srgb, var(--eezy-primary) 20%, transparent);
+  background: #fef3c7;
+  border: 1px solid #fde68a;
   border-radius: 6px;
   font-size: 13px;
-  color: var(--eezy-brand-ink);
+  color: #92400e;
   line-height: 1.4;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .eezy-update-notice a {
-  color: var(--eezy-brand-ink);
+  color: #92400e;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -142,7 +142,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--eezy-primary);
+  background: var(--eezy-warning);
   flex-shrink: 0;
 }
 
