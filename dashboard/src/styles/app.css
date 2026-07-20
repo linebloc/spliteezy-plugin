@@ -544,13 +544,37 @@
 
 /* ── Chart ──────────────────────────────────────────────────────────────── */
 
-.eezy-chart { width: 100%; }
+.eezy-chart { width: 100%; position: relative; }
 /* Same height as the chart SVG (H in TimeSeriesChart.jsx) so the card
    doesn't jump when a metric has no data yet. */
 .eezy-chart--empty { display: flex; align-items: center; justify-content: center; height: 240px; color: var(--eezy-text-muted); }
 .eezy-chart__svg { display: block !important; overflow: visible; max-width: 100%; }
 .eezy-chart__grid { stroke: var(--eezy-border); stroke-width: 1; }
 .eezy-chart__tick { font-size: 12px; fill: var(--eezy-text-muted); }
+.eezy-chart__hit { fill: transparent; }
+
+.eezy-chart__tooltip {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  background: var(--eezy-surface);
+  border: 1px solid var(--eezy-border);
+  border-radius: 6px;
+  box-shadow: var(--eezy-shadow);
+  padding: 8px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.eezy-chart__tooltip-date { font-weight: 600; color: var(--eezy-text); margin-bottom: 4px; }
+.eezy-chart__tooltip-row { display: flex; align-items: center; gap: 6px; }
+.eezy-chart__tooltip-row + .eezy-chart__tooltip-row { margin-top: 2px; }
+.eezy-chart__tooltip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.eezy-chart__tooltip-label { color: var(--eezy-text-muted); }
+.eezy-chart__tooltip-value { font-family: var(--eezy-font-mono); font-weight: 600; color: var(--eezy-text); margin-left: auto; }
+.eezy-chart__tooltip-delta { font-family: var(--eezy-font-mono); font-size: 11px; }
+.eezy-chart__tooltip-delta--up { color: var(--eezy-success); }
+.eezy-chart__tooltip-delta--down { color: var(--eezy-danger); }
+.eezy-chart__tooltip-note { font-size: 10.5px; color: var(--eezy-text-muted); margin-top: 4px; }
 
 .eezy-chart__legend {
   display: flex;

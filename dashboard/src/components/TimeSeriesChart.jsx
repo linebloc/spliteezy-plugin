@@ -1,5 +1,25 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+
+function valueAt(seriesObj, date) {
+  return seriesObj.points.find((p) => p.date === date)?.value ?? 0;
+}
+
+function dayOverDayChange(seriesObj, date, prevDate) {
+  if (!prevDate) {
+    return null;
+  }
+
+  const prev = valueAt(seriesObj, prevDate);
+
+  if (prev === 0) {
+    return null;
+  }
+
+  const curr = valueAt(seriesObj, date);
+
+  return ((curr - prev) / prev) * 100;
+}
 
 /**
  * Minimal SVG line chart — no charting library dependency.
@@ -12,6 +32,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 export default function TimeSeriesChart({ series = [], unit = '' }) {
   const containerRef = useRef(null);
   const [W, setW] = useState(640);
+  const [hoverIndex, setHoverIndex] = useState(null);
 
   useLayoutEffect(() => {
     const el = containerRef.current;
@@ -38,6 +59,7 @@ export default function TimeSeriesChart({ series = [], unit = '' }) {
 
   const scaleX = (i) => PAD.left + (i / Math.max(1, dates.length - 1)) * (W - PAD.left - PAD.right);
   const scaleY = (v) => H - PAD.bottom - (v / domainMax) * (H - PAD.top - PAD.bottom);
+  const xStep = (W - PAD.left - PAD.right) / Math.max(1, dates.length - 1);
 
   const yTicks = useMemo(() => {
     const ticks = [];
@@ -62,6 +84,7 @@ export default function TimeSeriesChart({ series = [], unit = '' }) {
         width={W}
         height={H}
         className="eezy-chart__svg"
+        onMouseLeave={() => setHoverIndex(null)}
       >
         {/* Y grid lines */}
         {yTicks.map((tick) => (
@@ -127,15 +150,74 @@ export default function TimeSeriesChart({ series = [], unit = '' }) {
                 key={`${s.label}-${d}`}
                 cx={scaleX(i)}
                 cy={scaleY(pt.value)}
-                r="4"
+                r={hoverIndex === i ? '5.5' : '4'}
                 fill={s.color}
-              >
-                <title>{sprintf(/* translators: 1: series name, 2: value, 3: date. */ __('%1$s: %2$s on %3$s', 'spliteezy'), s.label, `${pt.value}${unit}`, d)}</title>
-              </circle>
+              />
             );
           })
         )}
+
+        {/* Hover guide line */}
+        {hoverIndex !== null && (
+          <line
+            x1={scaleX(hoverIndex)}
+            x2={scaleX(hoverIndex)}
+            y1={PAD.top}
+            y2={H - PAD.bottom}
+            className="eezy-chart__grid"
+            strokeOpacity="0.5"
+          />
+        )}
+
+        {/* Hover hit areas — wider than the visible dots so hovering is forgiving */}
+        {dates.map((d, i) => (
+          <rect
+            key={d}
+            className="eezy-chart__hit"
+            x={scaleX(i) - xStep / 2}
+            y={PAD.top}
+            width={xStep}
+            height={H - PAD.top - PAD.bottom}
+            onMouseEnter={() => setHoverIndex(i)}
+          />
+        ))}
       </svg>
+
+      {/* Hover tooltip */}
+      {hoverIndex !== null && (
+        <div
+          className="eezy-chart__tooltip"
+          style={{
+            left: `${(scaleX(hoverIndex) / W) * 100}%`,
+            top: `${(PAD.top / H) * 100}%`,
+            transform: `translate(${scaleX(hoverIndex) < W / 2 ? '8px' : 'calc(-100% - 8px)'}, 0)`,
+          }}
+        >
+          <div className="eezy-chart__tooltip-date">
+            {new Date(dates[hoverIndex]).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
+          </div>
+          {series.map((s) => {
+            const value = valueAt(s, dates[hoverIndex]);
+            const delta = dayOverDayChange(s, dates[hoverIndex], dates[hoverIndex - 1]);
+
+            return (
+              <div key={s.label} className="eezy-chart__tooltip-row">
+                <span className="eezy-chart__tooltip-dot" style={{ background: s.color }} />
+                <span className="eezy-chart__tooltip-label">{s.label}</span>
+                <span className="eezy-chart__tooltip-value">{value}{unit}</span>
+                {delta !== null && (
+                  <span className={`eezy-chart__tooltip-delta ${delta >= 0 ? 'eezy-chart__tooltip-delta--up' : 'eezy-chart__tooltip-delta--down'}`}>
+                    {delta >= 0 ? '↑' : '↓'}{Math.abs(delta).toFixed(1)}%
+                  </span>
+                )}
+              </div>
+            );
+          })}
+          {hoverIndex > 0 && (
+            <div className="eezy-chart__tooltip-note">{__('vs previous day', 'spliteezy')}</div>
+          )}
+        </div>
+      )}
 
       {/* Legend
       <div className="eezy-chart__legend">
