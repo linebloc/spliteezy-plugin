@@ -110,7 +110,7 @@ class CreateTestPage
             wp_send_json_error(__('Missing required fields.', 'spliteezy'));
         }
 
-        $valid_goal_types = ['page_view', 'page_reached', 'click', 'scroll_depth', 'time_on_page', 'element_view', 'video_play', 'external_event'];
+        $valid_goal_types = ['page_view', 'page_reached', 'click', 'scroll_depth', 'time_on_page', 'element_view', 'video_play', 'external_event', 'form_submission'];
         if (! in_array($goal_type, $valid_goal_types, true)) {
             $goal_type = 'scroll_depth';
         }
