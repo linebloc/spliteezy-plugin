@@ -2,6 +2,8 @@
 
 namespace Spliteezy\Core;
 
+use NitroPack\SDK\Api\ExcludedUrls;
+use NitroPack\SDK\Api\VariationCookie;
 use Spliteezy\Api\Manifest;
 
 defined('ABSPATH') || exit;
@@ -240,7 +242,7 @@ class CacheCompat
         }
 
         try {
-            $api = new \NitroPack\SDK\Api\ExcludedUrls($config['siteId'], $config['siteSecret']);
+            $api = new ExcludedUrls($config['siteId'], $config['siteSecret']);
 
             foreach ($added as $post_id) {
                 foreach (self::nitropack_url_patterns((int) $post_id) as $pattern) {
@@ -312,7 +314,7 @@ class CacheCompat
         }
 
         try {
-            $api = new \NitroPack\SDK\Api\VariationCookie($config['siteId'], $config['siteSecret']);
+            $api = new VariationCookie($config['siteId'], $config['siteSecret']);
 
             foreach ($added as $name) {
                 $api->set($name, $current[$name], 0);
