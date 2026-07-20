@@ -4,7 +4,7 @@ Tags: a/b testing, split testing, conversion optimization, cro, experiments
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.10.0
+Stable tag: 0.10.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,5 +167,5 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 
 == Changelog ==
 
-= 0.10.0 =
+= 0.10.1 =
 * Initial release.
