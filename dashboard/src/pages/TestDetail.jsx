@@ -582,6 +582,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
                   {uplift !== null && (
                     <span className={`eezy-conv-rate__uplift ${uplift > 0 ? 'eezy-conv-rate__uplift--up' : uplift < 0 ? 'eezy-conv-rate__uplift--down' : ''}`}>
                       {uplift > 0 ? '↑' : uplift < 0 ? '↓' : ''}{Math.abs(uplift).toFixed(1)}%
+                      <InfoTip text={__('Relative change vs Control\'s own conversion rate — not a percentage-point gap. A move from 14.16% to 13.59% shows here as about 4% lower, even though the actual difference is under 1 percentage point.', 'spliteezy')} />
                     </span>
                   )}
                 </div>
