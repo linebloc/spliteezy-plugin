@@ -348,6 +348,7 @@ class Client
             'X-Spliteezy-Signature' => $signature,
             'X-Spliteezy-Domain' => wp_parse_url(home_url(), PHP_URL_HOST),
             'X-Spliteezy-Plugin-Version' => SPLITEEZY_VERSION,
+            'X-Spliteezy-Timezone' => wp_timezone_string(),
             'Accept' => 'application/json',
         ];
     }
