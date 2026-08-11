@@ -181,6 +181,7 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 * Daily charts are bucketed by your website's own timezone instead of UTC, so days line up with your reporting.
 * Added hover tooltips to the daily performance chart.
 * Completed the Spanish and Brazilian Portuguese translations.
+* Fixed: the progress notice kept counting past a test's target sample, showing readings like "3,617 of 3,137 visitors per variant". It now reports the sample as complete.
 * Fixed: a test that failed partway through creation could leave an orphaned record behind.
 * Fixed: a duplicated string on the apply-variant action.
 

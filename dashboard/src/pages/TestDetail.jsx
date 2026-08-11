@@ -353,6 +353,9 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const currentVisitors = statistics?.current_visitors_per_variant ?? 0;
   const requiredVisitors = statistics?.required_visitors_per_variant ?? null;
   const daysLeft = statistics?.days_to_significance ?? null;
+  // Past the planned sample there is no progress left to report — counting on
+  // past the target reads as 3,617 of 3,137.
+  const sampleComplete = (statistics?.progress_percent ?? 0) >= 100;
   // The server owns the line — it also gates the equivalence verdict, and the
   // two must never disagree. Falls back for a payload frozen before the flag.
   const lowTraffic = statistics?.low_traffic ?? (statistics?.detectable_lift_percent ?? 0) >= 25;
@@ -512,13 +515,15 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
       {!hasWinner && verdict?.type !== 'equivalent' && requiredVisitors !== null && currentVisitors > 0 && (
         <div className="eezy-notice eezy-notice--info">
           <span>
-            {sprintf(
-              /* translators: 1: visitors so far, 2: visitors needed. */
-              __('%1$s of %2$s visitors per variant', 'spliteezy'),
-              currentVisitors.toLocaleString(),
-              requiredVisitors.toLocaleString()
-            )}
-            {daysLeft !== null && ` · ${sprintf(
+            {sampleComplete
+              ? __('Sample complete — no clear winner.', 'spliteezy')
+              : sprintf(
+                /* translators: 1: visitors so far, 2: visitors needed. */
+                __('%1$s of %2$s visitors per variant', 'spliteezy'),
+                currentVisitors.toLocaleString(),
+                requiredVisitors.toLocaleString()
+              )}
+            {!sampleComplete && daysLeft !== null && ` · ${sprintf(
               /* translators: %d: number of days. */
               __('about %d days left at current traffic', 'spliteezy'),
               daysLeft

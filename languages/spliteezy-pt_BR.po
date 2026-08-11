@@ -1538,3 +1538,7 @@ msgstr "Não conseguimos determinar um vencedor"
 #, js-format
 msgid "%1$s is winning — the change tested worse, so keep the original page. %2$s%% conv. rate at %3$s%% confidence."
 msgstr "%1$s está vencendo — a alteração teve desempenho pior, então mantenha a página original. Taxa de conversão de %2$s%% com %3$s%% de confiança."
+
+#: assets/js/dashboard.js:31
+msgid "Sample complete — no clear winner."
+msgstr "Amostra completa: sem um vencedor claro."
