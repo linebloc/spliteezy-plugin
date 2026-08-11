@@ -49,6 +49,7 @@ export default function TestCreate({ config, onBack, onOpenTest }) {
     timeCustom:    false,
     startMode:     'now',
     endMode:       'manual',
+    endAt:         '',
     scheduledAt:   '',
   });
 
@@ -650,6 +651,11 @@ const END_OPTIONS = [
     label: () => __('Automatically, once confident', 'spliteezy'),
     desc:  () => __('Spliteezy stops the test when a winner is clear. Your content is never changed for you.', 'spliteezy'),
   },
+  {
+    value: 'datetime',
+    label: () => __('On a date I choose', 'spliteezy'),
+    desc:  () => __('The test stops at a set moment, whatever the result looks like.', 'spliteezy'),
+  },
 ];
 
 // ── Step 3: Schedule + submit ───────────────────────────────────────────────
@@ -665,7 +671,8 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
   const schedulingMinPlan = plan.feature_min_plans?.scheduling ?? 'Pro';
   const testsLimit  = plan.tests_limit ?? -1;
   const atTestLimit = testsLimit > 0 && (plan.tests_used ?? 0) >= testsLimit;
-  const canSubmit   = form.startMode !== 'scheduled' || form.scheduledAt;
+  const canSubmit   = (form.startMode !== 'scheduled' || form.scheduledAt)
+    && (form.endMode !== 'datetime' || form.endAt);
 
   // All slots busy: starting immediately is off the table, but drafting and
   // scheduling always work — the test simply waits for a free slot.
@@ -703,7 +710,8 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
       goal_seconds:    form.goalSeconds,
       goal_event_name: form.goalEventName,
       start_mode:      form.startMode,
-      end_mode:        canAutoEnd ? form.endMode : 'manual',
+      end_mode:        canAutoEnd || form.endMode === 'datetime' ? form.endMode : 'manual',
+      end_value:       form.endMode === 'datetime' ? form.endAt : null,
       scheduled_at:    form.startMode === 'scheduled' ? form.scheduledAt : null,
     }));
     try {
@@ -782,6 +790,8 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
         <p className="eezy-form-label">{__('When should the test end?', 'spliteezy')}</p>
         <div className="eezy-start-options">
           {END_OPTIONS.map((opt) => {
+            // Only the statistical stop is a paid capability; picking a
+            // moment needs no inference.
             const locked = opt.value === 'confidence' && !canAutoEnd;
             return (
               <div key={opt.value} className={locked ? 'eezy-plan-gate-wrap' : ''}>
@@ -811,6 +821,19 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
             );
           })}
         </div>
+
+        {form.endMode === 'datetime' && (
+          <div className="eezy-datetime-field">
+            <label className="eezy-form-label--sm">{__('Finish date & time', 'spliteezy')}</label>
+            <input
+              type="datetime-local"
+              value={form.endAt}
+              onChange={(e) => update('endAt', e.target.value)}
+              min={new Date().toISOString().slice(0, 16)}
+              className="eezy-form-input eezy-form-input--auto"
+            />
+          </div>
+        )}
       </div>
 
       {error && <div className="eezy-form-error">{error}</div>}

@@ -103,8 +103,17 @@ class CreateTestPage
         $start_mode = sanitize_key($data['start_mode'] ?? 'draft');
         $end_mode = sanitize_key($data['end_mode'] ?? 'manual');
 
-        if (! in_array($end_mode, ['manual', 'confidence'], true)) {
+        if (! in_array($end_mode, ['manual', 'confidence', 'datetime'], true)) {
             $end_mode = 'manual';
+        }
+
+        $end_value = sanitize_text_field($data['end_value'] ?? '');
+
+        // A finish time that cannot be parsed would end the test immediately —
+        // fall back to running until the account says otherwise.
+        if ($end_mode === 'datetime' && (! $end_value || ! strtotime($end_value))) {
+            $end_mode = 'manual';
+            $end_value = '';
         }
         $scheduled_at = sanitize_text_field($data['scheduled_at'] ?? '');
         if ($scheduled_at && ! strtotime($scheduled_at)) {
@@ -152,6 +161,7 @@ class CreateTestPage
             'goal_event_name' => $goal_event_name ?: null,
             'start_mode' => $start_mode,
             'end_mode' => $end_mode,
+            'end_value' => $end_value ?: null,
             'scheduled_at' => $scheduled_at ?: null,
         ];
 

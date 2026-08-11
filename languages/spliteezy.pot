@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-11T13:24:03+00:00\n"
+"POT-Creation-Date: 2026-08-11T15:28:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: spliteezy\n"
@@ -94,12 +94,12 @@ msgstr ""
 msgid "Invalid request data."
 msgstr ""
 
-#: src/Admin/CreateTestPage.php:115
+#: src/Admin/CreateTestPage.php:124
 #: src/Admin/TestDetailPage.php:90
 msgid "Missing required fields."
 msgstr ""
 
-#: src/Admin/CreateTestPage.php:167
+#: src/Admin/CreateTestPage.php:177
 msgid "Could not register the test with Spliteezy. Check your connection in Settings."
 msgstr ""
 
@@ -1424,6 +1424,14 @@ msgid "Spliteezy stops the test when a winner is clear. Your content is never ch
 msgstr ""
 
 #: assets/js/dashboard.js:53
+msgid "On a date I choose"
+msgstr ""
+
+#: assets/js/dashboard.js:53
+msgid "The test stops at a set moment, whatever the result looks like."
+msgstr ""
+
+#: assets/js/dashboard.js:53
 msgid "Creating…"
 msgstr ""
 
@@ -1469,6 +1477,10 @@ msgstr ""
 #: assets/js/dashboard.js:57
 #, js-format
 msgid "Ending a test automatically needs the %s plan."
+msgstr ""
+
+#: assets/js/dashboard.js:57
+msgid "Finish date & time"
 msgstr ""
 
 #: assets/js/dashboard.js:57
