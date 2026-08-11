@@ -168,7 +168,8 @@ class Tracker
             return;
         }
 
-        $success = (new Client)->send_events(array_values($clean_events));
+        $client = new Client;
+        $success = $client->send_events(array_values($clean_events));
 
         if ($success) {
             // The API is answering again, so anything held back can go now.
@@ -182,8 +183,12 @@ class Tracker
         }
 
         // Kept rather than dropped: the visitor is already gone, and this is
-        // the only copy of what they did.
-        EventBuffer::store(array_values($clean_events));
+        // the only copy of what they did. A refusal the API meant — a rejected
+        // key, a malformed batch — is not queued, since retrying it forever
+        // would grow the queue without ever succeeding.
+        if ($client->last_failure_was_retryable()) {
+            EventBuffer::store(array_values($clean_events));
+        }
 
         wp_send_json_error(['message' => 'API error'], 502);
     }

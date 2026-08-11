@@ -29,8 +29,15 @@ class EventBuffer
 
     private const SCHEMA_OPTION = 'spliteezy_event_queue_version';
 
-    /** The API refuses events older than 7 days, so holding them past that is pointless. */
-    private const MAX_AGE = 6 * DAY_IN_SECONDS;
+    /**
+     * Kept just inside the API's 30-day acceptance window.
+     *
+     * This is not a retention policy — the queue empties by delivery, and a row
+     * only leaves before that if the API would refuse it anyway. Dropping
+     * anything the API would still take would be losing data on a timer, which
+     * is the failure this class exists to prevent.
+     */
+    private const MAX_AGE = 29 * DAY_IN_SECONDS;
 
     /**
      * A backstop against filling the disk, not a retention policy — age does
@@ -162,9 +169,17 @@ class EventBuffer
                 $ids[] = (int) $row->id;
             }
 
-            // Still unreachable — leave the rest for the next attempt.
             if ($events && ! $client->send_events($events)) {
-                return;
+                // Still unreachable — leave the rest for the next attempt.
+                if ($client->last_failure_was_retryable()) {
+                    return;
+                }
+
+                // Refused outright and always will be: drop it rather than
+                // retry these rows on every cron run forever.
+                self::deleteIds($ids);
+
+                continue;
             }
 
             self::deleteIds($ids);

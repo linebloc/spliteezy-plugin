@@ -156,7 +156,7 @@ No IP addresses, names, email addresses, or other personally identifying informa
 
 = Temporary storage on your site =
 
-If the Spliteezy API cannot be reached, the events listed above are held in a table in your WordPress database and sent again once the connection is restored, so an outage does not silently lose a day of results. Nothing is kept for longer than six days, rows are removed as soon as they are delivered, and uninstalling the plugin drops the table.
+If the Spliteezy API cannot be reached, the events listed above are held in a table in your WordPress database and sent again once the connection is restored, so an outage does not silently lose a day of results. Rows are removed as soon as they are delivered, nothing is kept beyond thirty days, and uninstalling the plugin drops the table.
 
 = Responsibility of website owners =
 

@@ -201,6 +201,23 @@ class Client
     }
 
     /**
+     * Whether the last failure is worth queueing for another attempt.
+     *
+     * A refusal the API means (a rejected key, a malformed batch) will be
+     * refused again forever, and buffering it would grow the queue without
+     * bound. Only being unable to reach the API, or reaching one that is
+     * broken, is retryable.
+     */
+    public function last_failure_was_retryable(): bool
+    {
+        $status = (int) ($this->last_error['status'] ?? 0);
+
+        // 0 means the request never reached the API at all — a network error or
+        // timeout, which is exactly the case worth holding on to.
+        return $status === 0 || $status >= 500;
+    }
+
+    /**
      * Revoke this site's API key server-side (called on Disconnect).
      */
     public function disconnect(): bool
