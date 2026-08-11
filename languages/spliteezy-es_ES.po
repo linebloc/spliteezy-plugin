@@ -1478,3 +1478,11 @@ msgstr "Qué seguridad tenemos de que la diferencia entre variantes es real y no
 #: assets/js/dashboard.js:43
 msgid "Relative change vs Control's own conversion rate — not a percentage-point gap. A move from 14.16% to 13.59% shows here as about 4% lower, even though the actual difference is under 1 percentage point."
 msgstr "Cambio relativo respecto a la tasa de conversión del Control, no una diferencia en puntos porcentuales. Pasar de 14.16% a 13.59% aparece aquí como un 4% menos, aunque la diferencia real sea inferior a 1 punto porcentual."
+
+#: assets/js/dashboard.js:39
+msgid "Collecting"
+msgstr "Recopilando"
+
+#: assets/js/dashboard.js:39
+msgid "Not enough conversion data yet to measure"
+msgstr "Aún no hay suficientes datos de conversión para medir"

@@ -340,6 +340,9 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const requiredVisitors = statistics?.required_visitors_per_variant ?? null;
   const daysLeft = statistics?.days_to_significance ?? null;
   const lowTraffic = (statistics?.detectable_lift_percent ?? 0) >= 25;
+  // Too few visitors is a progress story; enough visitors but too few
+  // conversions among them is not.
+  const shortOnVisitors = currentVisitors < minVisitors;
 
   // Built from the reason key, not the server's message: API text is English.
   const holdMessage = conclusion?.reason === 'runtime'
@@ -551,10 +554,14 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
           label={__('Confidence', 'spliteezy')}
           value={testConfidence !== null && !confidenceLowData
             ? `${testConfidence.toFixed(1)}%`
-            : `${currentVisitors.toLocaleString()} / ${minVisitors.toLocaleString()}`}
+            : shortOnVisitors
+              ? `${currentVisitors.toLocaleString()} / ${minVisitors.toLocaleString()}`
+              : __('Collecting', 'spliteezy')}
           sub={testConfidence !== null && !confidenceLowData
             ? sprintf(/* translators: %d: confidence threshold percentage. */ __('Target: %d%%', 'spliteezy'), test.confidence_threshold ?? 95)
-            : __('Visitors per variant before this can be measured', 'spliteezy')}
+            : shortOnVisitors
+              ? __('Visitors per variant before this can be measured', 'spliteezy')
+              : __('Not enough conversion data yet to measure', 'spliteezy')}
           info={sprintf(
             /* translators: %d: confidence threshold percentage. */
             __('How certain we are that the difference between variants is real and not random chance. When it crosses your %d%% threshold, a winner can be declared.', 'spliteezy'),
