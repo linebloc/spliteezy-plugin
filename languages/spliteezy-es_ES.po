@@ -1532,3 +1532,9 @@ msgstr "Cada cinco minutos (Spliteezy)"
 #: assets/js/dashboard.js:31
 msgid "We could not call a winner"
 msgstr "No pudimos determinar un ganador"
+
+#. translators: 1: variant name, 2: conversion rate, 3: confidence percentage.
+#: assets/js/dashboard.js:30
+#, js-format
+msgid "%1$s is winning — the change tested worse, so keep the original page. %2$s%% conv. rate at %3$s%% confidence."
+msgstr "%1$s está ganando — el cambio funcionó peor, así que conserva la página original. %2$s%% de tasa de conversión con un %3$s%% de confianza."

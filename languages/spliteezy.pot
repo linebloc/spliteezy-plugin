@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-11T17:19:19+00:00\n"
+"POT-Creation-Date: 2026-08-11T17:45:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: spliteezy\n"
@@ -943,6 +943,12 @@ msgstr ""
 
 #: assets/js/dashboard.js:29
 msgid "on each variant below before starting the test."
+msgstr ""
+
+#. translators: 1: variant name, 2: conversion rate, 3: confidence percentage.
+#: assets/js/dashboard.js:30
+#, js-format
+msgid "%1$s is winning — the change tested worse, so keep the original page. %2$s%% conv. rate at %3$s%% confidence."
 msgstr ""
 
 #. translators: 1: variant name, 2: conversion rate, 3: confidence percentage.

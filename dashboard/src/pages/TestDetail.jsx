@@ -329,8 +329,22 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   // auto-ender uses, so the page can't crown a winner it is still holding.
   const conclusion = statistics?.conclusion ?? null;
   const isSignificant = verdict?.type === 'significant' && !!winnerVariant && !!winnerStats;
-  const hasWinner = isSignificant && (conclusion?.ready ?? false);
-  const isLeading = isSignificant && !(conclusion?.ready ?? false);
+  // The original beating the challenger is a decided test too — same banner,
+  // but there is nothing to apply, the winning page is already live.
+  const controlWon = verdict?.type === 'control_wins' && !!winnerVariant && !!winnerStats;
+  const decided = isSignificant || controlWon;
+  const hasWinner = decided && (conclusion?.ready ?? false);
+  const isLeading = decided && !(conclusion?.ready ?? false);
+
+  // Comments sit inline, immediately before the call: make-pot reads the
+  // minified bundle, where only a leading comment stays attached to its string.
+  const winnerTemplate = () => {
+    if (controlWon) {
+      return /* translators: 1: variant name, 2: conversion rate, 3: confidence percentage. */ __('%1$s is winning — the change tested worse, so keep the original page. %2$s%% conv. rate at %3$s%% confidence.', 'spliteezy');
+    }
+
+    return /* translators: 1: variant name, 2: conversion rate, 3: confidence percentage. */ __('%1$s is winning — %2$s%% conv. rate at %3$s%% confidence.', 'spliteezy');
+  };
 
   const testConfidence = statistics?.confidence ?? null;
   const confidenceLowData = !(statistics?.has_enough_data ?? false);
@@ -339,7 +353,9 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const currentVisitors = statistics?.current_visitors_per_variant ?? 0;
   const requiredVisitors = statistics?.required_visitors_per_variant ?? null;
   const daysLeft = statistics?.days_to_significance ?? null;
-  const lowTraffic = (statistics?.detectable_lift_percent ?? 0) >= 25;
+  // The server owns the line — it also gates the equivalence verdict, and the
+  // two must never disagree. Falls back for a payload frozen before the flag.
+  const lowTraffic = statistics?.low_traffic ?? (statistics?.detectable_lift_percent ?? 0) >= 25;
   // Too few visitors is a progress story; enough visitors but too few
   // conversions among them is not.
   const shortOnVisitors = currentVisitors < minVisitors;
@@ -463,17 +479,16 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
       {/* ── Winner banner ── */}
       {hasWinner && (
         <div className="eezy-banner eezy-banner--winner">
-          <span className="eezy-banner__badge">A</span>
+          <span className="eezy-banner__badge">{(variantName(winnerVariant) || 'A').charAt(0).toUpperCase()}</span>
           <span style={{ flex: 1 }}>
             {sprintf(
-              /* translators: 1: variant name, 2: conversion rate, 3: confidence percentage. */
-              __('%1$s is winning — %2$s%% conv. rate at %3$s%% confidence.', 'spliteezy'),
+              winnerTemplate(),
               variantName(winnerVariant) || __('Variant A', 'spliteezy'),
               Number(winnerStats.conversion_rate).toFixed(2),
               Number(winnerStats.confidence).toFixed(1)
             )}
           </span>
-          {['ended', 'winner'].includes(test.status) && winnerVariant.post_id && (
+          {!controlWon && ['ended', 'winner'].includes(test.status) && winnerVariant.post_id && (
             <button
               className="eezy-btn eezy-btn--primary eezy-btn--sm"
               disabled={actioning}
