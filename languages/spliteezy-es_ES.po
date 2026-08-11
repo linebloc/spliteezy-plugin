@@ -270,12 +270,12 @@ msgstr "No autorizado."
 msgid "Invalid request data."
 msgstr "Datos de la solicitud no válidos."
 
-#: src/Admin/CreateTestPage.php:110
+#: src/Admin/CreateTestPage.php:115
 #: src/Admin/TestDetailPage.php:90
 msgid "Missing required fields."
 msgstr "Faltan campos obligatorios."
 
-#: src/Admin/CreateTestPage.php:161
+#: src/Admin/CreateTestPage.php:167
 msgid "Could not register the test with Spliteezy. Check your connection in Settings."
 msgstr "No se pudo registrar el test en Spliteezy. Comprueba tu conexión en Ajustes."
 
@@ -618,7 +618,7 @@ msgid "Check your connection in Settings"
 msgstr "Comprueba tu conexión en Ajustes"
 
 #: assets/js/dashboard.js:1
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "Dismiss"
 msgstr "Descartar"
 
@@ -667,7 +667,7 @@ msgstr "La acción falló."
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:27
 #: assets/js/dashboard.js:29
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "Network error — please try again."
 msgstr "Error de red — inténtalo de nuevo."
 
@@ -848,7 +848,7 @@ msgstr "Cargando…"
 
 #: assets/js/dashboard.js:29
 #: assets/js/dashboard.js:53
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "← Back"
 msgstr "← Volver"
 
@@ -1362,15 +1362,15 @@ msgstr "y superiores"
 msgid "Start date & time"
 msgstr "Fecha y hora de inicio"
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "Something went wrong. Please try again."
 msgstr "Algo salió mal. Inténtalo de nuevo."
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "Connection error:"
 msgstr "Error de conexión:"
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:57
 msgid "Check settings →"
 msgstr "Comprobar ajustes →"
 
@@ -1486,3 +1486,29 @@ msgstr "Aún no hay suficientes datos de conversión para medir"
 #: assets/js/dashboard.js:29
 msgid "A winner is not called until the test has covered whole weeks, so one unusual week cannot decide it."
 msgstr "No se declara un ganador hasta que la prueba haya cubierto semanas completas, para que una semana atípica no pueda decidirla."
+
+#: assets/js/dashboard.js:53
+msgid "I decide"
+msgstr "Yo decido"
+
+#: assets/js/dashboard.js:53
+msgid "The test runs until you stop it. You choose the winner."
+msgstr "La prueba se ejecuta hasta que la detengas. Tú eliges al ganador."
+
+#: assets/js/dashboard.js:53
+msgid "Automatically, once confident"
+msgstr "Automáticamente, cuando haya confianza"
+
+#: assets/js/dashboard.js:53
+msgid "Spliteezy stops the test when a winner is clear. Your content is never changed for you."
+msgstr "Spliteezy detiene la prueba cuando hay un ganador claro. Tu contenido nunca se cambia automáticamente."
+
+#: assets/js/dashboard.js:55
+msgid "When should the test end?"
+msgstr "¿Cuándo debe terminar la prueba?"
+
+#. translators: %s: plan name.
+#: assets/js/dashboard.js:57
+#, js-format
+msgid "Ending a test automatically needs the %s plan."
+msgstr "Finalizar una prueba automáticamente requiere el plan %s."

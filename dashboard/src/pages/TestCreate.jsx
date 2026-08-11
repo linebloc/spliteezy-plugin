@@ -48,6 +48,7 @@ export default function TestCreate({ config, onBack, onOpenTest }) {
     scrollCustom:  false,
     timeCustom:    false,
     startMode:     'now',
+    endMode:       'manual',
     scheduledAt:   '',
   });
 
@@ -638,6 +639,19 @@ function GoalConfig({ form, update }) {
   return null;
 }
 
+const END_OPTIONS = [
+  {
+    value: 'manual',
+    label: () => __('I decide', 'spliteezy'),
+    desc:  () => __('The test runs until you stop it. You choose the winner.', 'spliteezy'),
+  },
+  {
+    value: 'confidence',
+    label: () => __('Automatically, once confident', 'spliteezy'),
+    desc:  () => __('Spliteezy stops the test when a winner is clear. Your content is never changed for you.', 'spliteezy'),
+  },
+];
+
 // ── Step 3: Schedule + submit ───────────────────────────────────────────────
 
 function ScheduleStep({ config, form, update, onBack, onSuccess }) {
@@ -646,6 +660,8 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
 
   const plan        = config.plan ?? {};
   const canSchedule = plan.scheduling ?? false;
+  const canAutoEnd  = plan.auto_end ?? false;
+  const autoEndMinPlan = plan.feature_min_plans?.auto_end ?? 'Pro';
   const schedulingMinPlan = plan.feature_min_plans?.scheduling ?? 'Pro';
   const testsLimit  = plan.tests_limit ?? -1;
   const atTestLimit = testsLimit > 0 && (plan.tests_used ?? 0) >= testsLimit;
@@ -687,6 +703,7 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
       goal_seconds:    form.goalSeconds,
       goal_event_name: form.goalEventName,
       start_mode:      form.startMode,
+      end_mode:        canAutoEnd ? form.endMode : 'manual',
       scheduled_at:    form.startMode === 'scheduled' ? form.scheduledAt : null,
     }));
     try {
@@ -758,6 +775,42 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
             />
           </div>
         )}
+      </div>
+
+
+      <div className="eezy-card-body">
+        <p className="eezy-form-label">{__('When should the test end?', 'spliteezy')}</p>
+        <div className="eezy-start-options">
+          {END_OPTIONS.map((opt) => {
+            const locked = opt.value === 'confidence' && !canAutoEnd;
+            return (
+              <div key={opt.value} className={locked ? 'eezy-plan-gate-wrap' : ''}>
+                <label className={`eezy-start-option ${form.endMode === opt.value ? 'eezy-start-option--active' : ''} ${locked ? 'eezy-start-option--locked' : ''}`}>
+                  <input
+                    type="radio"
+                    name="endMode"
+                    value={opt.value}
+                    checked={form.endMode === opt.value}
+                    onChange={() => !locked && update('endMode', opt.value)}
+                    disabled={locked}
+                  />
+                  <div>
+                    <div className="eezy-start-option__label">{opt.label()}</div>
+                    <div className="eezy-start-option__desc">{opt.desc()}</div>
+                  </div>
+                </label>
+                {locked && (
+                  <div className="eezy-plan-gate-overlay">
+                    <span className="eezy-plan-gate-overlay__lock">🔒</span>
+                    <span className="eezy-plan-gate-overlay__text">
+                      {sprintf(/* translators: %s: plan name. */ __('Ending a test automatically needs the %s plan.', 'spliteezy'), autoEndMinPlan)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {error && <div className="eezy-form-error">{error}</div>}

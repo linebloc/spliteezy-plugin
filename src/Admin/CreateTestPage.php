@@ -101,6 +101,11 @@ class CreateTestPage
         $goal_seconds = (int) ($data['goal_seconds'] ?? 30);
         $goal_event_name = sanitize_key($data['goal_event_name'] ?? '');
         $start_mode = sanitize_key($data['start_mode'] ?? 'draft');
+        $end_mode = sanitize_key($data['end_mode'] ?? 'manual');
+
+        if (! in_array($end_mode, ['manual', 'confidence'], true)) {
+            $end_mode = 'manual';
+        }
         $scheduled_at = sanitize_text_field($data['scheduled_at'] ?? '');
         if ($scheduled_at && ! strtotime($scheduled_at)) {
             $scheduled_at = '';
@@ -146,6 +151,7 @@ class CreateTestPage
             'goal_seconds' => $goal_seconds,
             'goal_event_name' => $goal_event_name ?: null,
             'start_mode' => $start_mode,
+            'end_mode' => $end_mode,
             'scheduled_at' => $scheduled_at ?: null,
         ];
 
