@@ -4,7 +4,7 @@ Tags: a/b testing, split testing, conversion optimization, cro, experiments
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.10.2
+Stable tag: 0.11.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,5 +171,23 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 
 == Changelog ==
 
+= 0.11.0 =
+* Results now survive a Spliteezy outage. If the API can't be reached, events are held in a table in your own database and sent again once the connection is back, instead of being dropped. Rows leave the queue as soon as they are delivered, nothing is kept beyond thirty days, and uninstalling the plugin removes the table.
+* You can now choose how a test finishes when you create it: stop it yourself, stop automatically once the result is confident, or set a finish date.
+* Confidence now means what people read it to mean — the chance a variant is genuinely ahead. It is calculated in one place and shared, so the plugin, the test list and your Spliteezy dashboard no longer show different numbers for the same test.
+* A test the original page wins is now reported as a result in its own right, instead of "no clear winner". Knowing a change would have cost you conversions is worth as much as finding one that gains them.
+* Tests on low-traffic pages are told when a difference is simply too small for that page's traffic to resolve, rather than being left to run indefinitely for a verdict that will never arrive.
+* The test page now shows how far a test has come, and why a winner is being held back when one is close.
+* Daily charts are bucketed by your website's own timezone instead of UTC, so days line up with your reporting.
+* Added hover tooltips to the daily performance chart.
+* Completed the Spanish and Brazilian Portuguese translations.
+* Fixed: a test that failed partway through creation could leave an orphaned record behind.
+* Fixed: a duplicated string on the apply-variant action.
+
 = 0.10.2 =
 * Initial release.
+
+== Upgrade Notice ==
+
+= 0.11.0 =
+Events are no longer lost when Spliteezy is unreachable — they are queued on your own site and resent once the connection returns. Recommended for every site.

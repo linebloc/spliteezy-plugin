@@ -785,8 +785,7 @@ function ScheduleStep({ config, form, update, onBack, onSuccess }) {
         )}
       </div>
 
-
-      <div className="eezy-card-body">
+      <div>
         <p className="eezy-form-label">{__('When should the test end?', 'spliteezy')}</p>
         <div className="eezy-start-options">
           {END_OPTIONS.map((opt) => {
