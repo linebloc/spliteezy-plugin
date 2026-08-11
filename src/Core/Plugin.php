@@ -11,6 +11,7 @@ use Spliteezy\Admin\TestListPage;
 use Spliteezy\Admin\VariantsPage;
 use Spliteezy\Api\Manifest;
 use Spliteezy\PostTypes\VariantPostType;
+use Spliteezy\Tracking\EventBuffer;
 use Spliteezy\Tracking\Tracker;
 
 defined('ABSPATH') || exit;
@@ -40,6 +41,25 @@ final class Plugin
     {
         // Plugin-shipped translations (languages/). Translations delivered by
         // wordpress.org load automatically and take precedence when present.
+        // A five-minute interval WordPress does not ship with.
+        add_filter('cron_schedules', static function (array $schedules): array {
+            $schedules['spliteezy_five_minutes'] = [
+                'interval' => 300,
+                'display' => __('Every five minutes (Spliteezy)', 'spliteezy'),
+            ];
+
+            return $schedules;
+        });
+
+        add_action('spliteezy_flush_event_buffer', [EventBuffer::class, 'flush']);
+
+        // Self-heals installs that upgraded into this without reactivating.
+        add_action('init', static function (): void {
+            if (! wp_next_scheduled('spliteezy_flush_event_buffer')) {
+                wp_schedule_event(time() + 300, 'spliteezy_five_minutes', 'spliteezy_flush_event_buffer');
+            }
+        });
+
         add_action('init', static function (): void {
             load_plugin_textdomain('spliteezy', false, dirname(plugin_basename(SPLITEEZY_FILE)).'/languages');
         });

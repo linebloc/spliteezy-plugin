@@ -1524,3 +1524,7 @@ msgstr "La prueba se detiene en un momento fijado, sea cual sea el resultado."
 #: assets/js/dashboard.js:57
 msgid "Finish date & time"
 msgstr "Fecha y hora de finalización"
+
+#: src/Core/Plugin.php:48
+msgid "Every five minutes (Spliteezy)"
+msgstr "Cada cinco minutos (Spliteezy)"

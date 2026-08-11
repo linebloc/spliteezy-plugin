@@ -171,10 +171,21 @@ class Tracker
         $success = (new Client)->send_events(array_values($clean_events));
 
         if ($success) {
+            // The API is answering again, so anything held back can go now.
+            if (EventBuffer::count() > 0) {
+                EventBuffer::flush();
+            }
+
             wp_send_json_success();
-        } else {
-            wp_send_json_error(['message' => 'API error'], 502);
+
+            return;
         }
+
+        // Kept rather than dropped: the visitor is already gone, and this is
+        // the only copy of what they did.
+        EventBuffer::store(array_values($clean_events));
+
+        wp_send_json_error(['message' => 'API error'], 502);
     }
 
     /**
@@ -276,6 +287,9 @@ class Tracker
                 $meta_raw
             ),
             'occurred_at' => absint($event['occurred_at'] ?? time()),
+            // Assigned here, not by the API, so a resent batch is recognised
+            // as the same events rather than counted twice.
+            'id' => self::uuid4(),
         ];
     }
 
@@ -294,5 +308,25 @@ class Tracker
         }
 
         return [];
+    }
+
+    /**
+     * A v4 UUID without relying on any PHP extension.
+     */
+    private static function uuid4(): string
+    {
+        $bytes = function_exists('random_bytes') ? random_bytes(16) : '';
+
+        if (strlen($bytes) !== 16) {
+            $bytes = '';
+            for ($i = 0; $i < 16; $i++) {
+                $bytes .= chr(wp_rand(0, 255));
+            }
+        }
+
+        $bytes[6] = chr((ord($bytes[6]) & 0x0F) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3F) | 0x80);
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
     }
 }

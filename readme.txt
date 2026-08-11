@@ -154,6 +154,10 @@ The following data is sent to the Spliteezy API (https://spliteezy.com):
 
 No IP addresses, names, email addresses, or other personally identifying information are included in these transmissions.
 
+= Temporary storage on your site =
+
+If the Spliteezy API cannot be reached, the events listed above are held in your WordPress database (the `spliteezy_event_buffer` option) and sent again once the connection is restored, so an outage does not silently lose a day of results. The store is capped, holds nothing for longer than six days, and is emptied as soon as the events are delivered. Uninstalling the plugin deletes it.
+
 = Responsibility of website owners =
 
 If your visitors are located in the EU or other regions governed by privacy regulations (GDPR, ePrivacy, CCPA, LGPD, etc.) you are responsible for disclosing this data collection in your website's Privacy Policy and, where applicable, obtaining visitor consent before Spliteezy runs.

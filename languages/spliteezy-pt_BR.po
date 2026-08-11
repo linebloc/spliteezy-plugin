@@ -1524,3 +1524,7 @@ msgstr "O teste para em um momento definido, seja qual for o resultado."
 #: assets/js/dashboard.js:57
 msgid "Finish date & time"
 msgstr "Data e hora de término"
+
+#: src/Core/Plugin.php:48
+msgid "Every five minutes (Spliteezy)"
+msgstr "A cada cinco minutos (Spliteezy)"
