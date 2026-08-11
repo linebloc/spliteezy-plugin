@@ -1436,10 +1436,6 @@ msgid "More info"
 msgstr "Más información"
 
 #: assets/js/dashboard.js:29
-msgid "A winner is not called until the test has run a full week, so results cover every day."
-msgstr "No se declara un ganador hasta que la prueba lleve una semana completa, para que los resultados cubran todos los días."
-
-#: assets/js/dashboard.js:29
 msgid "This lead is still within the range chance produces on a part-finished test."
 msgstr "Esta ventaja todavía está dentro del rango que el azar produce en una prueba sin terminar."
 
@@ -1486,3 +1482,7 @@ msgstr "Recopilando"
 #: assets/js/dashboard.js:39
 msgid "Not enough conversion data yet to measure"
 msgstr "Aún no hay suficientes datos de conversión para medir"
+
+#: assets/js/dashboard.js:29
+msgid "A winner is not called until the test has covered whole weeks, so one unusual week cannot decide it."
+msgstr "No se declara un ganador hasta que la prueba haya cubierto semanas completas, para que una semana atípica no pueda decidirla."

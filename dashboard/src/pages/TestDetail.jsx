@@ -346,7 +346,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
 
   // Built from the reason key, not the server's message: API text is English.
   const holdMessage = conclusion?.reason === 'runtime'
-    ? __('A winner is not called until the test has run a full week, so results cover every day.', 'spliteezy')
+    ? __('A winner is not called until the test has covered whole weeks, so one unusual week cannot decide it.', 'spliteezy')
     : conclusion?.reason === 'evidence'
       ? __('This lead is still within the range chance produces on a part-finished test.', 'spliteezy')
       : null;
