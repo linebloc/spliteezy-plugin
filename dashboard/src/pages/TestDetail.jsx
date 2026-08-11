@@ -485,8 +485,22 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
         </div>
       )}
 
+      {/* ── Finished with no winner to find ── */}
+      {verdict?.type === 'equivalent' && (
+        <div className="eezy-notice eezy-notice--info">
+          <strong>{__('This test has run its course', 'spliteezy')}</strong>
+          <span style={{ display: 'block', marginTop: 2 }}>
+            {sprintf(
+              /* translators: %s: smallest detectable change, e.g. 16.1. */
+              __('No meaningful difference — any gap is smaller than %s%%, the smallest change this page\'s traffic can measure. Keep the original, or try a bolder change.', 'spliteezy'),
+              Number(statistics?.detectable_lift_percent ?? 0).toFixed(1)
+            )}
+          </span>
+        </div>
+      )}
+
       {/* ── Where the test is up to ── */}
-      {!hasWinner && requiredVisitors !== null && currentVisitors > 0 && (
+      {!hasWinner && verdict?.type !== 'equivalent' && requiredVisitors !== null && currentVisitors > 0 && (
         <div className="eezy-notice eezy-notice--info">
           <span>
             {sprintf(
