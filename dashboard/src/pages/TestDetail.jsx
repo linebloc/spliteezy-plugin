@@ -6,7 +6,7 @@ import ConfidenceMeter from '../components/ConfidenceMeter.jsx';
 import DropdownMenu from '../components/DropdownMenu.jsx';
 import TimeSeriesChart from '../components/TimeSeriesChart.jsx';
 import InfoTip from '../components/InfoTip.jsx';
-import { conversionRate, relativeUplift, formatDate, daysRunning } from '../utils/stats.js';
+import { conversionRate, formatDate, daysRunning } from '../utils/stats.js';
 
 const VARIANT_COLORS = ['#6B7280', '#5B4CF5', '#B8862F', '#C2554A', '#5E6AD2'];
 
@@ -488,14 +488,8 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
       {/* ── Finished with no winner to find ── */}
       {verdict?.type === 'equivalent' && (
         <div className="eezy-notice eezy-notice--info">
-          <strong>{__('This test has run its course', 'spliteezy')}</strong>
-          <span style={{ display: 'block', marginTop: 2 }}>
-            {sprintf(
-              /* translators: %s: smallest detectable change, e.g. 16.1. */
-              __('No meaningful difference — any gap is smaller than %s%%, the smallest change this page\'s traffic can measure. Keep the original, or try a bolder change.', 'spliteezy'),
-              Number(statistics?.detectable_lift_percent ?? 0).toFixed(1)
-            )}
-          </span>
+          <strong>{__('We could not call a winner', 'spliteezy')}</strong>
+          {verdict.message && <span style={{ display: 'block', marginTop: 2 }}>{verdict.message}</span>}
         </div>
       )}
 
@@ -629,7 +623,10 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
             const isControl = !!v.is_control;
             const sig = isControl ? null : statsByVariantId[v.id];
             const rate = conversionRate(v.conversions ?? 0, v.visitors ?? 0);
-            const uplift = isControl ? null : relativeUplift(rate, controlRate);
+            // Straight from the server: it is measured week by week, so a
+            // rate-vs-rate subtraction here would disagree with every other
+            // figure on the page.
+            const uplift = isControl ? null : (sig?.relative_uplift ?? null);
             const viewUrl = isControl ? test.target_url : null;
             const editUrl = !isControl && v.post_id && test.status !== 'active'
               ? `${config.admin_url}post.php?post=${v.post_id}&action=edit`

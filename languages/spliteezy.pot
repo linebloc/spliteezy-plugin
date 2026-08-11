@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-11T17:06:42+00:00\n"
+"POT-Creation-Date: 2026-08-11T17:19:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: spliteezy\n"
@@ -605,7 +605,7 @@ msgid "Check your connection in Settings"
 msgstr ""
 
 #: assets/js/dashboard.js:1
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Dismiss"
 msgstr ""
 
@@ -620,22 +620,22 @@ msgid "Goal"
 msgstr ""
 
 #: assets/js/dashboard.js:3
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Split"
 msgstr ""
 
 #: assets/js/dashboard.js:3
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Visitors"
 msgstr ""
 
 #: assets/js/dashboard.js:3
-#: assets/js/dashboard.js:39
+#: assets/js/dashboard.js:37
 msgid "Started"
 msgstr ""
 
 #: assets/js/dashboard.js:3
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Confidence"
 msgstr ""
 
@@ -654,7 +654,7 @@ msgstr ""
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:27
 #: assets/js/dashboard.js:29
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Network error — please try again."
 msgstr ""
 
@@ -703,36 +703,36 @@ msgstr ""
 
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:13
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Page reached"
 msgstr ""
 
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:13
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Click"
 msgstr ""
 
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:13
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Scroll depth"
 msgstr ""
 
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:13
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Time on page"
 msgstr ""
 
 #: assets/js/dashboard.js:5
 #: assets/js/dashboard.js:13
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Element view"
 msgstr ""
 
 #: assets/js/dashboard.js:5
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Video play"
 msgstr ""
 
@@ -773,7 +773,7 @@ msgid "Visitors this month"
 msgstr ""
 
 #: assets/js/dashboard.js:11
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Conversions"
 msgstr ""
 
@@ -853,14 +853,14 @@ msgid "Variant %s"
 msgstr ""
 
 #: assets/js/dashboard.js:21
-#: assets/js/dashboard.js:45
-#: assets/js/dashboard.js:49
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:47
+#: assets/js/dashboard.js:51
 msgid "Control"
 msgstr ""
 
 #: assets/js/dashboard.js:21
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Variant"
 msgstr ""
 
@@ -894,8 +894,8 @@ msgid "Loading…"
 msgstr ""
 
 #: assets/js/dashboard.js:29
-#: assets/js/dashboard.js:55
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:57
 msgid "← Back"
 msgstr ""
 
@@ -908,7 +908,7 @@ msgid "This lead is still within the range chance produces on a part-finished te
 msgstr ""
 
 #: assets/js/dashboard.js:29
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "← Tests"
 msgstr ""
 
@@ -925,7 +925,7 @@ msgid "Start Test"
 msgstr ""
 
 #: assets/js/dashboard.js:29
-#: assets/js/dashboard.js:49
+#: assets/js/dashboard.js:47
 msgid "Adjust split"
 msgstr ""
 
@@ -952,14 +952,14 @@ msgid "%1$s is winning — %2$s%% conv. rate at %3$s%% confidence."
 msgstr ""
 
 #: assets/js/dashboard.js:31
-#: assets/js/dashboard.js:39
-#: assets/js/dashboard.js:49
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:37
+#: assets/js/dashboard.js:47
+#: assets/js/dashboard.js:51
 msgid "Variant A"
 msgstr ""
 
 #: assets/js/dashboard.js:31
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "this variant"
 msgstr ""
 
@@ -968,544 +968,538 @@ msgid "Apply to website"
 msgstr ""
 
 #: assets/js/dashboard.js:31
-msgid "This test has run its course"
-msgstr ""
-
-#. translators: %s: smallest detectable change, e.g. 16.1.
-#: assets/js/dashboard.js:33
-#, js-format
-msgid "No meaningful difference — any gap is smaller than %s%%, the smallest change this page's traffic can measure. Keep the original, or try a bolder change."
+msgid "We could not call a winner"
 msgstr ""
 
 #. translators: 1: visitors so far, 2: visitors needed.
-#: assets/js/dashboard.js:35
+#: assets/js/dashboard.js:33
 #, js-format
 msgid "%1$s of %2$s visitors per variant"
 msgstr ""
 
 #. translators: %d: number of days.
-#: assets/js/dashboard.js:37
+#: assets/js/dashboard.js:35
 #, js-format
 msgid "about %d days left at current traffic"
 msgstr ""
 
-#: assets/js/dashboard.js:37
+#: assets/js/dashboard.js:35
 msgid "This page has low traffic — test bolder changes, as small tweaks will not show up clearly here."
 msgstr ""
 
 #. translators: %s: variant name.
-#: assets/js/dashboard.js:39
+#: assets/js/dashboard.js:37
 #, js-format
 msgid "%s is ahead — not final yet"
 msgstr ""
 
 #. translators: %d: number of days.
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 #, js-format
 msgid "%d days running"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Started today"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Control / Variant A"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Primary goal"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Collecting"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Visitors per variant before this can be measured"
 msgstr ""
 
-#: assets/js/dashboard.js:41
+#: assets/js/dashboard.js:39
 msgid "Not enough conversion data yet to measure"
 msgstr ""
 
 #. translators: %d: confidence threshold percentage.
-#: assets/js/dashboard.js:43
+#: assets/js/dashboard.js:41
 #, js-format
 msgid "Target: %d%%"
 msgstr ""
 
 #. translators: %d: confidence threshold percentage.
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 #, js-format
 msgid "How certain we are that the difference between variants is real and not random chance. When it crosses your %d%% threshold, a winner can be declared."
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Performance"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Conversion rate"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Unique conversions"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Unique visitors"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Conv. Rate"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Chance to win"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Baseline"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Relative change vs Control's own conversion rate — not a percentage-point gap. A move from 14.16% to 13.59% shows here as about 4% lower, even though the actual difference is under 1 percentage point."
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "View →"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Edit content →"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Edit →"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Apply"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "History"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Test created"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Test activated"
 msgstr ""
 
-#: assets/js/dashboard.js:45
+#: assets/js/dashboard.js:43
 msgid "Test ended"
 msgstr ""
 
 #. translators: 1: previous test name, 2: new test name.
-#: assets/js/dashboard.js:47
+#: assets/js/dashboard.js:45
 #, js-format
 msgid "Renamed from \"%1$s\" to \"%2$s\""
 msgstr ""
 
 #. translators: 1: previous split, 2: new split.
-#: assets/js/dashboard.js:49
+#: assets/js/dashboard.js:47
 #, js-format
 msgid "Split changed from %1$s to %2$s"
 msgstr ""
 
-#: assets/js/dashboard.js:49
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:47
+#: assets/js/dashboard.js:51
 msgid "Original page"
 msgstr ""
 
-#: assets/js/dashboard.js:49
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:47
+#: assets/js/dashboard.js:51
 msgid "Variant page"
 msgstr ""
 
-#: assets/js/dashboard.js:49
+#: assets/js/dashboard.js:47
 msgid "Cancel"
 msgstr ""
 
-#: assets/js/dashboard.js:49
+#: assets/js/dashboard.js:47
 msgid "Save"
 msgstr ""
 
 #. translators: %s: field name.
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 #, js-format
 msgid "Edit %s"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Lands on a URL"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Element or link click"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Scrolls past a %"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Spends N seconds"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Element scrolls into view"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "YouTube, Vimeo or WP video"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Form submission"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Any form or by selector"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Custom GA4/GTM event"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Via Spliteezy.trackEvent()"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Quarter page"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Halfway"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Most of page"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Full page"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "10s"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Quick glance"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "30s"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Engaged"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "1 min"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Deep reader"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Start immediately"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Activate as soon as it's created"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Schedule for later"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Pick a date and time to go live"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Save as draft"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Set up now, start manually later"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Page"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Configure"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "Schedule"
 msgstr ""
 
-#: assets/js/dashboard.js:51
+#: assets/js/dashboard.js:49
 msgid "New A/B Test"
 msgstr ""
 
 #. translators: %s: post title.
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 #, js-format
 msgid "%s — A/B Test"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Which page or post would you like to test?"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "All types"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Search by title…"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Searching…"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "No results found."
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "No published posts found."
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Test setup"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Test name"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Traffic split"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "Conversion goal"
 msgstr ""
 
-#: assets/js/dashboard.js:53
+#: assets/js/dashboard.js:51
 msgid "What action counts as a conversion for this test?"
 msgstr ""
 
 #. translators: %s: plan name.
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 #, js-format
 msgid "Available from %s"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Next →"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Goal URL"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Use"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "as a wildcard, e.g."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Click type"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Element click"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Match any element by CSS selector"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Link / URL click"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Tracks any link pointing to this URL — works with #anchors too"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "CSS selector"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Tracks clicks on any element matching this selector."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "URL or anchor"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Enter a full URL or a hash anchor (e.g."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "#contact or https://example.com/checkout"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Scroll threshold"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "custom"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Custom"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Time threshold"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Fires when this element scrolls into view (at least 50% visible)."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Automatically detects YouTube, Vimeo, and native WordPress <video> embeds on the page. No extra setup needed."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Form selector"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "(optional)"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Leave blank to track any form on the page. Enter a CSS selector to target a specific form — works with WPForms, Contact Form 7, Gravity Forms, Elementor, or any HTML form."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Event name"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Fire this from your theme, plugin, or Google Tag Manager."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "GA4 and GTM automatically receive this event if they are present on the page."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "I decide"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "The test runs until you stop it. You choose the winner."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Automatically, once confident"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Spliteezy stops the test when a winner is clear. Your content is never changed for you."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "On a date I choose"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "The test stops at a set moment, whatever the result looks like."
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Creating…"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Create & Start Test"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Schedule Test"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "Save as Draft"
 msgstr ""
 
-#: assets/js/dashboard.js:55
+#: assets/js/dashboard.js:53
 msgid "When should the test start?"
 msgstr ""
 
 #. translators: %d: number of test slots on the plan.
-#: assets/js/dashboard.js:57
+#: assets/js/dashboard.js:55
 #, js-format
 msgid "All %d test slots on your plan are in use. Finish or pause a running test to free one, or upgrade — meanwhile you can save this test as a draft and start it later."
 msgstr ""
 
-#: assets/js/dashboard.js:57
+#: assets/js/dashboard.js:55
 msgid "Available on"
 msgstr ""
 
-#: assets/js/dashboard.js:57
+#: assets/js/dashboard.js:55
 msgid "plan and above"
 msgstr ""
 
-#: assets/js/dashboard.js:57
+#: assets/js/dashboard.js:55
 msgid "Start date & time"
 msgstr ""
 
-#: assets/js/dashboard.js:57
+#: assets/js/dashboard.js:55
 msgid "When should the test end?"
 msgstr ""
 
 #. translators: %s: plan name.
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 #, js-format
 msgid "Ending a test automatically needs the %s plan."
 msgstr ""
 
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Finish date & time"
 msgstr ""
 
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Connection error:"
 msgstr ""
 
-#: assets/js/dashboard.js:59
+#: assets/js/dashboard.js:57
 msgid "Check settings →"
 msgstr ""
 
