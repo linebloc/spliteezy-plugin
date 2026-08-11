@@ -449,7 +449,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
               __('%1$s is winning — %2$s%% conv. rate at %3$s%% confidence.', 'spliteezy'),
               variantName(winnerVariant) || __('Variant A', 'spliteezy'),
               Number(winnerStats.conversion_rate).toFixed(2),
-              Math.round(winnerStats.confidence)
+              Number(winnerStats.confidence).toFixed(1)
             )}
           </span>
           {['ended', 'winner'].includes(test.status) && winnerVariant.post_id && (
@@ -491,7 +491,7 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
         )}
         <InfoCard
           label={__('Confidence', 'spliteezy')}
-          value={testConfidence !== null && !confidenceLowData ? `~${Math.round(testConfidence)}%` : '—'}
+          value={testConfidence !== null && !confidenceLowData ? `${testConfidence.toFixed(1)}%` : '—'}
           sub={sprintf(/* translators: %d: confidence threshold percentage. */ __('Target: %d%%', 'spliteezy'), test.confidence_threshold ?? 95)}
           info={sprintf(
             /* translators: %d: confidence threshold percentage. */

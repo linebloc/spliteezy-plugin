@@ -2,7 +2,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi.js';
 import DropdownMenu from '../components/DropdownMenu.jsx';
-import { computeSignificance, formatDate } from '../utils/stats.js';
+import { formatDate } from '../utils/stats.js';
 
 const TABS = ['active', 'paused', 'scheduled', 'draft', 'ended'];
 
@@ -198,7 +198,6 @@ function TestRow({ test, onOpen, config, onRefresh, onNavigate, onActionError })
 
   const variants    = test.variants ?? [];
   const goals       = test.goals ?? [];
-  const control     = variants.find((v) => v.is_control) ?? variants[0];
   const challengers = variants.filter((v) => !v.is_control);
 
   const primaryGoal = goals.find((g) => g.is_primary) ?? goals[0] ?? null;
@@ -209,15 +208,12 @@ function TestRow({ test, onOpen, config, onRefresh, onNavigate, onActionError })
 
   const totalVisitors = variants.reduce((sum, v) => sum + (v.visitors ?? 0), 0);
 
-  const bestConfidence = challengers.reduce((best, v) => {
-    const { confidence } = computeSignificance(
-      control?.conversions ?? 0, control?.visitors ?? 0,
-      v.conversions ?? 0, v.visitors ?? 0
-    );
-    return confidence > best ? confidence : best;
-  }, 0);
-
-  const confCls = bestConfidence >= 95 ? 'high' : bestConfidence >= 80 ? 'mid' : 'low';
+  // Confidence comes straight from the server (same figure the detail page and
+  // the web dashboard show) — it already accounts for learning mode and the
+  // minimum-data gate. Never recompute significance client-side.
+  const confidence = test.statistics?.confidence ?? null;
+  const threshold  = test.confidence_threshold ?? 95;
+  const confCls = confidence === null ? 'low' : confidence >= threshold ? 'high' : confidence >= 80 ? 'mid' : 'low';
   const hasData = totalVisitors > 0;
 
   async function doAction(action) {
@@ -299,19 +295,25 @@ function TestRow({ test, onOpen, config, onRefresh, onNavigate, onActionError })
       </td>
       <td style={{ fontSize: 12, color: 'var(--eezy-text-muted)' }}>{formatDate(test.started_at)}</td>
       <td>
-        {challengers.length === 0 ? (
-          <span className="eezy-muted" style={{ fontSize: 11 }}>—</span>
+        {challengers.length === 0 || confidence === null ? (
+          <span
+            className="eezy-muted"
+            style={{ fontSize: 11 }}
+            title={challengers.length === 0 ? undefined : (test.statistics?.verdict_message || undefined)}
+          >
+            —
+          </span>
         ) : (
           <div className="eezy-conf-wrap">
             <div className="eezy-conf-track">
               <div
                 className={`eezy-conf-track__fill eezy-conf-track__fill--${confCls}`}
-                style={{ width: `${Math.min(100, bestConfidence)}%` }}
+                style={{ width: `${Math.min(100, confidence)}%` }}
               />
               <span className="eezy-conf-track__marker" />
             </div>
             <span className={`eezy-conf-pct eezy-conf-pct--${confCls}`}>
-              {hasData ? `${Math.round(bestConfidence)}%` : '—'}
+              {hasData ? `${confidence.toFixed(1)}%` : '—'}
             </span>
           </div>
         )}
