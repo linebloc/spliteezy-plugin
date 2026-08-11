@@ -353,8 +353,9 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const currentVisitors = statistics?.current_visitors_per_variant ?? 0;
   const requiredVisitors = statistics?.required_visitors_per_variant ?? null;
   const daysLeft = statistics?.days_to_significance ?? null;
-  // Past the planned sample there is no progress left to report — counting on
-  // past the target reads as 3,617 of 3,137.
+  // Past the planned sample there is no progress left to report, and nothing
+  // to announce either — the confidence figure is still live and says more
+  // than any "we couldn't call it" line would.
   const sampleComplete = (statistics?.progress_percent ?? 0) >= 100;
   // The server owns the line — it also gates the equivalence verdict, and the
   // two must never disagree. Falls back for a payload frozen before the flag.
@@ -512,25 +513,25 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
       )}
 
       {/* ── Where the test is up to ── */}
-      {!hasWinner && verdict?.type !== 'equivalent' && requiredVisitors !== null && currentVisitors > 0 && (
+      {!hasWinner && verdict?.type !== 'equivalent' && requiredVisitors !== null && currentVisitors > 0 && (!sampleComplete || lowTraffic) && (
         <div className="eezy-notice eezy-notice--info">
-          <span>
-            {sampleComplete
-              ? __('Sample complete — no clear winner.', 'spliteezy')
-              : sprintf(
+          {!sampleComplete && (
+            <span>
+              {sprintf(
                 /* translators: 1: visitors so far, 2: visitors needed. */
                 __('%1$s of %2$s visitors per variant', 'spliteezy'),
                 currentVisitors.toLocaleString(),
                 requiredVisitors.toLocaleString()
               )}
-            {!sampleComplete && daysLeft !== null && ` · ${sprintf(
-              /* translators: %d: number of days. */
-              __('about %d days left at current traffic', 'spliteezy'),
-              daysLeft
-            )}`}
-          </span>
+              {daysLeft !== null && ` · ${sprintf(
+                /* translators: %d: number of days. */
+                __('about %d days left at current traffic', 'spliteezy'),
+                daysLeft
+              )}`}
+            </span>
+          )}
           {lowTraffic && (
-            <span style={{ display: 'block', marginTop: 4 }}>
+            <span style={{ display: 'block', marginTop: sampleComplete ? 0 : 4 }}>
               {__('This page has low traffic — test bolder changes, as small tweaks will not show up clearly here.', 'spliteezy')}
             </span>
           )}
