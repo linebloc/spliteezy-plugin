@@ -325,10 +325,28 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
   const verdict = statistics?.verdict ?? null;
   const winnerVariant = verdict?.winner_id ? variants.find((v) => v.id === verdict.winner_id) : null;
   const winnerStats = winnerVariant ? statsByVariantId[winnerVariant.id] : null;
-  const hasWinner = verdict?.type === 'significant' && !!winnerVariant && !!winnerStats;
+  // Significant is not finished — the server's conclusion is the same rule the
+  // auto-ender uses, so the page can't crown a winner it is still holding.
+  const conclusion = statistics?.conclusion ?? null;
+  const isSignificant = verdict?.type === 'significant' && !!winnerVariant && !!winnerStats;
+  const hasWinner = isSignificant && (conclusion?.ready ?? false);
+  const isLeading = isSignificant && !(conclusion?.ready ?? false);
 
   const testConfidence = statistics?.confidence ?? null;
   const confidenceLowData = !(statistics?.has_enough_data ?? false);
+
+  const minVisitors = statistics?.min_visitors_per_variant ?? 30;
+  const currentVisitors = statistics?.current_visitors_per_variant ?? 0;
+  const requiredVisitors = statistics?.required_visitors_per_variant ?? null;
+  const daysLeft = statistics?.days_to_significance ?? null;
+  const lowTraffic = (statistics?.detectable_lift_percent ?? 0) >= 25;
+
+  // Built from the reason key, not the server's message: API text is English.
+  const holdMessage = conclusion?.reason === 'runtime'
+    ? __('A winner is not called until the test has run a full week, so results cover every day.', 'spliteezy')
+    : conclusion?.reason === 'evidence'
+      ? __('This lead is still within the range chance produces on a part-finished test.', 'spliteezy')
+      : null;
   const controlRate = conversionRate(control.conversions ?? 0, control.visitors ?? 0);
 
   const hasUneditedVariants = variants.some((v) => !v.is_control && v.needs_edit);
@@ -464,6 +482,46 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
         </div>
       )}
 
+      {/* ── Where the test is up to ── */}
+      {!hasWinner && requiredVisitors !== null && currentVisitors > 0 && (
+        <div className="eezy-notice eezy-notice--info">
+          <span>
+            {sprintf(
+              /* translators: 1: visitors so far, 2: visitors needed. */
+              __('%1$s of %2$s visitors per variant', 'spliteezy'),
+              currentVisitors.toLocaleString(),
+              requiredVisitors.toLocaleString()
+            )}
+            {daysLeft !== null && ` · ${sprintf(
+              /* translators: %d: number of days. */
+              __('about %d days left at current traffic', 'spliteezy'),
+              daysLeft
+            )}`}
+          </span>
+          {lowTraffic && (
+            <span style={{ display: 'block', marginTop: 4 }}>
+              {__('This page has low traffic — test bolder changes, as small tweaks will not show up clearly here.', 'spliteezy')}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* ── Leading, but not final ── */}
+      {isLeading && (
+        <div className="eezy-banner eezy-banner--warning">
+          <span style={{ flex: 1 }}>
+            <strong>
+              {sprintf(
+                /* translators: %s: variant name. */
+                __('%s is ahead — not final yet', 'spliteezy'),
+                variantName(winnerVariant) || __('Variant A', 'spliteezy')
+              )}
+            </strong>
+            {holdMessage && <span style={{ display: 'block', marginTop: 2 }}>{holdMessage}</span>}
+          </span>
+        </div>
+      )}
+
       {/* ── Info cards ── */}
       <div className="eezy-info-cards">
         <InfoCard
@@ -491,8 +549,12 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
         )}
         <InfoCard
           label={__('Confidence', 'spliteezy')}
-          value={testConfidence !== null && !confidenceLowData ? `${testConfidence.toFixed(1)}%` : '—'}
-          sub={sprintf(/* translators: %d: confidence threshold percentage. */ __('Target: %d%%', 'spliteezy'), test.confidence_threshold ?? 95)}
+          value={testConfidence !== null && !confidenceLowData
+            ? `${testConfidence.toFixed(1)}%`
+            : `${currentVisitors.toLocaleString()} / ${minVisitors.toLocaleString()}`}
+          sub={testConfidence !== null && !confidenceLowData
+            ? sprintf(/* translators: %d: confidence threshold percentage. */ __('Target: %d%%', 'spliteezy'), test.confidence_threshold ?? 95)
+            : __('Visitors per variant before this can be measured', 'spliteezy')}
           info={sprintf(
             /* translators: %d: confidence threshold percentage. */
             __('How certain we are that the difference between variants is real and not random chance. When it crosses your %d%% threshold, a winner can be declared.', 'spliteezy'),
