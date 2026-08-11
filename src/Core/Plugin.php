@@ -55,6 +55,8 @@ final class Plugin
 
         // Self-heals installs that upgraded into this without reactivating.
         add_action('init', static function (): void {
+            EventBuffer::install();
+
             if (! wp_next_scheduled('spliteezy_flush_event_buffer')) {
                 wp_schedule_event(time() + 300, 'spliteezy_five_minutes', 'spliteezy_flush_event_buffer');
             }

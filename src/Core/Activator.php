@@ -2,6 +2,8 @@
 
 namespace Spliteezy\Core;
 
+use Spliteezy\Tracking\EventBuffer;
+
 defined('ABSPATH') || exit;
 
 class Activator
@@ -33,6 +35,8 @@ class Activator
         // Grant initial WP role capabilities.
         Options::sync_role_caps();
 
+        EventBuffer::install();
+
         // Drains anything the API could not accept while it was unreachable.
         if (! wp_next_scheduled('spliteezy_flush_event_buffer')) {
             wp_schedule_event(time() + 300, 'spliteezy_five_minutes', 'spliteezy_flush_event_buffer');
@@ -49,7 +53,7 @@ class Activator
     {
         delete_option('spliteezy_settings');
         delete_option('spliteezy_rocket_config_pending');
-        delete_option('spliteezy_event_buffer');
+        EventBuffer::uninstall();
         delete_transient('spliteezy_manifest');
 
         // Revoke all Spliteezy capabilities from all roles.

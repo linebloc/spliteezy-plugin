@@ -7,26 +7,78 @@ use Spliteezy\Api\Client;
 /**
  * Holds events the API could not accept, so an outage costs nothing.
  *
- * Before this existed a failed send simply dropped the batch: when the API was
+ * Before this existed a failed send dropped the batch: when the API was
  * unreachable for a day, that day vanished from every report with no trace and
  * no way to recover it.
  *
- * Retrying is only safe because each event carries an id assigned here rather
- * than by the API — a batch that half-landed can be sent again without
- * double-counting the part that arrived.
+ * Kept in its own table rather than an option because an option serialises its
+ * whole contents on every write — a busy site would be rewriting megabytes per
+ * failed batch, so the practical ceiling would be a few hundred events, which
+ * is under a day for even a modest site. Rows append and delete individually,
+ * so what the queue holds is limited by age rather than by what the storage can
+ * bear.
+ *
+ * Retrying is only safe because each event carries an id assigned by the
+ * tracker rather than by the API: a batch that half-landed can be sent again
+ * without double-counting the part that arrived.
  */
 class EventBuffer
 {
-    private const OPTION = 'spliteezy_event_buffer';
+    /** Bumped whenever the table changes, so upgrades pick it up without reactivating. */
+    private const SCHEMA_VERSION = 1;
 
-    /** Beyond this the oldest are dropped, so a long outage cannot fill the site's database. */
-    private const MAX_EVENTS = 500;
+    private const SCHEMA_OPTION = 'spliteezy_event_queue_version';
 
     /** The API refuses events older than 7 days, so holding them past that is pointless. */
     private const MAX_AGE = 6 * DAY_IN_SECONDS;
 
+    /**
+     * A backstop against filling the disk, not a retention policy — age does
+     * the real work. Roughly a week of a very busy site.
+     */
+    private const MAX_ROWS = 200000;
+
     /** The API accepts 50 per call. */
     private const BATCH_SIZE = 50;
+
+    public static function table(): string
+    {
+        global $wpdb;
+
+        return $wpdb->prefix.'spliteezy_event_queue';
+    }
+
+    /**
+     * Creates the table, and recreates it after an upgrade that changed it.
+     */
+    public static function install(): void
+    {
+        if ((int) get_option(self::SCHEMA_OPTION) === self::SCHEMA_VERSION) {
+            return;
+        }
+
+        global $wpdb;
+
+        $table = self::table();
+        $collate = $wpdb->get_charset_collate();
+
+        require_once ABSPATH.'wp-admin/includes/upgrade.php';
+
+        dbDelta(
+            "CREATE TABLE {$table} (
+                id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                event longtext NOT NULL,
+                occurred_at bigint(20) unsigned NOT NULL,
+                PRIMARY KEY  (id),
+                KEY occurred_at (occurred_at)
+            ) {$collate};"
+        );
+
+        // Autoloaded deliberately: it is a single int read on every request to
+        // decide whether the table needs creating, and a non-autoloaded option
+        // would make that a database query per page load.
+        update_option(self::SCHEMA_OPTION, self::SCHEMA_VERSION, true);
+    }
 
     /**
      * @param  array<int, array<string, mixed>>  $events
@@ -37,15 +89,37 @@ class EventBuffer
             return;
         }
 
-        $pending = array_merge(self::pending(), array_values($events));
+        global $wpdb;
 
-        // Newest wins: during a long outage the recent past is worth more than
-        // a backlog that is about to be refused for age anyway.
-        if (count($pending) > self::MAX_EVENTS) {
-            $pending = array_slice($pending, -self::MAX_EVENTS);
+        self::install();
+
+        $table = self::table();
+        $values = [];
+        $params = [];
+
+        foreach ($events as $event) {
+            $encoded = wp_json_encode($event);
+
+            if ($encoded === false) {
+                continue;
+            }
+
+            $values[] = '(%s, %d)';
+            $params[] = $encoded;
+            $params[] = (int) ($event['occurred_at'] ?? time());
         }
 
-        self::save($pending);
+        if (empty($values)) {
+            return;
+        }
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (event, occurred_at) VALUES ".implode(', ', $values), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            $params
+        ));
+
+        self::prune();
     }
 
     /**
@@ -53,70 +127,122 @@ class EventBuffer
      */
     public static function flush(): void
     {
-        $pending = self::fresh(self::pending());
+        global $wpdb;
 
-        if (empty($pending)) {
-            self::save([]);
-
+        if (! self::exists()) {
             return;
         }
 
+        self::prune();
+
+        $table = self::table();
         $client = new Client;
-        $remaining = [];
 
-        foreach (array_chunk($pending, self::BATCH_SIZE) as $batch) {
-            // Stop at the first failure — the API is still down, and hammering
-            // it with the rest of the backlog helps nobody.
-            if ($remaining || ! $client->send_events($batch)) {
-                $remaining = array_merge($remaining, $batch);
+        // Bounded so a huge backlog cannot run past PHP's time limit; whatever
+        // is left waits for the next run rather than blocking this request.
+        for ($pass = 0; $pass < 20; $pass++) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            $rows = $wpdb->get_results($wpdb->prepare("SELECT id, event FROM {$table} ORDER BY id ASC LIMIT %d", self::BATCH_SIZE));
+
+            if (empty($rows)) {
+                return;
             }
-        }
 
-        self::save($remaining);
+            $events = [];
+            $ids = [];
+
+            foreach ($rows as $row) {
+                $decoded = json_decode($row->event, true);
+
+                // Unreadable rows are dropped rather than retried forever.
+                if (is_array($decoded)) {
+                    $events[] = $decoded;
+                }
+
+                $ids[] = (int) $row->id;
+            }
+
+            // Still unreachable — leave the rest for the next attempt.
+            if ($events && ! $client->send_events($events)) {
+                return;
+            }
+
+            self::deleteIds($ids);
+        }
     }
 
     public static function count(): int
     {
-        return count(self::pending());
+        global $wpdb;
+
+        if (! self::exists()) {
+            return 0;
+        }
+
+        $table = self::table();
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+    }
+
+    public static function uninstall(): void
+    {
+        global $wpdb;
+
+        $table = self::table();
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+
+        delete_option(self::SCHEMA_OPTION);
+
+        // The option this queue briefly used before moving to a table.
+        delete_option('spliteezy_event_buffer');
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * Drop what the API would refuse for age, then enforce the disk backstop.
      */
-    private static function pending(): array
+    private static function prune(): void
     {
-        $stored = get_option(self::OPTION, []);
+        global $wpdb;
 
-        return is_array($stored) ? $stored : [];
-    }
+        $table = self::table();
 
-    /**
-     * @param  array<int, array<string, mixed>>  $events
-     * @return array<int, array<string, mixed>>
-     */
-    private static function fresh(array $events): array
-    {
-        $cutoff = time() - self::MAX_AGE;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->query($wpdb->prepare("DELETE FROM {$table} WHERE occurred_at < %d", time() - self::MAX_AGE));
 
-        return array_values(array_filter(
-            $events,
-            static fn ($event) => (int) ($event['occurred_at'] ?? 0) >= $cutoff
-        ));
-    }
+        $excess = self::count() - self::MAX_ROWS;
 
-    /**
-     * @param  array<int, array<string, mixed>>  $events
-     */
-    private static function save(array $events): void
-    {
-        if (empty($events)) {
-            delete_option(self::OPTION);
-
+        if ($excess <= 0) {
             return;
         }
 
-        // autoload off: this can hold hundreds of events and must never be
-        // loaded on every page request.
-        update_option(self::OPTION, $events, false);
+        // Oldest first: they are closest to being refused for age anyway.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->query($wpdb->prepare("DELETE FROM {$table} ORDER BY id ASC LIMIT %d", $excess));
+    }
+
+    /**
+     * @param  array<int, int>  $ids
+     */
+    private static function deleteIds(array $ids): void
+    {
+        global $wpdb;
+
+        if (empty($ids)) {
+            return;
+        }
+
+        $table = self::table();
+        $placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->query($wpdb->prepare("DELETE FROM {$table} WHERE id IN ({$placeholders})", $ids));
+    }
+
+    private static function exists(): bool
+    {
+        return (int) get_option(self::SCHEMA_OPTION) === self::SCHEMA_VERSION;
     }
 }
