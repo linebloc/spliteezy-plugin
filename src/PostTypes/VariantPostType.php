@@ -16,6 +16,8 @@ class VariantPostType
     public function register(): void
     {
         add_action('pre_get_posts', [$this, 'exclude_variants_from_queries']);
+        add_action('template_redirect', [$this, 'redirect_variant_requests'], 0);
+        add_filter('wp_robots', [$this, 'noindex_variants']);
         add_filter('block_editor_settings_all', [$this, 'set_editor_back_link'], 10, 2);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_variant_editor_modal']);
         add_action('current_screen', [$this, 'redirect_if_active']);
@@ -42,6 +44,69 @@ class VariantPostType
             'compare' => 'NOT EXISTS',
         ];
         $query->set('meta_query', $meta_query);
+    }
+
+    /**
+     * Send a direct hit on a variant's own URL to the page it is testing.
+     *
+     * A variant is an ordinary post carrying a flag, and an active test's
+     * variant has to be published, so WordPress gives it a working permalink.
+     * exclude_variants_from_queries() lets singular views through, which leaves
+     * that permalink serving a second public copy of the page: duplicate
+     * content for a search engine to choose between, and the variant readable
+     * by anyone who guesses the URL.
+     *
+     * 301 rather than 404 because the variant is never meant to be a
+     * destination — applying one copies its content onto the original, so the
+     * URL has no future in which it should resolve. Anyone who can edit it
+     * passes through, so previewing your own draft still works.
+     */
+    public function redirect_variant_requests(): void
+    {
+        if (! is_singular()) {
+            return;
+        }
+
+        $post_id = get_queried_object_id();
+
+        if (! $post_id || ! get_post_meta($post_id, '_spliteezy_variant', true)) {
+            return;
+        }
+
+        if (current_user_can('edit_post', $post_id)) {
+            return;
+        }
+
+        $control_id = (int) get_post_meta($post_id, '_spliteezy_control_post_id', true);
+        // get_permalink() returns false for a control that has since been
+        // deleted, which would otherwise redirect to nowhere.
+        $target = $control_id ? get_permalink($control_id) : false;
+
+        wp_safe_redirect($target ?: home_url('/'), 301);
+        exit;
+    }
+
+    /**
+     * Belt and braces for the one view the redirect lets through: an editor
+     * previewing a variant. Costs nothing and keeps a stray crawl harmless.
+     *
+     * @param  array<string, mixed>  $robots
+     * @return array<string, mixed>
+     */
+    public function noindex_variants(array $robots): array
+    {
+        if (! is_singular()) {
+            return $robots;
+        }
+
+        $post_id = get_queried_object_id();
+
+        if ($post_id && get_post_meta($post_id, '_spliteezy_variant', true)) {
+            $robots['noindex'] = true;
+            $robots['nofollow'] = true;
+        }
+
+        return $robots;
     }
 
     /**

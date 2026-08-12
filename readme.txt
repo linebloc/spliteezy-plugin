@@ -180,6 +180,7 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 * The test page now shows how far a test has come, and why a winner is being held back when one is close.
 * Daily charts are bucketed by your website's own timezone instead of UTC, so days line up with your reporting.
 * Added hover tooltips to the daily performance chart.
+* Fixed: while a test was running, its variant could also be opened directly at its own URL, leaving a second public copy of the page for search engines to index and for anyone to read outside the test. Variant URLs now redirect to the page being tested.
 
 = 0.10.2 =
 * Initial release.
