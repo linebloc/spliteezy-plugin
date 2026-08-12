@@ -30,8 +30,67 @@ class VariantPostType
      */
     public const SERVEABLE_STATUSES = ['draft', 'private', 'publish'];
 
+    /** Bumped when a new one-off repair is needed on existing installs. */
+    private const MAINTENANCE_VERSION = 1;
+
+    private const MAINTENANCE_OPTION = 'spliteezy_variant_maintenance';
+
+    /**
+     * Pull variants left addressable by an earlier version back to `draft`.
+     *
+     * Runs on `init` rather than activation, so an update picks it up without
+     * the site owner deactivating anything, and — unlike the manifest fetch it
+     * used to ride on — it does not need the API to be reachable. A site whose
+     * key has lapsed still gets its variants out of Google.
+     *
+     * Running tests are unaffected: `draft` is in SERVEABLE_STATUSES, so the
+     * swap keeps serving the same content the moment the status changes.
+     *
+     * Only the status is repaired. Variants created before this release keep
+     * whatever parent they have — reparenting them is churn on live content
+     * for a purely cosmetic gain, and new clones get it from VariantCloner.
+     */
+    public static function demote_addressable_variants(): void
+    {
+        global $wpdb;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- must bypass pre_get_posts, which hides every variant post from WP_Query.
+        $ids = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT p.ID FROM {$wpdb->posts} p
+                INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
+                WHERE pm.meta_key = %s AND pm.meta_value = %s AND p.post_status IN (%s, %s)",
+                '_spliteezy_variant',
+                '1',
+                'publish',
+                'private'
+            )
+        );
+
+        foreach ($ids as $post_id) {
+            wp_update_post(['ID' => (int) $post_id, 'post_status' => 'draft']);
+        }
+    }
+
+    /**
+     * The version flag is autoloaded on purpose: it is read on every request
+     * to decide whether the repair is still owed, and a non-autoloaded option
+     * would cost a query per page load to answer "no".
+     */
+    public static function maintain(): void
+    {
+        if ((int) get_option(self::MAINTENANCE_OPTION) === self::MAINTENANCE_VERSION) {
+            return;
+        }
+
+        self::demote_addressable_variants();
+
+        update_option(self::MAINTENANCE_OPTION, self::MAINTENANCE_VERSION, true);
+    }
+
     public function register(): void
     {
+        add_action('init', [self::class, 'maintain']);
         add_action('pre_get_posts', [$this, 'exclude_variants_from_queries']);
         add_action('template_redirect', [$this, 'redirect_variant_requests'], 0);
         add_filter('wp_robots', [$this, 'noindex_variants']);

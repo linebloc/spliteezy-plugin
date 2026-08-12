@@ -5,6 +5,7 @@ namespace Spliteezy\Api;
 use Spliteezy\Core\CacheCompat;
 use Spliteezy\Core\Options;
 use Spliteezy\Core\VaryRenderer;
+use Spliteezy\PostTypes\VariantPostType;
 
 defined('ABSPATH') || exit;
 
@@ -57,39 +58,13 @@ class Manifest
     }
 
     /**
-     * Force every variant post back to `draft`.
-     *
-     * Nothing about running a test needs a variant published. The swap reads
-     * the post directly whatever its status, and the manifest — not WordPress
-     * — is what says a test is active. Publishing one only ever existed to get
-     * past `VariantPostType::SERVEABLE_STATUSES`, and it handed each running
-     * test a second crawlable copy of the tested page; Ahrefs indexed one.
-     *
-     * So this is migration only, for sites arriving from a version that
-     * published (or briefly made private) their variants. Once a site is
-     * converted the query matches nothing, and it self-heals if anything ever
-     * flips a variant back up.
+     * Ongoing self-heal, alongside the one-off repair in
+     * `VariantPostType::maintain()`: a variant published by hand from wp-admin
+     * would otherwise stay addressable, since nothing else demotes it.
      */
     private static function demote_variant_posts(): void
     {
-        global $wpdb;
-
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- must bypass pre_get_posts, which hides every variant post from WP_Query.
-        $addressable_variant_ids = $wpdb->get_col(
-            $wpdb->prepare(
-                "SELECT p.ID FROM {$wpdb->posts} p
-                INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
-                WHERE pm.meta_key = %s AND pm.meta_value = %s AND p.post_status IN (%s, %s)",
-                '_spliteezy_variant',
-                '1',
-                'publish',
-                'private'
-            )
-        );
-
-        foreach ($addressable_variant_ids as $post_id) {
-            wp_update_post(['ID' => (int) $post_id, 'post_status' => 'draft']);
-        }
+        VariantPostType::demote_addressable_variants();
     }
 
     /**

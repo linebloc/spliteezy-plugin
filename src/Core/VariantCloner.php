@@ -30,10 +30,17 @@ class VariantCloner
             return new \WP_Error('not_found', 'Original post not found.');
         }
 
-        // No post_parent: the original is referenced via meta only, so
-        // hierarchical post types never show the variant as a child page.
+        // Filed under the post it tests, so a site owner browsing wp-admin
+        // sees variants grouped beneath their original rather than scattered.
+        // Safe only because a variant is permanently a draft and hidden from
+        // WP_Query by pre_get_posts — a published child would take the nested
+        // permalink (/home/home/) that put a variant in Ahrefs. Hierarchical
+        // types only; post_parent means something else entirely elsewhere.
+        $parent = is_post_type_hierarchical($original->post_type) ? $post_id : 0;
+
         $clone_id = wp_insert_post(
             [
+                'post_parent' => $parent,
                 'post_title' => $original->post_title,
                 'post_content' => $original->post_content,
                 'post_excerpt' => $original->post_excerpt,
