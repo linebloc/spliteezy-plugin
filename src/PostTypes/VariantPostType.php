@@ -2,6 +2,8 @@
 
 namespace Spliteezy\PostTypes;
 
+use Spliteezy\Core\CacheCompat;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -46,9 +48,8 @@ class VariantPostType
      * Running tests are unaffected: `draft` is in SERVEABLE_STATUSES, so the
      * swap keeps serving the same content the moment the status changes.
      *
-     * Only the status is repaired. Variants created before this release keep
-     * whatever parent they have — reparenting them is churn on live content
-     * for a purely cosmetic gain, and new clones get it from VariantCloner.
+     * Only the status is repaired — a variant's `post_parent` is deliberately
+     * left alone (see the note in VariantCloner).
      */
     public static function demote_addressable_variants(): void
     {
@@ -68,6 +69,14 @@ class VariantPostType
         );
 
         foreach ($ids as $post_id) {
+            // Purge before demoting, not after: once the post is a draft
+            // get_permalink() stops returning the public URL, which is the key
+            // every page cache filed its copy under. Without this the post is
+            // unpublished while a cached duplicate carries on being served —
+            // NitroPack's drop-in answers before plugins even load, so neither
+            // the 404 nor redirect_variant_requests() gets a look in. That is
+            // exactly how a variant stayed reachable after the fix landed.
+            CacheCompat::purge_post((int) $post_id);
             wp_update_post(['ID' => (int) $post_id, 'post_status' => 'draft']);
         }
     }
@@ -125,15 +134,18 @@ class VariantPostType
     /**
      * Backstop: send a direct hit on a variant's own URL to the page it tests.
      *
-     * Variants are `private` now, so WordPress refuses these requests itself
-     * and this should never fire. It stays for the one case where it does — a
-     * site upgrading from a version that published variants, between the update
-     * landing and the next manifest fetch moving them to `private`.
+     * Variants are drafts, so WordPress already refuses these requests and
+     * this should rarely fire. It stays for the window before an updating site
+     * runs its repair, and for a variant published by hand from wp-admin.
      *
-     * A redirect rather than the 404 core would give, because during that
-     * window the URL may already be indexed, and pointing it at the real page
-     * hands back whatever weight it accumulated. Anyone who can edit the
-     * variant passes through, so previewing a draft still works.
+     * A redirect rather than the 404 core would give, because by then the URL
+     * may already be indexed, and pointing it at the real page hands back
+     * whatever weight it accumulated. Anyone who can edit the variant passes
+     * through, so previewing a draft still works.
+     *
+     * Note this cannot help while a page cache still holds a copy: NitroPack's
+     * drop-in serves before plugins load. Purging is what closes that, which
+     * is why demote_addressable_variants() purges before it demotes.
      */
     public function redirect_variant_requests(): void
     {
