@@ -110,9 +110,16 @@ class VariantPostType
     }
 
     /**
+     * `$context` is deliberately untyped: it is a WP_Block_Editor_Context, but
+     * the `mixed` declaration this used to carry is PHP 8.0+, and on the 7.4
+     * the plugin still supports PHP reads it as a class name — so WordPress
+     * passing the real context threw a TypeError and took the block editor
+     * down with it. The `?->`-style guard below never needed the hint.
+     *
      * @param  array<string, mixed>  $settings
+     * @param  object|null  $context
      */
-    public function set_editor_back_link(array $settings, mixed $context): array
+    public function set_editor_back_link(array $settings, $context): array
     {
         $post = $context->post ?? null;
 
