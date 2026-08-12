@@ -45,7 +45,7 @@ class Manifest
         if (is_array($manifest)) {
             set_transient(self::TRANSIENT_KEY, $manifest, self::TTL_SECONDS);
             update_option(self::LAST_GOOD_OPTION, $manifest, false);
-            self::sync_variant_post_statuses($manifest);
+            self::demote_variant_posts();
             self::purge_page_cache_if_changed($manifest);
 
             return $manifest;
@@ -57,64 +57,38 @@ class Manifest
     }
 
     /**
-     * Publishes each active test's variant and drafts one whose test isn't
-     * active anymore. See CLAUDE.md's Architecture Rationale for why.
+     * Force every variant post back to `draft`.
      *
-     * @param  array<string, mixed>  $manifest
+     * Nothing about running a test needs a variant published. The swap reads
+     * the post directly whatever its status, and the manifest — not WordPress
+     * — is what says a test is active. Publishing one only ever existed to get
+     * past `VariantPostType::SERVEABLE_STATUSES`, and it handed each running
+     * test a second crawlable copy of the tested page; Ahrefs indexed one.
+     *
+     * So this is migration only, for sites arriving from a version that
+     * published (or briefly made private) their variants. Once a site is
+     * converted the query matches nothing, and it self-heals if anything ever
+     * flips a variant back up.
      */
-    private static function sync_variant_post_statuses(array $manifest): void
+    private static function demote_variant_posts(): void
     {
-        $active_variant_ids = [];
-
-        foreach ($manifest['tests'] ?? [] as $test) {
-            if (($test['status'] ?? null) !== 'active') {
-                continue;
-            }
-
-            foreach ($test['variants'] ?? [] as $variant) {
-                $post_id = (int) ($variant['post_id'] ?? 0);
-
-                if (! empty($variant['is_control']) || ! $post_id) {
-                    continue;
-                }
-
-                $active_variant_ids[] = $post_id;
-            }
-        }
-
-        foreach ($active_variant_ids as $post_id) {
-            $post = get_post($post_id);
-
-            // `publish` is included to migrate variants left over from the
-            // versions that published them — see VariantPostType::SERVEABLE_STATUSES.
-            if (
-                ($post instanceof \WP_Post)
-                && in_array($post->post_status, ['draft', 'publish'], true)
-                && get_post_meta($post_id, '_spliteezy_variant', true)
-            ) {
-                wp_update_post(['ID' => $post_id, 'post_status' => 'private']);
-            }
-        }
-
         global $wpdb;
 
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- must bypass pre_get_posts, which hides every variant post from WP_Query.
-        $published_variant_ids = $wpdb->get_col(
+        $addressable_variant_ids = $wpdb->get_col(
             $wpdb->prepare(
                 "SELECT p.ID FROM {$wpdb->posts} p
                 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
                 WHERE pm.meta_key = %s AND pm.meta_value = %s AND p.post_status IN (%s, %s)",
                 '_spliteezy_variant',
                 '1',
-                'private',
-                'publish'
+                'publish',
+                'private'
             )
         );
 
-        foreach ($published_variant_ids as $post_id) {
-            if (! in_array((int) $post_id, $active_variant_ids, true)) {
-                wp_update_post(['ID' => (int) $post_id, 'post_status' => 'draft']);
-            }
+        foreach ($addressable_variant_ids as $post_id) {
+            wp_update_post(['ID' => (int) $post_id, 'post_status' => 'draft']);
         }
     }
 

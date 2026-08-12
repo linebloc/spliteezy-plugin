@@ -244,18 +244,20 @@ class TestDetailPage
     }
 
     /**
-     * Keep _spliteezy_test_status and WP post_status in sync for all variant posts.
-     * An active test's variant goes `private` — readable by the swap, refused
-     * to the public by WordPress — and every other status keeps it draft, so a
-     * variant is never reachable on the frontend in either state.
+     * Record the test's status on each of its variant posts.
+     *
+     * The WordPress status is deliberately not part of this: a variant stays a
+     * draft whether or not its test is running, so it never has a public URL
+     * at any point in its life. This used to publish one for an active test,
+     * which is how a variant ended up indexed. Draft is forced rather than
+     * assumed, so a variant left published by an older version is repaired the
+     * first time its test changes state.
      */
     private function sync_variant_post_status(string $test_id, string $status): void
     {
-        $wp_status = $status === 'active' ? 'private' : 'draft';
-
         foreach ($this->get_variant_post_ids($test_id) as $post_id) {
             update_post_meta($post_id, '_spliteezy_test_status', $status);
-            wp_update_post(['ID' => $post_id, 'post_status' => $wp_status]);
+            wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
         }
     }
 

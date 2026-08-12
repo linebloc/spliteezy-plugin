@@ -180,7 +180,7 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 * The test page now shows how far a test has come, and why a winner is being held back when one is close.
 * Daily charts are bucketed by your website's own timezone instead of UTC, so days line up with your reporting.
 * Added hover tooltips to the daily performance chart.
-* Fixed: while a test was running, its variant page was published, so it could also be opened directly at its own URL — a second public copy of the page for search engines to index and for anyone to read outside the test. Running variants are now kept private: the test serves them exactly as before, but WordPress no longer gives them a public address. Existing variants are moved over automatically on update.
+* Fixed: while a test was running, its variant page was published, so it could also be opened directly at its own URL — a second public copy of the page for search engines to index and for anyone to read outside the test. Variants now stay unpublished for their whole life: the test serves them exactly as before, but WordPress never gives them a public address. Existing variants are moved over automatically on update.
 
 = 0.10.2 =
 * Initial release.

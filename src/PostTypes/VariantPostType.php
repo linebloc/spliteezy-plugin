@@ -16,18 +16,19 @@ class VariantPostType
     /**
      * Statuses a variant can be served from.
      *
-     * An active test's variant is set to `private`: WordPress still hands us
-     * the post, so the ghost swap reads its content exactly as before, but it
-     * refuses to serve that post publicly — no permalink, no sitemap entry, no
-     * duplicate for a search engine to find. Publishing it was only ever a way
-     * to get past the checks that use this list.
+     * A variant stays `draft` for its whole life. Its status was never what
+     * made it servable — the swap reads the post directly, and the manifest is
+     * what decides whether a test is running. Publishing one only ever existed
+     * to satisfy the checks that read this list, and the cost of that was a
+     * crawlable duplicate of the tested page: Ahrefs found one on a live site.
      *
-     * `publish` stays accepted so a site upgrading from a version that did
-     * publish variants keeps serving them until the next manifest fetch
-     * migrates it. Dropping it would send that whole arm to the control
-     * silently — the 0-out-of-40 failure this list exists to prevent.
+     * `publish` and `private` stay accepted purely to migrate sites coming
+     * from versions that used them. Removing either would make those sites
+     * serve the control to everyone until their next manifest fetch — the
+     * 0-out-of-40 blackout this list exists to prevent. Nothing is added here
+     * without asking whether WordPress would then give the post a URL.
      */
-    public const SERVEABLE_STATUSES = ['private', 'publish'];
+    public const SERVEABLE_STATUSES = ['draft', 'private', 'publish'];
 
     public function register(): void
     {
