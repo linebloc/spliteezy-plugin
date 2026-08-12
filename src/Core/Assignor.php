@@ -3,6 +3,7 @@
 namespace Spliteezy\Core;
 
 use Spliteezy\Api\Manifest;
+use Spliteezy\PostTypes\VariantPostType;
 
 defined('ABSPATH') || exit;
 
@@ -116,7 +117,7 @@ class Assignor
         // Unusable variant post (deleted, unpublished): serve and track the
         // control — an untracked fallback would silently starve the variant
         // arm of all its traffic.
-        if (! ($variant_post instanceof \WP_Post) || $variant_post->post_status !== 'publish') {
+        if (! ($variant_post instanceof \WP_Post) || ! in_array($variant_post->post_status, VariantPostType::SERVEABLE_STATUSES, true)) {
             $this->inject_context($test, 0, $post->ID);
 
             return;
@@ -178,7 +179,7 @@ class Assignor
         $variant_pid = $variants[$index]['post_id'] ?? null;
         $variant_post = $variant_pid ? get_post((int) $variant_pid) : null;
 
-        if (! ($variant_post instanceof \WP_Post) || $variant_post->post_status !== 'publish') {
+        if (! ($variant_post instanceof \WP_Post) || ! in_array($variant_post->post_status, VariantPostType::SERVEABLE_STATUSES, true)) {
             $this->inject_vary_context($test, 0, $post->ID);
 
             return;

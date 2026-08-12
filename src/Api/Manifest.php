@@ -85,12 +85,14 @@ class Manifest
         foreach ($active_variant_ids as $post_id) {
             $post = get_post($post_id);
 
+            // `publish` is included to migrate variants left over from the
+            // versions that published them — see VariantPostType::SERVEABLE_STATUSES.
             if (
                 ($post instanceof \WP_Post)
-                && $post->post_status === 'draft'
+                && in_array($post->post_status, ['draft', 'publish'], true)
                 && get_post_meta($post_id, '_spliteezy_variant', true)
             ) {
-                wp_update_post(['ID' => $post_id, 'post_status' => 'publish']);
+                wp_update_post(['ID' => $post_id, 'post_status' => 'private']);
             }
         }
 
@@ -101,9 +103,10 @@ class Manifest
             $wpdb->prepare(
                 "SELECT p.ID FROM {$wpdb->posts} p
                 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
-                WHERE pm.meta_key = %s AND pm.meta_value = %s AND p.post_status = %s",
+                WHERE pm.meta_key = %s AND pm.meta_value = %s AND p.post_status IN (%s, %s)",
                 '_spliteezy_variant',
                 '1',
+                'private',
                 'publish'
             )
         );

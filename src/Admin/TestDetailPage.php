@@ -245,12 +245,13 @@ class TestDetailPage
 
     /**
      * Keep _spliteezy_test_status and WP post_status in sync for all variant posts.
-     * Active tests publish the variant; every other status keeps it draft so it
-     * cannot be accessed directly on the frontend.
+     * An active test's variant goes `private` — readable by the swap, refused
+     * to the public by WordPress — and every other status keeps it draft, so a
+     * variant is never reachable on the frontend in either state.
      */
     private function sync_variant_post_status(string $test_id, string $status): void
     {
-        $wp_status = $status === 'active' ? 'publish' : 'draft';
+        $wp_status = $status === 'active' ? 'private' : 'draft';
 
         foreach ($this->get_variant_post_ids($test_id) as $post_id) {
             update_post_meta($post_id, '_spliteezy_test_status', $status);

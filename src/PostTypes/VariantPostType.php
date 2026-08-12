@@ -13,6 +13,22 @@ defined('ABSPATH') || exit;
  */
 class VariantPostType
 {
+    /**
+     * Statuses a variant can be served from.
+     *
+     * An active test's variant is set to `private`: WordPress still hands us
+     * the post, so the ghost swap reads its content exactly as before, but it
+     * refuses to serve that post publicly — no permalink, no sitemap entry, no
+     * duplicate for a search engine to find. Publishing it was only ever a way
+     * to get past the checks that use this list.
+     *
+     * `publish` stays accepted so a site upgrading from a version that did
+     * publish variants keeps serving them until the next manifest fetch
+     * migrates it. Dropping it would send that whole arm to the control
+     * silently — the 0-out-of-40 failure this list exists to prevent.
+     */
+    public const SERVEABLE_STATUSES = ['private', 'publish'];
+
     public function register(): void
     {
         add_action('pre_get_posts', [$this, 'exclude_variants_from_queries']);
@@ -47,19 +63,17 @@ class VariantPostType
     }
 
     /**
-     * Send a direct hit on a variant's own URL to the page it is testing.
+     * Backstop: send a direct hit on a variant's own URL to the page it tests.
      *
-     * A variant is an ordinary post carrying a flag, and an active test's
-     * variant has to be published, so WordPress gives it a working permalink.
-     * exclude_variants_from_queries() lets singular views through, which leaves
-     * that permalink serving a second public copy of the page: duplicate
-     * content for a search engine to choose between, and the variant readable
-     * by anyone who guesses the URL.
+     * Variants are `private` now, so WordPress refuses these requests itself
+     * and this should never fire. It stays for the one case where it does — a
+     * site upgrading from a version that published variants, between the update
+     * landing and the next manifest fetch moving them to `private`.
      *
-     * 301 rather than 404 because the variant is never meant to be a
-     * destination — applying one copies its content onto the original, so the
-     * URL has no future in which it should resolve. Anyone who can edit it
-     * passes through, so previewing your own draft still works.
+     * A redirect rather than the 404 core would give, because during that
+     * window the URL may already be indexed, and pointing it at the real page
+     * hands back whatever weight it accumulated. Anyone who can edit the
+     * variant passes through, so previewing a draft still works.
      */
     public function redirect_variant_requests(): void
     {

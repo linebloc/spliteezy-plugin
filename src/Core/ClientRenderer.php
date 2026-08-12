@@ -2,6 +2,8 @@
 
 namespace Spliteezy\Core;
 
+use Spliteezy\PostTypes\VariantPostType;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -123,7 +125,7 @@ class ClientRenderer
     {
         $variant_post = $post_id > 0 ? get_post($post_id) : null;
 
-        if (! ($variant_post instanceof \WP_Post) || $variant_post->post_status !== 'publish') {
+        if (! ($variant_post instanceof \WP_Post) || ! in_array($variant_post->post_status, VariantPostType::SERVEABLE_STATUSES, true)) {
             return null;
         }
 
