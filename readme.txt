@@ -172,15 +172,28 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 == Changelog ==
 
 = 0.11.0 =
-* Results now survive a Spliteezy outage. If the API can't be reached, events are held in a table in your own database and sent again once the connection is back, instead of being dropped. Rows leave the queue as soon as they are delivered, nothing is kept beyond thirty days, and uninstalling the plugin removes the table.
-* You can now choose how a test finishes when you create it: stop it yourself, stop automatically once the result is confident, or set a finish date.
-* Confidence now means what people read it to mean — the chance a variant is genuinely ahead. It is calculated in one place and shared, so the plugin, the test list and your Spliteezy dashboard no longer show different numbers for the same test.
-* A test the original page wins is now reported as a result in its own right, instead of "no clear winner". Knowing a change would have cost you conversions is worth as much as finding one that gains them.
-* Tests on low-traffic pages are told when a difference is simply too small for that page's traffic to resolve, rather than being left to run indefinitely for a verdict that will never arrive.
-* The test page now shows how far a test has come, and why a winner is being held back when one is close.
-* Daily charts are bucketed by your website's own timezone instead of UTC, so days line up with your reporting.
-* Added hover tooltips to the daily performance chart.
-* Fixed: while a test was running, its variant page was published, so it could also be opened directly at its own URL — a second public copy of the page for search engines to index and for anyone to read outside the test. Variants now stay unpublished for their whole life: the test serves them exactly as before, but WordPress never gives them a public address. Existing variants are moved over automatically on update, without interrupting a running test, and their cached copies are purged so a page cache cannot keep serving one after the fact.
+A big one. Mostly about trusting the number on the screen.
+
+**New**
+
+* Your results now survive our bad days. If Spliteezy is unreachable, events wait on your own site and go out once we're back.
+* Decide up front how a test ends: you call it, we call it once the result is confident, or it finishes on a date you pick. And if there's simply no difference to find, we'll say so rather than let it run on.
+* "95% confident" now means what you always assumed it meant — the chance this variant is genuinely ahead. Same number in the plugin, the test list and your dashboard.
+* A test the original wins is now a real result, not a shrug. Knowing a change would have cost you conversions is worth as much as finding one that gains.
+* The test page shows how far along a test is, and why we're sitting on a winner when one is close.
+
+**Nicer**
+
+* Charts follow your website's timezone instead of UTC, so "yesterday" means yesterday.
+* Charts also got hover tooltips, because squinting is not a feature.
+* Quiet pages now get told to test bolder changes — at low traffic, small tweaks never show up clearly.
+* The dashboard loads in shape: the layout arrives first, then the numbers land in it.
+
+**Fixed**
+
+* Variant pages were published while a test ran, giving each one a public URL that search engines could index. They now stay unpublished for life — your test is unaffected, and existing variants convert automatically when you update.
+* The progress notice could sail past its target and keep counting, like a progress bar reaching 118%.
+* A crash on sites still running PHP 7.4.
 
 = 0.10.2 =
 * Initial release.
@@ -188,4 +201,4 @@ Spliteezy does not provide a built-in consent mechanism — use a consent manage
 == Upgrade Notice ==
 
 = 0.11.0 =
-Events are no longer lost when Spliteezy is unreachable — they are queued on your own site and resent once the connection returns. Recommended for every site.
+Results now survive our outages, confidence finally means one thing everywhere, and variant pages no longer get a public URL of their own. Worth the click.
