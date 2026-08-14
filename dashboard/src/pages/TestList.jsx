@@ -2,6 +2,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi.js';
 import DropdownMenu from '../components/DropdownMenu.jsx';
+import { TestListSkeleton } from '../components/Skeleton.jsx';
 import { formatDate } from '../utils/stats.js';
 
 const TABS = ['active', 'paused', 'scheduled', 'draft', 'ended'];
@@ -36,6 +37,12 @@ export default function TestList({ config, onOpenTest, onNewTest, onError, onPla
         setFlushing(false);
         refresh();
       });
+  }
+
+  // Only the first load gets the skeleton — a refetch keeps the current rows on
+  // screen rather than collapsing the page back to placeholders.
+  if (loading && !data) {
+    return <TestListSkeleton />;
   }
 
   const tests = data?.tests ?? [];
@@ -121,13 +128,6 @@ export default function TestList({ config, onOpenTest, onNewTest, onError, onPla
         ))}
       </div>
 
-      {loading && (
-        <div className="eezy-loading">
-          <div className="eezy-spinner" />
-          <span>{__('Loading tests…', 'spliteezy')}</span>
-        </div>
-      )}
-
       {error && (
         <div className="eezy-notice eezy-notice--error">
           <strong>{__('Could not reach Spliteezy API.', 'spliteezy')}</strong>
@@ -151,13 +151,13 @@ export default function TestList({ config, onOpenTest, onNewTest, onError, onPla
         </div>
       )}
 
-      {!loading && !error && filtered.length === 0 && (
+      {!error && filtered.length === 0 && (
         <div className="eezy-empty-state eezy-empty-state--inline">
           <p>{sprintf(/* translators: %s: test status tab name. */ __('No %s tests found.', 'spliteezy'), TAB_LABELS[tab]().toLowerCase())}</p>
         </div>
       )}
 
-      {!loading && !error && filtered.length > 0 && (
+      {!error && filtered.length > 0 && (
         <div className="eezy-table-wrapper">
           <table className="eezy-table">
             <thead>

@@ -29,10 +29,134 @@ defined('ABSPATH') || exit; ?>
 <?php } ?>
 
 <div class="eezy-wrap" id="spliteezy-app">
-	<?php /* React dashboard mounts here */ ?>
-	<div class="eezy-loading">
-		<div class="eezy-spinner"></div>
-		<span><?php esc_html_e('Loading Spliteezy…', 'spliteezy'); ?></span>
+	<?php
+    /*
+     * React mounts here and replaces this placeholder. It is the same skeleton
+     * the dashboard renders while its first fetch is in flight (see
+     * dashboard/src/components/Skeleton.jsx) so the handover costs no layout
+     * shift — keep the two markups in step. Which one to print is decided the
+     * same way App.jsx decides which page to mount: the `test` query arg.
+     */
+    $spliteezy_is_detail = isset($_GET['test']); // phpcs:ignore WordPress.Security -- read-only presence check on a routing arg; the value is never read, stored, or output.
+?>
+	<div class="eezy-app">
+		<div class="eezy-wrap eezy-skeleton" role="status" aria-busy="true">
+			<span class="screen-reader-text"><?php esc_html_e('Loading…', 'spliteezy'); ?></span>
+
+			<?php if ($spliteezy_is_detail) { ?>
+				<div class="eezy-header">
+					<span class="eezy-skel eezy-skel--btn"></span>
+					<div class="eezy-header__title-group">
+						<span class="eezy-skel eezy-skel--page-title"></span>
+						<span class="eezy-skel eezy-skel--page-url"></span>
+					</div>
+					<div class="eezy-test-actions">
+						<span class="eezy-skel eezy-skel--btn"></span>
+						<span class="eezy-skel eezy-skel--btn"></span>
+					</div>
+				</div>
+
+				<div class="eezy-info-cards">
+					<?php for ($spliteezy_i = 0; $spliteezy_i < 4; $spliteezy_i++) { ?>
+						<div class="eezy-info-card">
+							<span class="eezy-skel eezy-skel--card-label"></span>
+							<span class="eezy-skel eezy-skel--card-value"></span>
+							<span class="eezy-skel eezy-skel--card-sub"></span>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="eezy-card eezy-card--flush">
+					<div class="eezy-chart-section">
+						<span class="eezy-skel eezy-skel--card-title"></span>
+						<div class="eezy-metric-tiles">
+							<?php for ($spliteezy_i = 0; $spliteezy_i < 3; $spliteezy_i++) { ?>
+								<div class="eezy-metric-tile">
+									<span class="eezy-skel eezy-skel--tile-label"></span>
+									<span class="eezy-skel eezy-skel--tile-value"></span>
+								</div>
+							<?php } ?>
+						</div>
+						<span class="eezy-skel eezy-skel--chart"></span>
+					</div>
+
+					<div class="eezy-skeleton__perf">
+						<div class="eezy-perf-header">
+							<?php for ($spliteezy_i = 0; $spliteezy_i < 6; $spliteezy_i++) { ?>
+								<span class="eezy-skel"></span>
+							<?php } ?>
+						</div>
+						<?php for ($spliteezy_row = 0; $spliteezy_row < 2; $spliteezy_row++) { ?>
+							<div class="eezy-perf-row">
+								<?php for ($spliteezy_i = 0; $spliteezy_i < 6; $spliteezy_i++) { ?>
+									<span class="eezy-skel"></span>
+								<?php } ?>
+							</div>
+						<?php } ?>
+					</div>
+				</div>
+			<?php } else { ?>
+				<div class="eezy-header">
+					<span class="eezy-skel eezy-skel--logo"></span>
+					<span class="eezy-skel eezy-skel--brand"></span>
+					<span class="eezy-skel eezy-skel--badge"></span>
+					<span class="eezy-skel eezy-skel--btn eezy-skel--push"></span>
+				</div>
+
+				<div class="eezy-stat-grid">
+					<?php for ($spliteezy_i = 0; $spliteezy_i < 3; $spliteezy_i++) { ?>
+						<div class="eezy-stat-card">
+							<div class="eezy-stat-card__header">
+								<span class="eezy-skel eezy-skel--stat-label"></span>
+								<span class="eezy-skel eezy-skel--stat-icon"></span>
+							</div>
+							<span class="eezy-skel eezy-skel--stat-value"></span>
+							<span class="eezy-skel eezy-skel--stat-sub"></span>
+							<span class="eezy-skel eezy-skel--stat-track"></span>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="eezy-section-header">
+					<span class="eezy-skel eezy-skel--section-title"></span>
+					<div class="eezy-skeleton__actions">
+						<span class="eezy-skel eezy-skel--btn"></span>
+						<span class="eezy-skel eezy-skel--btn"></span>
+					</div>
+				</div>
+
+				<div class="eezy-tabs">
+					<?php for ($spliteezy_i = 0; $spliteezy_i < 5; $spliteezy_i++) { ?>
+						<span class="eezy-skel eezy-skel--tab"></span>
+					<?php } ?>
+				</div>
+
+				<div class="eezy-table-wrapper">
+					<table class="eezy-table eezy-table--skeleton">
+						<thead>
+							<tr>
+								<?php for ($spliteezy_i = 0; $spliteezy_i < 7; $spliteezy_i++) { ?>
+									<th><span class="eezy-skel"></span></th>
+								<?php } ?>
+							</tr>
+						</thead>
+						<tbody>
+							<?php for ($spliteezy_row = 0; $spliteezy_row < 5; $spliteezy_row++) { ?>
+								<tr>
+									<td><span class="eezy-skel"></span><span class="eezy-skel eezy-skel--sub"></span></td>
+									<td><span class="eezy-skel"></span></td>
+									<td><span class="eezy-skel"></span><span class="eezy-skel eezy-skel--sub"></span></td>
+									<td><span class="eezy-skel"></span></td>
+									<td><span class="eezy-skel"></span></td>
+									<td><span class="eezy-skel"></span></td>
+									<td><span class="eezy-skel"></span></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			<?php } ?>
+		</div>
 	</div>
 </div>
 

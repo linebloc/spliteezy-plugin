@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-11T19:07:05+00:00\n"
+"POT-Creation-Date: 2026-08-14T21:58:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: spliteezy\n"
@@ -183,7 +183,7 @@ msgid "Test not found."
 msgstr ""
 
 #: src/Admin/TestDetailPage.php:184
-#: src/Admin/TestDetailPage.php:318
+#: src/Admin/TestDetailPage.php:321
 msgid "Original post not found."
 msgstr ""
 
@@ -204,11 +204,11 @@ msgstr ""
 msgid "Failed to create clone."
 msgstr ""
 
-#: src/Admin/TestDetailPage.php:302
+#: src/Admin/TestDetailPage.php:305
 msgid "Missing variant post ID."
 msgstr ""
 
-#: src/Admin/TestDetailPage.php:308
+#: src/Admin/TestDetailPage.php:311
 msgid "Variant not found or does not belong to this test."
 msgstr ""
 
@@ -472,8 +472,9 @@ msgstr ""
 msgid "Go to Settings"
 msgstr ""
 
-#: src/Admin/views/test-list.php:35
-msgid "Loading Spliteezy…"
+#: src/Admin/views/test-list.php:44
+#: assets/js/dashboard.js:1
+msgid "Loading…"
 msgstr ""
 
 #: src/Admin/views/variants.php:29
@@ -590,10 +591,6 @@ msgstr ""
 
 #: assets/js/dashboard.js:1
 msgid "+ New Test"
-msgstr ""
-
-#: assets/js/dashboard.js:1
-msgid "Loading tests…"
 msgstr ""
 
 #: assets/js/dashboard.js:1
@@ -887,10 +884,6 @@ msgstr ""
 
 #: assets/js/dashboard.js:29
 msgid "Apply failed."
-msgstr ""
-
-#: assets/js/dashboard.js:29
-msgid "Loading…"
 msgstr ""
 
 #: assets/js/dashboard.js:29

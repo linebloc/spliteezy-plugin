@@ -643,14 +643,6 @@
 
 /* ── Loading ────────────────────────────────────────────────────────────── */
 
-.eezy-loading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 24px;
-  color: var(--eezy-text-muted);
-}
-
 .eezy-spinner {
   width: 20px;
   height: 20px;
@@ -661,6 +653,96 @@
 }
 
 @keyframes eezy-spin { to { transform: rotate(360deg); } }
+
+/* ── Skeleton loading ───────────────────────────────────────────────────── */
+
+/* The skeleton reuses the real layout classes (.eezy-header, .eezy-stat-card,
+   .eezy-perf-row …) and only swaps text for bars, so the switch to real data
+   costs no layout shift. Sizes live here rather than inline because the same
+   markup is printed twice: once by PHP into #spliteezy-app (painted before the
+   bundle boots) and once by React while its first fetch is in flight. */
+
+.eezy-skel {
+  display: block;
+  /* Bars carry their own size — never let a flex row squeeze them. */
+  flex: none;
+  border-radius: 4px;
+  /* Dark enough to read against wp-admin's own #f0f0f1 page background, not
+     just against the white cards. */
+  background: linear-gradient(90deg, #e2e5ea 25%, #eef0f4 50%, #e2e5ea 75%);
+  background-size: 200% 100%;
+  animation: eezy-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes eezy-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eezy-skel { animation: none; }
+}
+
+/* Header */
+.eezy-skel--logo  { width: 26px; height: 26px; border-radius: 7px; }
+.eezy-skel--brand { width: 92px; height: 18px; }
+.eezy-skel--badge { width: 96px; height: 22px; border-radius: 9999px; }
+.eezy-skel--btn   { width: 96px; height: 36px; border-radius: 6px; }
+.eezy-skel--push  { margin-left: auto; }
+
+/* Section header + tabs */
+.eezy-skel--section-title { width: 132px; height: 20px; }
+.eezy-skel--tab { width: 76px; height: 16px; margin: 9px 14px; }
+
+.eezy-skeleton__actions { display: flex; gap: 8px; }
+
+/* Stat cards (matches .eezy-stat-card__label/__value/__sub/__track metrics) */
+.eezy-skel--stat-label { width: 60%; height: 12px; }
+.eezy-skel--stat-icon  { width: 32px; height: 32px; border-radius: 8px; }
+.eezy-skel--stat-value { width: 45%; height: 42px; margin-top: 16px; }
+.eezy-skel--stat-sub   { width: 70%; height: 16px; margin-top: 8px; }
+.eezy-skel--stat-track { height: 6px; margin-top: 20px; border-radius: 9999px; }
+
+/* Test list table */
+.eezy-table--skeleton th .eezy-skel { height: 10px; }
+.eezy-table--skeleton td .eezy-skel { height: 14px; }
+.eezy-table--skeleton :is(th, td):nth-child(1) .eezy-skel { width: 190px; }
+.eezy-table--skeleton :is(th, td):nth-child(2) .eezy-skel { width: 92px; }
+.eezy-table--skeleton :is(th, td):nth-child(3) .eezy-skel { width: 110px; }
+.eezy-table--skeleton :is(th, td):nth-child(4) .eezy-skel { width: 56px; }
+.eezy-table--skeleton :is(th, td):nth-child(5) .eezy-skel { width: 84px; }
+.eezy-table--skeleton :is(th, td):nth-child(6) .eezy-skel { width: 130px; }
+.eezy-table--skeleton :is(th, td):nth-child(7) .eezy-skel { width: 16px; }
+/* The second line in a cell is the shorter one — the doubled class keeps this
+   above the per-column widths above, which are one class heavier. */
+.eezy-table--skeleton td .eezy-skel.eezy-skel--sub { height: 10px; width: 110px; margin-top: 6px; }
+.eezy-table--skeleton td:nth-child(3) .eezy-skel.eezy-skel--sub { width: 66px; }
+
+/* Test detail header */
+.eezy-skel--page-title { width: 260px; height: 26px; }
+.eezy-skel--page-url   { width: 200px; height: 14px; }
+
+/* Info cards */
+.eezy-skel--card-label { width: 70%; height: 12px; }
+.eezy-skel--card-value { width: 55%; height: 28px; }
+.eezy-skel--card-sub   { width: 85%; height: 14px; margin-top: 2px; }
+
+/* Performance card */
+.eezy-skel--card-title  { width: 120px; height: 16px; margin-bottom: 12px; }
+.eezy-skel--tile-label  { width: 90px; height: 12px; }
+.eezy-skel--tile-value  { width: 64px; height: 24px; }
+/* Lighter than the bars: it stands for a whole region, not a line of text. */
+.eezy-skel--chart {
+  height: 240px;
+  border-radius: 6px;
+  background-image: linear-gradient(90deg, #eef0f4 25%, #f7f8fa 50%, #eef0f4 75%);
+}
+
+.eezy-skeleton .eezy-metric-tile { cursor: default; }
+
+.eezy-skeleton__perf { border-top: 1px solid #f3f4f6; }
+.eezy-skeleton__perf .eezy-perf-header .eezy-skel { height: 10px; }
+.eezy-skeleton__perf .eezy-perf-row .eezy-skel { height: 16px; }
 
 /* ── Empty state ────────────────────────────────────────────────────────── */
 

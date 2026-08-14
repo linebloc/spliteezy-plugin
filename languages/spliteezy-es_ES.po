@@ -205,10 +205,6 @@ msgstr "Añade tu clave API para empezar a ejecutar pruebas A/B en el servidor: 
 msgid "Go to Settings"
 msgstr "Ir a Ajustes"
 
-#: src/Admin/views/test-list.php:35
-msgid "Loading Spliteezy…"
-msgstr "Cargando Spliteezy…"
-
 #: src/Admin/views/variants.php:29
 msgid "Posts created by Spliteezy as variant copies"
 msgstr "Publicaciones creadas por Spliteezy como copias de variantes"
@@ -313,7 +309,7 @@ msgid "Test not found."
 msgstr "Test no encontrado."
 
 #: src/Admin/TestDetailPage.php:184
-#: src/Admin/TestDetailPage.php:318
+#: src/Admin/TestDetailPage.php:321
 msgid "Original post not found."
 msgstr "Entrada original no encontrada."
 
@@ -327,11 +323,11 @@ msgstr "Copia de %s"
 msgid "Failed to create clone."
 msgstr "Error al crear el clon."
 
-#: src/Admin/TestDetailPage.php:302
+#: src/Admin/TestDetailPage.php:305
 msgid "Missing variant post ID."
 msgstr "Falta el ID de la entrada de la variante."
 
-#: src/Admin/TestDetailPage.php:308
+#: src/Admin/TestDetailPage.php:311
 msgid "Variant not found or does not belong to this test."
 msgstr "Variante no encontrada o no pertenece a este test."
 
@@ -606,10 +602,6 @@ msgid "+ New Test"
 msgstr "+ Nuevo Test"
 
 #: assets/js/dashboard.js:1
-msgid "Loading tests…"
-msgstr "Cargando tests…"
-
-#: assets/js/dashboard.js:1
 msgid "Could not reach Spliteezy API."
 msgstr "No se pudo acceder a la API de Spliteezy."
 
@@ -842,7 +834,8 @@ msgstr ""
 msgid "Apply failed."
 msgstr "Error al aplicar."
 
-#: assets/js/dashboard.js:29
+#: src/Admin/views/test-list.php:44
+#: assets/js/dashboard.js:1
 msgid "Loading…"
 msgstr "Cargando…"
 

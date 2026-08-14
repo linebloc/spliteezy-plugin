@@ -6,6 +6,7 @@ import ConfidenceMeter from '../components/ConfidenceMeter.jsx';
 import DropdownMenu from '../components/DropdownMenu.jsx';
 import TimeSeriesChart from '../components/TimeSeriesChart.jsx';
 import InfoTip from '../components/InfoTip.jsx';
+import { TestDetailSkeleton } from '../components/Skeleton.jsx';
 import { conversionRate, formatDate, daysRunning } from '../utils/stats.js';
 
 const VARIANT_COLORS = ['#6B7280', '#5B4CF5', '#B8862F', '#C2554A', '#5E6AD2'];
@@ -276,12 +277,10 @@ export default function TestDetail({ config, testId, onBack, onError, onOpenTest
     }
   }
 
-  if (loading) {
-    return (
-      <div className="eezy-wrap">
-        <div className="eezy-loading"><div className="eezy-spinner" /><span>{__('Loading…', 'spliteezy')}</span></div>
-      </div>
-    );
+  // Only the first load gets the skeleton — a refetch after an action keeps the
+  // test on screen rather than collapsing the page back to placeholders.
+  if (loading && !test) {
+    return <TestDetailSkeleton />;
   }
 
   if (error || !test) {
